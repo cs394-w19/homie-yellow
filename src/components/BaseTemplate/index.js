@@ -3,6 +3,9 @@ import Media from 'react-media';
 import {Navbar, Nav, NavItem, Glyphicon, Row,Col} from 'react-bootstrap';
 import TaskList from '../TaskList';
 
+// temporary for issue #10
+import TaskCreationForm from '../TaskList/TaskCreationForm';
+
 const NavBarOnBottom = props => {
   return(
     <Row className="mobile-navbar">

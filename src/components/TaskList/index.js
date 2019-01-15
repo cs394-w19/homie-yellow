@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button} from 'react-bootstrap';
 import TaskItem from './TaskItem';
+import TaskCreationPage from './TaskCreationPage';
 import './index.scss';
 
 export default class TaskList extends Component {
