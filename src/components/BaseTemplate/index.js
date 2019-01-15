@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Media from 'react-media';
 import {Navbar, Nav, NavItem, Glyphicon, Row,Col} from 'react-bootstrap';
 import TaskList from '../TaskList';
@@ -8,15 +8,15 @@ const NavBarOnBottom = props => {
     <Row className="mobile-navbar">
         <Col xs={7}>
             <Row>
-                <Col eventKey={1} href="#" xs={4} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
-                <Col eventKey={2} href="#" xs={4} className="mobile-item"><Glyphicon glyph="usd" /></Col>
-                <Col eventKey={3} href="#" xs={4} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
+                <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
+                <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="usd" /></Col>
+                <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
             </Row>
         </Col>
         <Col xs={5}>
             <Row>
-                <Col eventKey={4} href="#" xs={6} className="mobile-item"><Glyphicon glyph="comment" /></Col>
-                <Col eventKey={5} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
+                <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="comment" /></Col>
+                <Col onClick={() => props.handleNavButtonClick(5)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
             </Row>
         </Col>
     </Row>
@@ -27,25 +27,25 @@ const NavBarOnTop = props => {
   return(
     <Navbar inverse fixed="top">
     <Navbar.Header>
-        <Navbar.Brand>
-        <a href="#brand">Homie</a>
+        <Navbar.Brand onClick={() => props.handleNavButtonClick(0)}>
+          Homie
         </Navbar.Brand>
         <Navbar.Toggle />
     </Navbar.Header>
         <Nav>
-            <NavItem eventKey={1} href="#">
+            <NavItem onClick={() => props.handleNavButtonClick(1)} href="#">
                 <div><Glyphicon glyph="tasks" /> Tasks </div>
             </NavItem>
-            <NavItem eventKey={2} href="#">
+            <NavItem onClick={() => props.handleNavButtonClick(2)} href="#">
                 <div><Glyphicon glyph="usd" /> Splitting </div>
             </NavItem>
-            <NavItem eventKey={3} href="#">
+            <NavItem onClick={() => props.handleNavButtonClick(3)} href="#">
                 <div><Glyphicon glyph="calendar" /> Calendar </div>
             </NavItem>
-            <NavItem eventKey={4} href="#">
+            <NavItem onClick={() => props.handleNavButtonClick(4)} href="#">
                 <div> <Glyphicon glyph="comment" /> Messaging  </div>
             </NavItem>
-            <NavItem eventKey={5} href="#">
+            <NavItem onClick={() => props.handleNavButtonClick(5)} href="#">
                 <div><Glyphicon glyph="cog" /> Settings </div>
             </NavItem>
         </Nav>
@@ -53,24 +53,71 @@ const NavBarOnTop = props => {
   );
 }
 
-const BaseTemplate = (props) => {
+class Canvas extends Component {
+  render() {
+    let canvas = <h1>Page Not Found.</h1>;
+
+    switch (this.props.activeTab) {
+      case 0:
+        canvas = <h1>Welcome to Homie</h1>;
+        break;
+      case 1:
+        canvas = <TaskList />;
+        break;
+      case 2:
+        canvas = <h1>Splitting</h1>;
+        break;
+      case 3:
+        canvas = <h1>Calendar</h1>;
+        break;
+      case 4:
+        canvas = <h1>Messaging</h1>;
+        break;
+      case 5:
+        canvas = <h1>Settings</h1>;
+        break;
+      default:
+        canvas = <h1>Page Not Found.</h1>;
+    }
+
+    return(canvas);
+  }
+}
+
+class BaseTemplate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 1,
+    };
+  }
+
+  handleNavButtonClick(tab) {
+    this.setState({
+      activeTab: tab,
+    });
+  }
+
+
+  render() {
     return (
-        <Media query="(max-width: 770px)">
-            {matches => matches ?
-                (
-                    <div>
-                      <TaskList />
-                      <NavBarOnBottom />
-                    </div>
-                ) : (
-                    <div>
-                      <NavBarOnTop />
-                      <TaskList />
-                    </div>
-                )
-            }
-        </Media>
+      <Media query="(max-width: 770px)">
+          {matches => matches ?
+              (
+                  <div>
+                    <Canvas activeTab={this.state.activeTab} />
+                    <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
+                  </div>
+              ) : (
+                  <div>
+                      <NavBarOnTop handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
+                      <Canvas activeTab={this.state.activeTab} />
+                  </div>
+              )
+          }
+      </Media>
     );
+  }
 }
 
 export default BaseTemplate;
