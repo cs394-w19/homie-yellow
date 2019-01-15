@@ -15,7 +15,7 @@ function FieldGroup({ id, label, help, ...props }) {
   );
 }
 
-export default class TaskCreationPage extends Component {
+export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props)
     this.state = {

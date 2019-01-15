@@ -4,7 +4,7 @@ import {Navbar, Nav, NavItem, Glyphicon, Row,Col} from 'react-bootstrap';
 import TaskList from '../TaskList';
 
 // temporary for issue #10
-import TaskCreationPage from '../TaskList/TaskCreationPage';
+import TaskCreationForm from '../TaskList/TaskCreationForm';
 
 const NavBarOnBottom = props => {
   return(
@@ -78,11 +78,13 @@ class Canvas extends Component {
         break;
       case 5:
         canvas = <h1>Settings</h1>;
+        break;
       case 9:
-        canvas = <TaskCreationPage />; // temporary testing tab
+        canvas = <TaskCreationForm />; // temporary testing tab
         break;
       default:
         canvas = <h1>Page Not Found.</h1>;
+        break;
     }
 
     return(canvas);
