@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TaskItem from './TaskItem';
+import TaskCreationPage from './TaskCreationPage';
 import './index.scss';
 
 export default class TaskList extends Component {

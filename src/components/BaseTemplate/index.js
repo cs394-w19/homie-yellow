@@ -3,6 +3,9 @@ import Media from 'react-media';
 import {Navbar, Nav, NavItem, Glyphicon, Row,Col} from 'react-bootstrap';
 import TaskList from '../TaskList';
 
+// temporary for issue #10
+import TaskCreationPage from '../TaskList/TaskCreationPage';
+
 const NavBarOnBottom = props => {
   return(
     <Row className="mobile-navbar">
@@ -75,6 +78,8 @@ class Canvas extends Component {
         break;
       case 5:
         canvas = <h1>Settings</h1>;
+      case 9:
+        canvas = <TaskCreationPage />; // temporary testing tab
         break;
       default:
         canvas = <h1>Page Not Found.</h1>;
@@ -88,7 +93,7 @@ class BaseTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 1,
+      activeTab: 9,
     };
   }
 
