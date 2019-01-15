@@ -1,1 +1,1 @@
-[Homie Website!] (https://homiez.firebaseapp.com/)
+[Homie Website!](https://homiez.firebaseapp.com/)
