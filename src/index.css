@@ -12,3 +12,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.mobile-navbar {
+  background-color: #333;
+  text-align: center;
+  position:fixed;
+  bottom: 0%;
+  width: 100%;
+  padding: 20px 0px;
+  color: #9d9d9d;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.mobile-item:hover {
+  color:white;
+}
+
+.navbar-collapse.collapse {
+  display: flex/*inline-block!important*/;
+
+}

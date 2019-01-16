@@ -8,33 +8,47 @@ export default class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskCreationActive: false,
+      tasks: [],
+      activeScreen: 0,
     };
   }
 
   handleTaskCreateButtonPress() {
     this.setState({
-      taskCreationActive: true,
+      activeScreen: 1,
+    });
+  }
+
+  handleTaskCreation(task) {
+    let tasks = this.state.tasks.slice();
+    tasks.push(task);
+    this.setState({
+      tasks: tasks,
+      activeScreen: 0,
     });
   }
 
   render() {
 
+    let task_items = this.state.tasks.map((task) => {
+      return(<TaskItem key={task.taskModified} task={task} />);
+    });
+
+    if (!task_items.length) task_items = <p>There are no tasks currently.</p>;
+
     const tasklist = (
         <div>
           <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>+</Button>
           <div className="TaskList">
-              <h2>TaskList</h2>
-              <TaskItem />
-              <TaskItem />
-              <TaskItem />
+              <h1>TaskList</h1>
+              {task_items}
           </div>
         </div>
       );
 
-    const taskform = <TaskCreationForm />;
+    const taskform = <TaskCreationForm handleTaskCreation={(task) => this.handleTaskCreation(task)} />;
 
-    const pageToReturn = this.state.taskCreationActive ? taskform : tasklist;
+    const pageToReturn = this.state.activeScreen ? taskform : tasklist;
 
     return(pageToReturn);
   }
