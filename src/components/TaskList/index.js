@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Button} from 'react-bootstrap';
 import TaskItem from './TaskItem';
 import TaskCreationForm from './TaskCreationForm';
+import QuickTaskCreate from './QuickTaskCreate';
 import './index.scss';
 
 export default class TaskList extends Component {
@@ -10,21 +11,22 @@ export default class TaskList extends Component {
     this.state = {
       tasks: [],
       activeScreen: 0,
+      taskCreation: false,
     };
   }
 
   handleTaskCreateButtonPress() {
     this.setState({
-      activeScreen: 1,
+      taskCreation: true,
     });
   }
 
   handleTaskCreation(task) {
     let tasks = this.state.tasks.slice();
-    tasks.push(task);
+    tasks.unshift(task);
     this.setState({
       tasks: tasks,
-      activeScreen: 0,
+      taskCreation: false,
     });
   }
 
@@ -36,21 +38,29 @@ export default class TaskList extends Component {
 
     if (!task_items.length) task_items = <p>There are no tasks currently.</p>;
 
+    let task_create_form = (
+      <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>+</Button>
+    );
+
+    if (this.state.taskCreation) {
+      task_create_form = (
+        <QuickTaskCreate handleTaskCreation={(task) => this.handleTaskCreation(task)} />
+      );
+    }
+
     const tasklist = (
         <div>
-        <div class="float">
-          <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>Add New Task +</Button>
-          </div>
+
+
           <div className="TaskList">
               <h1>TaskList</h1>
+              {task_create_form}
               {task_items}
           </div>
         </div>
       );
 
-    const taskform = <TaskCreationForm handleTaskCreation={(task) => this.handleTaskCreation(task)} />;
-
-    const pageToReturn = this.state.activeScreen ? taskform : tasklist;
+    let pageToReturn = tasklist;
 
     return(pageToReturn);
   }
