@@ -7,9 +7,8 @@ export default class TaskItem extends Component {
     render() {
       return(
         <div className="TaskItem">
-          <h3>TaskItem</h3>
-          <TaskHeader />
-          <TaskDetails />
+          <TaskHeader task={this.props.task} />
+          <TaskDetails task={this.props.task} />
         </div>
       );
     }

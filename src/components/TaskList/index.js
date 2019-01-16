@@ -30,14 +30,18 @@ export default class TaskList extends Component {
 
   render() {
 
+    let task_items = this.state.tasks.map((task) => {
+      return(<TaskItem key={task.taskModified} task={task} />);
+    });
+
+    if (!task_items.length) task_items = <p>There are no tasks currently.</p>;
+
     const tasklist = (
         <div>
           <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>+</Button>
           <div className="TaskList">
-              <h2>TaskList</h2>
-              <TaskItem />
-              <TaskItem />
-              <TaskItem />
+              <h1>TaskList</h1>
+              {task_items}
           </div>
         </div>
       );
