@@ -32,7 +32,7 @@ export default class TaskCreationForm extends Component {
 
   render() {
     return(
-      <div className="TaskCreationPage">
+      <div className="TaskCreationForm">
         <h3 className="TaskCreationTitle">Create A New Task</h3>
           <form>
             <FieldGroup
