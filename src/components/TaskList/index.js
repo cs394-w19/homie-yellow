@@ -8,13 +8,23 @@ export default class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskCreationActive: false,
+      tasks: [],
+      activeScreen: 0,
     };
   }
 
   handleTaskCreateButtonPress() {
     this.setState({
-      taskCreationActive: true,
+      activeScreen: 1,
+    });
+  }
+
+  handleTaskCreation(task) {
+    let tasks = this.state.tasks.slice();
+    tasks.push(task);
+    this.setState({
+      tasks: tasks,
+      activeScreen: 0,
     });
   }
 
@@ -32,9 +42,9 @@ export default class TaskList extends Component {
         </div>
       );
 
-    const taskform = <TaskCreationForm />;
+    const taskform = <TaskCreationForm handleTaskCreation={(task) => this.handleTaskCreation(task)} />;
 
-    const pageToReturn = this.state.taskCreationActive ? taskform : tasklist;
+    const pageToReturn = this.state.activeScreen ? taskform : tasklist;
 
     return(pageToReturn);
   }
