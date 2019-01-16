@@ -3,6 +3,7 @@ import TaskHeader from './TaskHeader';
 import TaskDetails from './TaskDetails';
 import './index.scss';
 import {Panel, Tabs, Tab} from 'react-bootstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class TaskItem extends Component {
     render() {
@@ -13,6 +14,14 @@ export default class TaskItem extends Component {
             <Panel.Body>
               <TaskHeader task={this.props.task} />
               <TaskDetails task={this.props.task} />
+              <Form>
+              <FormGroup check>
+          <Label check>
+            <Input type="checkbox" />{' '}
+            
+          </Label>
+        </FormGroup>
+        </Form>
               </Panel.Body>
             </Panel>
           </Tab>
