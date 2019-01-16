@@ -11,12 +11,12 @@ export default class TaskCreationForm extends Component {
     super(props);
     this.state = {
       taskName: '',
-      taskType: '',
+      taskType: 'chore',
       taskCreator: 'Jenny',
       taskModified: new Date(),
       taskDescription: '',
       status: false,
-      assignedTo: null,
+      assignedTo: 'nobody',
       repeatInterval: 'none',
       riWeekly: [],
       riMonthly: [],
@@ -50,6 +50,7 @@ export default class TaskCreationForm extends Component {
     let date = new Date();
     let riWeekly = [];
     let riMonthly = [];
+
     switch(e.target.value) {
       case "none":
         break;
@@ -58,16 +59,20 @@ export default class TaskCreationForm extends Component {
         break;
       case "monthly":
         riMonthly = [date.getDate()];
+        break;
+      default:
+        break;
     }
+
     this.setState({
       repeatInterval: e.target.value,
       riWeekly: riWeekly,
       riMonthly: riMonthly,
-    })
+    });
   }
 
   handleSubmitButtonPress() {
-    this.props.handleTaskCreation(this.state);
+    this.props.handleTaskCreation(Object.assign({}, this.state));
   }
 
   render() {

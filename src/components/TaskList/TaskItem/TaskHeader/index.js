@@ -5,7 +5,7 @@ export default class TaskHeader extends Component {
     render() {
       return(
         <div className="TaskHeader">
-          <h4>TaskHeader</h4>
+          <h2>{this.props.task.taskName}</h2>
         </div>
       );
     }
