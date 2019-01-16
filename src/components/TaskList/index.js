@@ -38,7 +38,9 @@ export default class TaskList extends Component {
 
     const tasklist = (
         <div>
-          <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>+</Button>
+        <div class="float">
+          <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>Add New Task +</Button>
+          </div>
           <div className="TaskList">
               <h1>TaskList</h1>
               {task_items}
