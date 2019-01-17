@@ -1,25 +1,27 @@
 import React, {Component} from 'react';
 import Media from 'react-media';
-import {Navbar, Nav, NavItem, Glyphicon, Row,Col} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid} from 'react-bootstrap';
 import TaskList from '../TaskList';
 
 const NavBarOnBottom = props => {
   return(
-    <Row className="mobile-navbar">
-        <Col xs={7}>
-            <Row>
-                <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
-                <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="usd" /></Col>
-                <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
-            </Row>
-        </Col>
-        <Col xs={5}>
-            <Row>
-                <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="comment" /></Col>
-                <Col onClick={() => props.handleNavButtonClick(5)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
-            </Row>
-        </Col>
-    </Row>
+    <Grid>
+      <Row className="mobile-navbar">
+          <Col xs={7}>
+              <Row>
+                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="usd" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
+              </Row>
+          </Col>
+          <Col xs={5}>
+              <Row>
+                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="comment" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(5)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
+              </Row>
+          </Col>
+      </Row>
+    </Grid>
   );
 }
 
@@ -104,10 +106,12 @@ class BaseTemplate extends Component {
       <Media query="(max-width: 770px)">
           {matches => matches ?
               (
-                  <div>
+                <Grid >
+                  <Row>
                     <Canvas taskList={this.props.taskList} activeTab={this.state.activeTab} />
                     <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
-                  </div>
+                  </Row>
+                </Grid>
               ) : (
                   <div>
                       <NavBarOnTop handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />

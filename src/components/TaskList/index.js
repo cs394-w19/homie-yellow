@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button} from 'react-bootstrap';
+import {Button, Glyphicon, Grid, Row, Col} from 'react-bootstrap';
 import TaskItem from './TaskItem';
 import QuickTaskCreate from './QuickTaskCreate';
 import TaskTabs from './TaskTabs';
@@ -48,7 +48,7 @@ export default class TaskList extends Component {
   render() {
 
     let task_create_form = (
-      <Button bsStyle="success" onClick={() => this.handleTaskCreateButtonPress()}>+</Button>
+      <Button bsStyle="success" id="addButton" onClick={() => this.handleTaskCreateButtonPress()} block><Glyphicon glyph="plus"/></Button>
     );
 
     if (this.state.taskCreation) {
@@ -67,15 +67,15 @@ export default class TaskList extends Component {
     );
 
     const tasklist = (
-        <div>
-
-
-          <div className="TaskList">
-              <h1>TaskList</h1>
-              {task_create_form}
-              {task_tabs}
-          </div>
-        </div>
+      <Grid >
+        <Row className="TaskList">
+          <Col xs={9}><h2> Task List </h2></Col>
+          <Col xs={3}> {task_create_form} </Col>
+        </Row>
+        <Row>
+          {task_tabs}
+        </Row>
+      </Grid>
       );
 
     let pageToReturn = tasklist;
