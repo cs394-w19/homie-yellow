@@ -1,57 +1,55 @@
 {  
     "taskList":[  
        {  
+          "taskID":0,
           "taskName":"Wash Dishes",
           "taskType":"Chore",
           "taskCreator":"Matt",
-          "taskModified":"1547591320891",
+          "taskModified":"1517679904824",
           "taskDescription":"Hey you guys better wash your dirty dishes!!!!",
-          "status" : false,
+          "isComplete" : false,
           "assignedTo":[  
              "Matt",
-             "Dan"
+             "Jenny"
           ],
           "repeats": true,
           "repeatInterval":"weekly",
           "riDaily" : "",
           "riWeekly" : "",
           "riMonthly" : "",
-          "taskDate" : {
-            "tdDate" : "Thursday",
-            "tdTime" : "6 pm"
-          },
+          "taskDate" : "1544679904824",
           "paymentTotal": 0
        },
 
        {  
+        "taskID":1,
         "taskName":"Sweep Floors",
         "taskType":"Chore",
         "taskCreator":"Matt",
-        "taskModified":"1537591320891",
+        "taskModified":"1547675904824",
         "taskDescription":"Hmm, there are a lot of crumbs on the ground",
-        "status" : false,
+        "isComplete" : false,
         "assignedTo":[  
-           "Dan"
+           "Dan",
+           "Jenny"
         ],
         "repeats": false,
         "repeatInterval":"",
         "riDaily" : "",
         "riWeekly" : "",
         "riMonthly" : "",
-        "taskDate" : {
-          "tdDate" : "Thursday",
-          "tdTime" : "6 pm"
-        },
+        "taskDate" : "1547679904624",
         "paymentTotal": 0
      },
 
      {  
+        "taskID":2,
         "taskName":"Buy me stuff",
         "taskType":"Purchase",
         "taskCreator":"Dan",
-        "taskModified":"1547501320891",
+        "taskModified":"1547679604824",
         "taskDescription":"Meow Mix, milk, sugar",
-        "status" : false,
+        "isComplete" : true,
         "assignedTo":[  
            "Matt",
            "Dan"
@@ -61,10 +59,7 @@
         "riDaily" : "",
         "riWeekly" : "",
         "riMonthly" : "",
-        "taskDate" : {
-          "tdDate" : "Sunday",
-          "tdTime" : "6 pm"
-        },
+        "taskDate" : "1547279904824",
         "paymentTotal": 0
      }
 

@@ -62,7 +62,7 @@ class Canvas extends Component {
         canvas = <h1>Welcome to Homie</h1>;
         break;
       case 1:
-        canvas = <TaskList />;
+        canvas = <TaskList taskList={this.props.taskList} />;
         break;
       case 2:
         canvas = <h1>Splitting</h1>;
@@ -105,13 +105,13 @@ class BaseTemplate extends Component {
           {matches => matches ?
               (
                   <div>
-                    <Canvas activeTab={this.state.activeTab} />
+                    <Canvas taskList={this.props.taskList} activeTab={this.state.activeTab} />
                     <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
                   </div>
               ) : (
                   <div>
                       <NavBarOnTop handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
-                      <Canvas activeTab={this.state.activeTab} />
+                      <Canvas taskList={this.props.taskList} activeTab={this.state.activeTab} />
                   </div>
               )
           }

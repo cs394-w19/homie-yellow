@@ -11,15 +11,15 @@ export default class TaskCreationForm extends Component {
       taskName: '',
       taskType: 'chore',
       taskCreator: 'Jenny',
-      taskModified: new Date(),
+      taskModified: Date.now(),
       taskDescription: '',
-      status: false,
-      assignedTo: 'nobody',
+      isComplete: false,
+      assignedTo: [],
       repeatInterval: 'none',
       riWeekly: [],
       riMonthly: [],
-      riTaskTime: new Date(),
-      taskDate: new Date(),
+      riTaskTime: Date.now(),
+      taskDate: Date.now(),
     };
     this.handleNameChange = this.handleNameChange.bind(this);
   }
