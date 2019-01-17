@@ -1,3 +1,10 @@
+.TaskList {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 #addButton {
   margin-top: 15px;
 }
