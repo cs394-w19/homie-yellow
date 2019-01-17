@@ -26,7 +26,7 @@
         "taskName":"Sweep Floors",
         "taskType":"Chore",
         "taskCreator":"Matt",
-        "taskModified":"1547675904824",
+        "taskModified":"1547691794512",
         "taskDescription":"Hmm, there are a lot of crumbs on the ground",
         "isComplete" : false,
         "assignedTo":[  
@@ -61,9 +61,45 @@
         "riMonthly" : "",
         "taskDate" : "1547279904824",
         "paymentTotal": 0
-     }
-
-      
+     },
+     {
+     "taskID":3,
+          "taskName":"Pay the Electric Bill",
+          "taskType":"Purchase",
+          "taskCreator":"Matt",
+          "taskModified":"1547691080527",
+          "taskDescription":"I paid the Comed Bill yesterday. It was $42.08 in total",
+          "isComplete" : false,
+          "assignedTo":[  
+             "Jenny"
+          ],
+          "repeats": false,
+          "repeatInterval":"",
+          "riDaily" : "",
+          "riWeekly" : "", 
+          "riMonthly" : "",
+          "taskDate" : "1547692354074",
+          "paymentTotal": 21.04
+       },
+       {
+        "taskID":4,
+             "taskName":"Take out the trash",
+             "taskType":"Chore",
+             "taskCreator":"Jenny",
+             "taskModified":"1547691780527",
+             "taskDescription":"The trash is overflowing",
+             "isComplete" : false,
+             "assignedTo":[  
+                "Dan"
+             ],
+             "repeats": false,
+             "repeatInterval":"",
+             "riDaily" : "",
+             "riWeekly" : "", 
+             "riMonthly" : "",
+             "taskDate" : "1547692025802",
+             "paymentTotal": 0
+          }
     ],
     "paymentData":{
         "allPayments" : [
