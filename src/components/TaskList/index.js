@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Glyphicon, Grid, Row, Col} from 'react-bootstrap';
+import {Button, Glyphicon} from 'react-bootstrap';
 import QuickTaskCreate from './QuickTaskCreate';
 import TaskTabs from './TaskTabs';
 import './index.scss';

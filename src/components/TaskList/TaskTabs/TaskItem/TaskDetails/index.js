@@ -51,7 +51,9 @@ export default class TaskDetails extends Component {
 
     let editAssignedField = personsInGroup.map((person) => {
       return(
-        <span key={person}>
+        <span
+          key={person}
+          onClick={() => this.props.handleToggleAssignedPerson(person, this.props.task)}>
           <Checkbox
             name={person}
             inline
@@ -81,8 +83,8 @@ export default class TaskDetails extends Component {
     return(
       <Row>
         <Col xs={12}>
-          <p>{editButton(1)} &nbsp; {taskType}</p>
-          <p>{editButton(2)}  &nbsp; {assignedTo}</p>
+          <p onClick={() => this.handleEditButton(1)}>{editButton(1)} &nbsp; {taskType}</p>
+          <p onClick={() => this.handleEditButton(2)}>{editButton(2)}  &nbsp; {assignedTo}</p>
           <p><b>Due {new Date(1*t.taskDate).toDateString()}.</b> Repeat {t.repeatInterval}.</p>
           <p>{t.taskDescription}</p>
           <p>Created by {t.taskCreator}</p>

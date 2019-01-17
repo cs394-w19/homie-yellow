@@ -18,20 +18,20 @@ export default class TaskHeader extends Component {
       return(
         <Row>
           <Col xs={5}>
-            <h4>{this.props.task.taskName}</h4>
+            <h4 className="taskName">{this.props.task.taskName}</h4>
           </Col>
-          <Col xs={5}>
-            <small><em>
+          <Col xs={4}>
+            <p className="taskPreview"><em>
               <Glyphicon glyph="user"/> {assignedTo}<br />
               <Glyphicon glyph="time"/> {taskDate}
-            </em></small>
+            </em></p>
           </Col>
-          <Col xs={2}>
-            <Button
+          <Col xs={3}>
+            <center><Button
               block
               bsStyle={style}
               onClick={() => this.props.handleTaskCompleted()}
-            ><Glyphicon glyph="ok"/></Button>
+            ><Glyphicon glyph="ok"/></Button></center>
           </Col>
         </Row>
       );
