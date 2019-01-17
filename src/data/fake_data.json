@@ -1,6 +1,6 @@
-{  
-    "taskList":[  
-       {  
+{
+    "taskList":[
+       {
           "taskID":0,
           "taskName":"Wash Dishes",
           "taskType":"Chore",
@@ -8,11 +8,10 @@
           "taskModified":"1517679904824",
           "taskDescription":"Hey you guys better wash your dirty dishes!!!!",
           "isComplete" : false,
-          "assignedTo":[  
+          "assignedTo":[
              "Matt",
              "Jenny"
           ],
-          "repeats": true,
           "repeatInterval":"weekly",
           "riDaily" : "",
           "riWeekly" : "",
@@ -21,7 +20,7 @@
           "paymentTotal": 0
        },
 
-       {  
+       {
         "taskID":1,
         "taskName":"Sweep Floors",
         "taskType":"Chore",
@@ -29,12 +28,11 @@
         "taskModified":"1547691794512",
         "taskDescription":"Hmm, there are a lot of crumbs on the ground",
         "isComplete" : false,
-        "assignedTo":[  
+        "assignedTo":[
            "Dan",
            "Jenny"
         ],
-        "repeats": false,
-        "repeatInterval":"",
+        "repeatInterval":"none",
         "riDaily" : "",
         "riWeekly" : "",
         "riMonthly" : "",
@@ -42,7 +40,7 @@
         "paymentTotal": 0
      },
 
-     {  
+     {
         "taskID":2,
         "taskName":"Buy me stuff",
         "taskType":"Purchase",
@@ -50,12 +48,11 @@
         "taskModified":"1547679604824",
         "taskDescription":"Meow Mix, milk, sugar",
         "isComplete" : true,
-        "assignedTo":[  
+        "assignedTo":[
            "Matt",
            "Dan"
         ],
-        "repeats": false,
-        "repeatInterval":"",
+        "repeatInterval":"none",
         "riDaily" : "",
         "riWeekly" : "",
         "riMonthly" : "",
@@ -70,13 +67,12 @@
           "taskModified":"1547691080527",
           "taskDescription":"I paid the Comed Bill yesterday. It was $42.08 in total",
           "isComplete" : false,
-          "assignedTo":[  
+          "assignedTo":[
              "Jenny"
           ],
-          "repeats": false,
-          "repeatInterval":"",
+          "repeatInterval":"none",
           "riDaily" : "",
-          "riWeekly" : "", 
+          "riWeekly" : "",
           "riMonthly" : "",
           "taskDate" : "1547692354074",
           "paymentTotal": 21.04
@@ -89,13 +85,12 @@
              "taskModified":"1547691780527",
              "taskDescription":"The trash is overflowing",
              "isComplete" : false,
-             "assignedTo":[  
+             "assignedTo":[
                 "Dan"
              ],
-             "repeats": false,
-             "repeatInterval":"",
+             "repeatInterval":"none",
              "riDaily" : "",
-             "riWeekly" : "", 
+             "riWeekly" : "",
              "riMonthly" : "",
              "taskDate" : "1547692025802",
              "paymentTotal": 0

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
 
 import './index.scss';
 

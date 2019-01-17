@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Glyphicon, Grid, Row, Col} from 'react-bootstrap';
-import TaskItem from './TaskItem';
 import QuickTaskCreate from './QuickTaskCreate';
 import TaskTabs from './TaskTabs';
 import './index.scss';
@@ -35,11 +34,45 @@ export default class TaskList extends Component {
       taskCreation: false,
     });
   }
+
   handleTaskCompleted(task) {
     let arrayIndex = this.state.tasks.findIndex((t) => {return t.taskID === task.taskID;});
     task.isComplete = !task.isComplete;
+    task.taskModified = Date.now();
     let tasks = this.state.tasks.slice();
     tasks[arrayIndex] = task;
+    this.setState({
+      tasks: tasks,
+    });
+  }
+
+  handleToggleAssignedType(type, task) {
+    let tasks = this.state.tasks.slice();
+    let index = tasks.findIndex((t) => {
+      return t.taskID === task.taskID;
+    });
+
+    task.taskType = type;
+    //task.taskModified = Date.now();
+    tasks[index] = task;
+    this.setState({
+      tasks: tasks,
+    });
+  }
+
+  handleToggleAssignedPerson(person, task) {
+    let tasks = this.state.tasks.slice();
+    let index = tasks.findIndex((t) => {
+      return t.taskID === task.taskID;
+    });
+
+    if (task.assignedTo.includes(person)) {
+      task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
+    } else {
+      task.assignedTo.push(person);
+    }
+    //task.taskModified = Date.now();
+    tasks[index] = task;
     this.setState({
       tasks: tasks,
     });
@@ -58,11 +91,13 @@ export default class TaskList extends Component {
     }
 
     let task_tabs = (
-      <TaskTabs 
+      <TaskTabs
         tasks={this.state.tasks}
         activeTab={this.state.activeTab}
         handleTabPress={(t) => this.handleTabPress(t)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}
+        handleToggleAssignedPerson={(p, t) => this.handleToggleAssignedPerson(p, t)}
+        handleToggleAssignedType={(p, t) => this.handleToggleAssignedType(p, t)}
       />
     );
 
