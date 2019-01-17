@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Panel, Tabs, Tab} from 'react-bootstrap';
-import TaskItem from '../TaskItem';
+import {Tabs, Tab} from 'react-bootstrap';
+import TaskItem from './TaskItem';
 
 export default class TaskTabs extends Component {
 
@@ -31,26 +31,28 @@ export default class TaskTabs extends Component {
 
       let task_items = filtered_tasks.map((task) => {
         return(
-            <TaskItem 
-              key={task.taskModified} 
-              task={task} 
+            <TaskItem
+              key={task.taskModified}
+              task={task}
               handleTaskCompleted={() => this.props.handleTaskCompleted(task)}
+              handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
+              handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
             />
         );
       });
-  
+
       if (!task_items.length)
         task_items = <p>There are no tasks currently.</p>;
-  
+
       let tabs = tabNames.map((name, i) => {
           return(
-            <Tab title={name} eventKey={i}>
+            <Tab title={name} key={name} eventKey={i}>
               {task_items}
             </Tab>
           );
       });
       return(
-        <Tabs 
+        <Tabs
           activeKey={activeTab}
           onSelect={(t) => this.props.handleTabPress(t)}
           id="tabList"
