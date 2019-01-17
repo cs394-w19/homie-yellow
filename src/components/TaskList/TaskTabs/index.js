@@ -53,6 +53,7 @@ export default class TaskTabs extends Component {
         <Tabs 
           activeKey={activeTab}
           onSelect={(t) => this.props.handleTabPress(t)}
+          id="tabList"
         >
             {tabs}
         </Tabs>
