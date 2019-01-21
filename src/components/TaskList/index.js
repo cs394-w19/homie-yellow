@@ -37,7 +37,7 @@ export default class TaskList extends Component {
   }
 
   handleTaskCreation(task) {
-    /*let newTask = {
+    let newTask = {
       taskType: task.taskType,
       taskCreator: task.taskCreator,
       taskModified: task.taskModified,
@@ -54,13 +54,13 @@ export default class TaskList extends Component {
 
     let updates = {};
     updates['/taskList/' + newTaskKey] = newTask;
-    return this.props.database.ref().update(updates);*/
-    let tasks = this.state.tasks.slice();
+    return this.props.database.ref().update(updates);
+    /*let tasks = this.state.tasks.slice();
     tasks.unshift(task);
     this.setState({
       tasks: tasks,
       taskCreation: false,
-    });
+    });*/
   }
 
   handleTaskCompleted(task) {
