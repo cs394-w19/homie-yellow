@@ -37,24 +37,29 @@ export default class TaskList extends Component {
   }
 
   handleTaskCreation(task) {
-    let newTask = {
-      taskType: task.taskType,
-      taskCreator: task.taskCreator,
-      taskModified: task.taskModified,
-      taskDescription: task.taskDescription,
-      isComplete: task.isComplete,
-      assignedTo: task.assignedTo,
-      repeatInterval: task.repeatInterval,
-      riWeekly: task.riWeekly,
-      riMonthly: task.riMonthly,
-      riTaskTime: task.riTaskTime,
-      taskDate: task.taskDate,
-    }
-    let newTaskKey = this.props.database.ref().child('taskList').push.key;
 
-    let updates = {};
-    updates['/taskList/' + newTaskKey] = newTask;
-    return this.props.database.ref().update(updates);
+    let newTaskKey = this.props.database.ref().child('taskList').push.key;
+    let newTask = {
+      assignedTo: task.assignedTo,
+      isComplete: task.isComplete,
+      paymentTotal: task.paymentTotal,
+      repeatInterval: task.repeatInterval,
+      riDaily: task.riDaily,
+      riMonthly: task.riMonthly,
+      riWeekly: task.riWeekly,
+      taskCreator: task.taskCreator,
+      taskDate: task.taskDate,
+      taskDescription: task.taskDescription,
+      taskID: newTaskKey,
+      taskModified: task.taskModified,
+      taskName: task.taskName,
+      taskType: task.taskType,
+    }
+    
+    console.log(newTaskKey);
+    //let updates = {};
+    //updates['/taskList/' + newTaskKey] = newTask;
+    //return this.props.database.ref().update(updates);
     /*let tasks = this.state.tasks.slice();
     tasks.unshift(task);
     this.setState({
