@@ -56,10 +56,9 @@ export default class TaskList extends Component {
       taskType: task.taskType,
     }
     
-    console.log(newTaskKey);
-    //let updates = {};
-    //updates['/taskList/' + newTaskKey] = newTask;
-    //return this.props.database.ref().update(updates);
+    let updates = {};
+    updates['/taskList/' + newTaskKey] = newTask;
+    return this.props.database.ref().update(updates);
     /*let tasks = this.state.tasks.slice();
     tasks.unshift(task);
     this.setState({
