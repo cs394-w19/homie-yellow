@@ -38,7 +38,7 @@ export default class TaskList extends Component {
 
   handleTaskCreation(task) {
 
-    let newTaskKey = this.props.database.ref().child('taskList').push.key;
+    let newTaskKey = this.props.database.ref().child('taskList').push().key;
     let newTask = {
       assignedTo: task.assignedTo,
       isComplete: task.isComplete,
