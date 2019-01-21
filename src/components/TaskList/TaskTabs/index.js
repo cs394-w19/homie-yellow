@@ -7,6 +7,7 @@ export default class TaskTabs extends Component {
     render() {
 
       let tasks = this.props.tasks;
+      console.log(tasks);
       let activeTab = this.props.activeTab;
       let tabNames = ["Active", "Assigned to Me", "Completed"];
       let currUser = 'Jenny';
