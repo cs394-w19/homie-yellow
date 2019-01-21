@@ -8,10 +8,20 @@ export default class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: props.taskList,
+      tasks: [],
       activeTab: 0,
       taskCreation: false,
     };
+  }
+
+  componentWillMount() {
+    let taskListRef = this.props.database.ref('taskList')
+    taskListRef.once('value').then(snapshot => {
+      console.log(snapshot.val());
+      this.setState({
+        tasks: snapshot.val()
+      });
+    });
   }
 
   handleTaskCreateButtonPress() {

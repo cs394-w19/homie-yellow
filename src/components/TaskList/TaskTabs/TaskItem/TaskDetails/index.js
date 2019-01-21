@@ -10,11 +10,14 @@ export default class TaskDetails extends Component {
     };
   }
 
-  handleEditButton(menuNum) {
-    if (this.state.editorOpen === menuNum) menuNum = 0;
-    this.setState({
-      editorOpen: menuNum,
-    });
+  handleEditButton(menuNum, button) {
+    if (button || (!button && this.state.editorOpen === 0))
+    {
+      if (this.state.editorOpen !== 0) menuNum = 0;
+      this.setState({
+        editorOpen: menuNum,
+      });
+    }
   }
 
   render() {
@@ -26,7 +29,7 @@ export default class TaskDetails extends Component {
 
     let editButton = (num) => {
       return(
-        <Button key={num} bsSize="xsmall" onClick={() => this.handleEditButton(num)}>
+        <Button key={num} bsSize="xsmall" onClick={() => this.handleEditButton(num, true)}>
           <span>
             <Glyphicon glyph="pencil" />
           </span>
@@ -53,7 +56,7 @@ export default class TaskDetails extends Component {
       return(
         <span
           key={person}
-          onClick={() => this.props.handleToggleAssignedPerson(person, this.props.task)}>
+        >
           <Checkbox
             name={person}
             inline
@@ -83,8 +86,8 @@ export default class TaskDetails extends Component {
     return(
       <Row>
         <Col xs={12}>
-          <p onClick={() => this.handleEditButton(1)}>{editButton(1)} &nbsp; {taskType}</p>
-          <p onClick={() => this.handleEditButton(2)}>{editButton(2)}  &nbsp; {assignedTo}</p>
+          <p onClick={() => this.handleEditButton(1, false)}>{editButton(1)} &nbsp; {taskType}</p>
+          <p onClick={() => this.handleEditButton(2, false)}>{editButton(2)}  &nbsp; {assignedTo}</p>
           <p><b>Due {new Date(1*t.taskDate).toDateString()}.</b> Repeat {t.repeatInterval}.</p>
           <p>{t.taskDescription}</p>
           <p>Created by {t.taskCreator}</p>

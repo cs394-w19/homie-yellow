@@ -64,7 +64,7 @@ class Canvas extends Component {
         canvas = <h1>Welcome to Homie</h1>;
         break;
       case 1:
-        canvas = <TaskList taskList={this.props.taskList} />;
+        canvas = <TaskList database={this.props.database} taskList={this.props.taskList} />;
         break;
       case 2:
         canvas = <h1>Splitting</h1>;
@@ -108,7 +108,7 @@ class BaseTemplate extends Component {
               (
                 <Grid >
                   <Row>
-                    <Canvas taskList={this.props.taskList} activeTab={this.state.activeTab} />
+                    <Canvas database={this.props.database} taskList={this.props.taskList} activeTab={this.state.activeTab} />
                     <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
                   </Row>
                 </Grid>

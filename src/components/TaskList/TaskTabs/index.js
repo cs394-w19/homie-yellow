@@ -8,16 +8,17 @@ export default class TaskTabs extends Component {
 
       let tasks = this.props.tasks;
       let activeTab = this.props.activeTab;
-      let tabNames = ["Assigned to Me", "Active", "Completed"];
+      let tabNames = ["Active", "Assigned to Me", "Completed"];
+      let currUser = 'Jenny';
 
       let filtered_tasks = tasks.filter((task) => {
         let filtered = false;
         switch(activeTab) {
           case 0: // assigned to me
-            filtered = task.assignedTo.includes('Jenny') && !task.isComplete;
+            filtered = !task.isComplete;
             break;
           case 1: // active
-            filtered = !task.isComplete;
+            filtered = task.assignedTo.includes(currUser) && !task.isComplete;
             break;
           case 2: // completed
             filtered = task.isComplete;
