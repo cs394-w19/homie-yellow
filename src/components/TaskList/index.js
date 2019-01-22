@@ -62,7 +62,7 @@ export default class TaskList extends Component {
       tasks: this.state.tasks,
       taskCreation: false,
     });
-    
+
   }
 
   handleTaskCompleted(task) {
@@ -158,7 +158,7 @@ export default class TaskList extends Component {
     this.setState({
       tasks: this.state.tasks,
     });
-    
+
   }
 
   render() {
@@ -175,6 +175,7 @@ export default class TaskList extends Component {
 
     let task_tabs = (
       <TaskTabs
+        taskCreation={this.state.taskCreation}
         tasks={this.state.tasks}
         database={this.props.database}
         activeTab={this.state.activeTab}
