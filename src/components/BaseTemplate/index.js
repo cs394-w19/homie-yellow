@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Media from 'react-media';
 import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid} from 'react-bootstrap';
 import TaskList from '../TaskList';
+import Calendar from '../Calendar';
 
 const NavBarOnBottom = props => {
   return(
@@ -70,7 +71,7 @@ class Canvas extends Component {
         canvas = <h1>Splitting</h1>;
         break;
       case 3:
-        canvas = <h1>Calendar</h1>;
+        canvas = <Calendar/>;
         break;
       case 4:
         canvas = <h1>Messaging</h1>;

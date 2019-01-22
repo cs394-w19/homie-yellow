@@ -15,13 +15,13 @@ export default class TaskList extends Component {
   }
 
   componentWillMount() {
-    let taskListRef = this.props.database.ref('taskList')
-    taskListRef.once('value').then(snapshot => {
-      console.log(snapshot.val());
-      this.setState({
-        tasks: snapshot.val()
-      });
-    });
+    // let taskListRef = this.props.database.ref('taskList')
+    // taskListRef.once('value').then(snapshot => {
+    //  console.log(snapshot.val());
+    //  this.setState({
+    //    tasks: snapshot.val()
+    //  });
+    //});
   }
 
   handleTaskCreateButtonPress() {
