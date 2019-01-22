@@ -123,6 +123,7 @@ export default class TaskList extends Component {
     let task_tabs = (
       <TaskTabs
         tasks={this.state.tasks}
+        database={this.props.database}
         activeTab={this.state.activeTab}
         handleTabPress={(t) => this.handleTabPress(t)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}

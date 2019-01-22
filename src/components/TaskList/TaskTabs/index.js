@@ -7,31 +7,39 @@ export default class TaskTabs extends Component {
     render() {
 
       let tasks = this.props.tasks;
-      console.log(tasks);
+      let ref = this.props.database.ref('taskList/');
       let activeTab = this.props.activeTab;
       let tabNames = ["Active", "Assigned to Me", "Completed"];
       let currUser = 'Jenny';
-
-      let filtered_tasks = tasks.filter((task) => {
-        let filtered = false;
-        switch(activeTab) {
-          case 0: // assigned to me
-            filtered = !task.isComplete;
-            break;
-          case 1: // active
-            filtered = task.assignedTo.includes(currUser) && !task.isComplete;
-            break;
-          case 2: // completed
-            filtered = task.isComplete;
-            break;
-          default:
-            filtered = true;
-            break;
-        }
-        return(filtered);
-      });
-
-      let task_items = filtered_tasks.map((task) => {
+      let data_list = [];
+      switch(activeTab) {
+        case 0: // active
+          ref.orderByChild("isComplete").equalTo(false).on("value", (data) => {
+            data.forEach((child) => {
+              data_list.push(child.val());
+            });
+          });
+          break;
+        case 1: // assigned to me
+          ref.orderByChild("assignedTo").equalTo(currUser).on("value", (data)  =>{
+            data.forEach((child) => {
+              data_list.push(child.val());
+            })
+          });
+          break;
+        case 2: // completed
+          ref.orderByChild("isComplete").equalTo(true).on("value", (data) => {
+            data.forEach((child) => {
+              data_list.push(child.val());
+            })
+          });
+          break;
+        default:
+          data_list = [];
+          break;
+      }
+    
+      let task_items = data_list.map((task) => {
         return(
             <TaskItem
               key={task.taskModified}
@@ -43,8 +51,10 @@ export default class TaskTabs extends Component {
         );
       });
 
-      if (!task_items.length)
+     if (!task_items.length)
         task_items = <p>There are no tasks currently.</p>;
+
+      console.log(task_items);
 
       let tabs = tabNames.map((name, i) => {
           return(

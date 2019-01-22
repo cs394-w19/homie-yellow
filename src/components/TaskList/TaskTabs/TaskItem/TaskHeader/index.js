@@ -5,13 +5,10 @@ import './index.scss';
 export default class TaskHeader extends Component {
     render() {
       let task = this.props.task;
-
+      console.log(task);
       let style = task.isComplete ? "success" : "default";
 
-      let assignedTo = task.assignedTo.join(", ");
-      if (!assignedTo.length) {
-        assignedTo = '-';
-      }
+      let assignedTo = (task.assignedTo == null) ? "-" : task.assignedTo.join(", ");
 
       let taskDate = new Date(1*task.taskDate).toDateString();
 
