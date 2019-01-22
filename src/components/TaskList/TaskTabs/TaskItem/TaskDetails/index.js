@@ -53,6 +53,7 @@ export default class TaskDetails extends Component {
     });
 
     let editAssignedField = personsInGroup.map((person) => {
+      let assigned = (t.assignedTo == null) ? '' : t.assignedTo.includes(person);
       return(
         <span
           key={person}
@@ -61,7 +62,7 @@ export default class TaskDetails extends Component {
             name={person}
             inline
             onChange={() => this.props.handleToggleAssignedPerson(person, this.props.task)}
-           // checked={t.assignedTo.includes(person)}
+            checked={assigned}
           >
             {person}
           </Checkbox>{' '}

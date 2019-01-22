@@ -40,7 +40,7 @@ export default class TaskList extends Component {
 
     let newTaskKey = this.props.database.ref().child('taskList').push().key;
     let newTask = {
-      assignedTo: task.assignedTo,
+      assignedTo: [null],
       isComplete: task.isComplete,
       paymentTotal: 0,
       repeatInterval: task.repeatInterval,
@@ -55,57 +55,110 @@ export default class TaskList extends Component {
       taskName: task.taskName,
       taskType: task.taskType,
     }
-    
     let updates = {};
     updates['/taskList/' + newTaskKey] = newTask;
+    this.props.database.ref().update(updates);
     this.setState({
-      tasks: this.props.tasks,
+      tasks: this.state.tasks,
+      taskCreation: false,
     });
-    return this.props.database.ref().update(updates);
     
   }
 
   handleTaskCompleted(task) {
-    let arrayIndex = this.state.tasks.findIndex((t) => {return t.taskID === task.taskID;});
+    let index = task.taskID;
     task.isComplete = !task.isComplete;
-    task.taskModified = Date.now();
-    let tasks = this.state.tasks.slice();
-    tasks[arrayIndex] = task;
+    let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let updatedTask = {
+      assignedTo: assignedTo,
+      isComplete: task.isComplete,
+      paymentTotal: task.paymentTotal,
+      repeatInterval: task.repeatInterval,
+      riDaily: task.riDaily,
+      riMonthly: task.riMonthly,
+      riWeekly: task.riWeekly,
+      taskCreator: task.taskCreator,
+      taskDate: task.taskDate,
+      taskDescription: task.taskDescription,
+      taskID: index,
+      taskModified: Date.now(),
+      taskName: task.taskName,
+      taskType: task.taskType,
+    }
+    let updates = {};
+    updates['/taskList/' + index] = updatedTask;
+    this.props.database.ref().update(updates);
     this.setState({
-      tasks: tasks,
+      tasks: this.state.tasks,
     });
   }
 
   handleToggleAssignedType(type, task) {
-    let tasks = this.state.tasks.slice();
-    let index = tasks.findIndex((t) => {
-      return t.taskID === task.taskID;
-    });
-
+    let index = task.taskID;
     task.taskType = type;
-    //task.taskModified = Date.now();
-    tasks[index] = task;
+    let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let updatedTask = {
+      assignedTo: assignedTo,
+      isComplete: task.isComplete,
+      paymentTotal: task.paymentTotal,
+      repeatInterval: task.repeatInterval,
+      riDaily: task.riDaily,
+      riMonthly: task.riMonthly,
+      riWeekly: task.riWeekly,
+      taskCreator: task.taskCreator,
+      taskDate: task.taskDate,
+      taskDescription: task.taskDescription,
+      taskID: index,
+      taskModified: Date.now(),
+      taskName: task.taskName,
+      taskType: task.taskType,
+    }
+    let updates = {};
+    updates['/taskList/' + index] = updatedTask;
+    this.props.database.ref().update(updates);
     this.setState({
-      tasks: tasks,
+      tasks: this.state.tasks,
     });
   }
 
   handleToggleAssignedPerson(person, task) {
-    let tasks = this.state.tasks.slice();
-    let index = tasks.findIndex((t) => {
-      return t.taskID === task.taskID;
-    });
+    let index = task.taskID;
 
-    if (task.assignedTo.includes(person)) {
+    let assignedTo = [];
+    if (task.assignedTo == null) {
+      assignedTo.push(person);
+    } else if(task.assignedTo.includes(person)) {
       task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
+      assignedTo = task.assignedTo;
     } else {
       task.assignedTo.push(person);
+      assignedTo = task.assignedTo;
     }
-    //task.taskModified = Date.now();
-    tasks[index] = task;
+
+
+    let updatedTask = {
+      assignedTo: assignedTo,
+      isComplete: task.isComplete,
+      paymentTotal: task.paymentTotal,
+      repeatInterval: task.repeatInterval,
+      riDaily: task.riDaily,
+      riMonthly: task.riMonthly,
+      riWeekly: task.riWeekly,
+      taskCreator: task.taskCreator,
+      taskDate: task.taskDate,
+      taskDescription: task.taskDescription,
+      taskID: index,
+      taskModified: Date.now(),
+      taskName: task.taskName,
+      taskType: task.taskType,
+    }
+    let updates = {};
+    updates['/taskList/' + index] = updatedTask;
+    this.props.database.ref().update(updates);
     this.setState({
-      tasks: tasks,
+      tasks: this.state.tasks,
     });
+    
   }
 
   render() {

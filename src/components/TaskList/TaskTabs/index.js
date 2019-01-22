@@ -21,7 +21,7 @@ export default class TaskTabs extends Component {
           });
           break;
         case 1: // assigned to me
-          ref.orderByChild("assignedTo").equalTo(currUser).on("value", (data)  =>{
+          ref.orderByChild("assignedTo/").equalTo(currUser).on("value", (data)  =>{
             data.forEach((child) => {
               data_list.push(child.val());
             })
@@ -53,8 +53,6 @@ export default class TaskTabs extends Component {
 
      if (!task_items.length)
         task_items = <p>There are no tasks currently.</p>;
-
-      console.log(task_items);
 
       let tabs = tabNames.map((name, i) => {
           return(
