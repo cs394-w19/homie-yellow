@@ -109,13 +109,15 @@ class BaseTemplate extends Component {
                 <Grid >
                   <Row>
                     <Canvas database={this.props.database} taskList={this.props.taskList} activeTab={this.state.activeTab} />
-                    <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
                   </Row>
+                  <Row>
+                    <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
+                    </Row>
                 </Grid>
               ) : (
                   <div>
                       <NavBarOnTop handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
-                      <Canvas taskList={this.props.taskList} activeTab={this.state.activeTab} />
+                      <Canvas database={this.props.database} taskList={this.props.taskList} activeTab={this.state.activeTab} />
                   </div>
               )
           }

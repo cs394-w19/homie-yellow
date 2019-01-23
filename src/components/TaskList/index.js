@@ -15,7 +15,7 @@ export default class TaskList extends Component {
   }
 
   componentWillMount() {
-    let taskListRef = this.props.database.ref('taskList')
+    let taskListRef = this.props.database.ref('taskList');
     taskListRef.once('value').then(snapshot => {
       console.log(snapshot.val());
       this.setState({
@@ -40,7 +40,8 @@ export default class TaskList extends Component {
 
     let newTaskKey = this.props.database.ref().child('taskList').push().key;
     let newTask = {
-      assignedTo: [null],
+      assignedTo: [],
+      isDeleted: 0,
       isComplete: task.isComplete,
       paymentTotal: 0,
       repeatInterval: task.repeatInterval,
@@ -48,7 +49,7 @@ export default class TaskList extends Component {
       riMonthly: ' ',
       riWeekly: ' ',
       taskCreator: task.taskCreator,
-      taskDate: task.taskDate,
+      taskDate: Date.now() + 86400,
       taskDescription: task.taskDescription,
       taskID: newTaskKey,
       taskModified: task.taskModified,
@@ -71,6 +72,7 @@ export default class TaskList extends Component {
     let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
     let updatedTask = {
       assignedTo: assignedTo,
+      isDeleted: 0,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
@@ -99,6 +101,7 @@ export default class TaskList extends Component {
     let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
     let updatedTask = {
       assignedTo: assignedTo,
+      isDeleted: 0,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
@@ -123,7 +126,6 @@ export default class TaskList extends Component {
 
   handleToggleAssignedPerson(person, task) {
     let index = task.taskID;
-
     let assignedTo = [];
     if (task.assignedTo == null) {
       assignedTo.push(person);
@@ -138,6 +140,7 @@ export default class TaskList extends Component {
 
     let updatedTask = {
       assignedTo: assignedTo,
+      isDeleted: 0,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
@@ -159,6 +162,34 @@ export default class TaskList extends Component {
       tasks: this.state.tasks,
     });
 
+  }
+
+  handleDeleteTask(task) {
+    let index = task.taskID;
+    let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let updatedTask = {
+      assignedTo: assignedTo,
+      isDeleted: 1,
+      isComplete: task.isComplete,
+      paymentTotal: task.paymentTotal,
+      repeatInterval: task.repeatInterval,
+      riDaily: task.riDaily,
+      riMonthly: task.riMonthly,
+      riWeekly: task.riWeekly,
+      taskCreator: task.taskCreator,
+      taskDate: task.taskDate,
+      taskDescription: task.taskDescription,
+      taskID: index,
+      taskModified: Date.now(),
+      taskName: task.taskName,
+      taskType: task.taskType,
+    }
+    let updates = {};
+    updates['/taskList/' + index] = updatedTask;
+    this.props.database.ref().update(updates);
+    this.setState({
+      tasks: this.state.tasks,
+    });
   }
 
   render() {

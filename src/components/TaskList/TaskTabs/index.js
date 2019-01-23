@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Tabs, Tab} from 'react-bootstrap';
 import TaskItem from './TaskItem';
+import './index.scss';
 
 export default class TaskTabs extends Component {
 
@@ -21,7 +22,7 @@ export default class TaskTabs extends Component {
           });
           break;
         case 1: // assigned to me
-          ref.orderByChild("assignedTo/").equalTo(currUser).on("value", (data)  =>{
+          ref.orderByChild("assignedTo").on("value", (data)  =>{
             data.forEach((child) => {
               data_list.push(child.val());
             })
@@ -66,6 +67,7 @@ export default class TaskTabs extends Component {
           activeKey={activeTab}
           onSelect={(t) => this.props.handleTabPress(t)}
           id="tabList"
+          animation={false}
         >
             {tabs}
         </Tabs>
