@@ -58,7 +58,7 @@ export default class Calendar extends React.Component {
                 this.setState({"timesClicked" : this.state.timesClicked + 1});
                 return events;
             }));
-            
+             
           } else {
               console.log("Hey somehow ApiCalendar.sign is false");
           }
@@ -86,7 +86,7 @@ export default class Calendar extends React.Component {
             </div>
             <div>
             <CalendarAddEvent/>
-            {/*
+            
               <button
                   onClick={(e) => this.handleItemClick(e, 'sign-in')}
               >
@@ -97,6 +97,7 @@ export default class Calendar extends React.Component {
               >
                 sign-out
               </button>
+              {/*
                <button
                   onClick={(e) => this.handleAddEventToCalendar(
                       {"summary": "my birthday",
