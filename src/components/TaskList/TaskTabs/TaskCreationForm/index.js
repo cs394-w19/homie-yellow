@@ -5,13 +5,16 @@ import DatePicker from 'react-datepicker';
 import './index.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
 
 export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       taskName: '',
-      taskType: 'chore',
+      taskType: this.props.type,
       taskCreator: 'Jenny',
       taskModified: Date.now(),
       taskDescription: '',
@@ -76,68 +79,62 @@ export default class TaskCreationForm extends Component {
   }
 
   render() {
+
+    if (!this.props.type) return(null);
+
     return(
-      <div className="TaskCreationForm">
-        <h3 className="TaskCreationTitle">Create A New Task</h3>
-          <form>
-            <FormGroup controlId="taskName">
-              <ControlLabel>Task Name</ControlLabel>
-              <FormControl
-                type="text"
-                placeholder="Enter task"
-                onChange={this.handleNameChange}
-              />
-            </FormGroup>
-
-            <FormGroup controlId="taskDescription">
-              <ControlLabel>Task Description</ControlLabel>
-              <FormControl
-                componentClass="textarea"
-                placeholder="Give a description of your task"
-                onChange={this.handleDescChange}
-              />
-            </FormGroup>
-
+      <div>
+        <Card id="tabList">
+          <CardContent
+            className={this.props.type}
+          >
             <Row>
-              <Col xs={6}>
-                <FormGroup controlId="taskType">
-                  <ControlLabel>Task Type</ControlLabel>
-                  <FormControl
-                    componentClass="select"
-                    onChange={this.handleTypeChange}
-                  >
-                    <option value="chore">Chore</option>
-                    <option value="purchase">Purchase</option>
-                    <option value="other">Other</option>
-                  </FormControl>
-                </FormGroup>
+              <Col xs={9}>
+                <FormControl
+                  type="text"
+                  placeholder={"Enter " + this.props.type + " name"}
+                  onChange={this.handleNameChange}
+                />
               </Col>
-
-              <Col xs={6}>
-                <FormGroup controlId="taskDate">
-                  <ControlLabel>Due Date</ControlLabel>
-                  <DatePicker className="date-picker"
-                    selected={this.state.taskDate}
-                    onChange={this.handleDateChange}
-                  />
-                </FormGroup>
+              <Col xs={3}>
+                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Create</Button>
               </Col>
             </Row>
-
-            <FormGroup controlId="taskRepeat">
-              <ControlLabel>Repeat</ControlLabel>
-              <FormControl
-                componentClass="select"
-                onChange={this.handleRepeatChange}
-              >
-                <option value="none">None</option>
-                <option value="daily">Daily</option>
-                <option value="monthly">Monthly</option>
-              </FormControl>
-            </FormGroup>
-
-            <Button onClick={() => this.handleSubmitButtonPress()}>Create Task</Button>
-          </form>
+          </CardContent>
+          <CardContent>
+            <Row>
+              <Col xs={6}>
+                <ControlLabel>Due Date</ControlLabel>
+                <DatePicker className="date-picker"
+                  selected={this.state.taskDate}
+                  onChange={this.handleDateChange}
+                />
+              </Col>
+              <Col xs={6}>
+                <ControlLabel>Repeat</ControlLabel>
+                <FormControl
+                  componentClass="select"
+                  onChange={this.handleRepeatChange}
+                >
+                  <option value="none">None</option>
+                  <option value="daily">Daily</option>
+                  <option value="monthly">Monthly</option>
+                </FormControl>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <ControlLabel>{this.props.type} Description</ControlLabel>
+                <FormControl
+                  componentClass="textarea"
+                  rows="5"
+                  placeholder={"Give a description of your " + this.props.type}
+                  onChange={this.handleDescChange}
+                />
+              </Col>
+            </Row>
+          </CardContent>
+        </Card>
       </div>
     );
   }
