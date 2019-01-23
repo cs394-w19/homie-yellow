@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Glyphicon} from 'react-bootstrap';
-import QuickTaskCreate from './QuickTaskCreate';
 import TaskTabs from './TaskTabs';
 import './index.scss';
 
@@ -10,7 +9,7 @@ export default class TaskList extends Component {
     this.state = {
       tasks: [],
       activeTab: 0,
-      taskCreation: false,
+      taskCreation: 0,
     };
   }
 
@@ -24,9 +23,9 @@ export default class TaskList extends Component {
     });
   }
 
-  handleTaskCreateButtonPress() {
+  handleTaskCreateButtonPress(type) {
     this.setState({
-      taskCreation: true,
+      taskCreation: type,
     });
   }
 
@@ -63,7 +62,7 @@ export default class TaskList extends Component {
       tasks: this.state.tasks,
       taskCreation: false,
     });
-    
+
   }
 
   handleTaskCompleted(task) {
@@ -161,7 +160,7 @@ export default class TaskList extends Component {
     this.setState({
       tasks: this.state.tasks,
     });
-    
+
   }
 
   handleDeleteTask(task) {
@@ -194,22 +193,31 @@ export default class TaskList extends Component {
 
   render() {
 
-    let task_create_form = (
-      <Button bsStyle="success" id="addButton" onClick={() => this.handleTaskCreateButtonPress()} ><Glyphicon glyph="plus"/></Button>
+    let createTaskButtons = (
+      <div>
+        <Button
+          id="addChoreButton"
+          onClick={() => this.handleTaskCreateButtonPress('Chore')}
+        >
+          <Glyphicon glyph="plus" /> Chore
+        </Button>
+        <Button
+          id="addPurchaseButton"
+          onClick={() => this.handleTaskCreateButtonPress('Purchase')}
+        >
+          <Glyphicon glyph="plus" /> Purchase
+        </Button>
+      </div>
     );
-
-    if (this.state.taskCreation) {
-      task_create_form = (
-        <QuickTaskCreate handleTaskCreation={(task) => this.handleTaskCreation(task)} />
-      );
-    }
 
     let task_tabs = (
       <TaskTabs
+        taskCreation={this.state.taskCreation}
         tasks={this.state.tasks}
         database={this.props.database}
         activeTab={this.state.activeTab}
         handleTabPress={(t) => this.handleTabPress(t)}
+        handleTaskCreation={(task) => this.handleTaskCreation(task)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}
         handleToggleAssignedPerson={(p, t) => this.handleToggleAssignedPerson(p, t)}
         handleToggleAssignedType={(p, t) => this.handleToggleAssignedType(p, t)}
@@ -220,7 +228,7 @@ export default class TaskList extends Component {
       <div>
           <div className="TaskList">
               <h1>Task List</h1>
-              {task_create_form}
+              {createTaskButtons}
               {task_tabs}
           </div>
         </div>
