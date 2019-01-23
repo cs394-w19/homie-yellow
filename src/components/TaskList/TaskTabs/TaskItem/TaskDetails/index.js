@@ -53,6 +53,7 @@ export default class TaskDetails extends Component {
     });
 
     let editAssignedField = personsInGroup.map((person) => {
+      let assigned = (t.assignedTo == null) ? '' : t.assignedTo.includes(person);
       return(
         <span
           key={person}
@@ -61,7 +62,7 @@ export default class TaskDetails extends Component {
             name={person}
             inline
             onChange={() => this.props.handleToggleAssignedPerson(person, this.props.task)}
-            checked={t.assignedTo.includes(person)}
+            checked={assigned}
           >
             {person}
           </Checkbox>{' '}
@@ -74,11 +75,9 @@ export default class TaskDetails extends Component {
       taskType = editTypeField;
     }
 
-    let assignedTo = t.assignedTo.join(", ");
+    let assignedTo = (t.assignedTo == null) ? "nobody." : t.assignedTo.join(", ");
     if (this.state.editorOpen === 2) {
       assignedTo = editAssignedField;
-    } else if (!assignedTo.length) {
-      assignedTo = 'Assigned to nobody.';
     } else {
       assignedTo = 'Assigned to ' + assignedTo;
     }
