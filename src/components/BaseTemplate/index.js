@@ -5,23 +5,20 @@ import TaskList from '../TaskList';
 
 const NavBarOnBottom = props => {
   return(
-    <Grid>
       <Row className="mobile-navbar">
-          <Col xs={7}>
+          <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="usd" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={4} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="usd" /></Col>
               </Row>
           </Col>
-          <Col xs={5}>
+          <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="comment" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(5)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
               </Row>
           </Col>
       </Row>
-    </Grid>
   );
 }
 
@@ -45,9 +42,6 @@ const NavBarOnTop = props => {
                 <div><Glyphicon glyph="calendar" /> Calendar </div>
             </NavItem>
             <NavItem onClick={() => props.handleNavButtonClick(4)} href="#">
-                <div> <Glyphicon glyph="comment" /> Messaging  </div>
-            </NavItem>
-            <NavItem onClick={() => props.handleNavButtonClick(5)} href="#">
                 <div><Glyphicon glyph="cog" /> Settings </div>
             </NavItem>
         </Nav>
@@ -73,9 +67,6 @@ class Canvas extends Component {
         canvas = <h1>Calendar</h1>;
         break;
       case 4:
-        canvas = <h1>Messaging</h1>;
-        break;
-      case 5:
         canvas = <h1>Settings</h1>;
         break;
       default:
@@ -107,12 +98,8 @@ class BaseTemplate extends Component {
           {matches => matches ?
               (
                 <Grid >
-                  <Row>
                     <Canvas database={this.props.database} taskList={this.props.taskList} activeTab={this.state.activeTab} />
-                  </Row>
-                  <Row>
                     <NavBarOnBottom handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} />
-                    </Row>
                 </Grid>
               ) : (
                   <div>
