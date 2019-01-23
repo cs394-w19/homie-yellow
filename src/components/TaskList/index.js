@@ -10,6 +10,7 @@ export default class TaskList extends Component {
       tasks: [],
       activeTab: 0,
       taskCreation: 0,
+      personsInGroup: [],
     };
   }
 
@@ -21,6 +22,18 @@ export default class TaskList extends Component {
         tasks: snapshot.val()
       });
     });
+
+    let users = this.props.database.ref('users');
+    users.once("value").then(data => {
+        var persons = [];
+        data.forEach((child) => {
+            persons.push(child.val().name);
+        });
+        this.setState({
+            personsInGroup: persons,
+        });
+    });
+    
   }
 
   handleTaskCreateButtonPress(type) {
@@ -39,7 +52,7 @@ export default class TaskList extends Component {
 
     let newTaskKey = this.props.database.ref().child('taskList').push().key;
     let newTask = {
-      assignedTo: [],
+      assignedTo: task.assignedTo,
       isDeleted: 0,
       isComplete: task.isComplete,
       paymentTotal: 0,
@@ -215,12 +228,14 @@ export default class TaskList extends Component {
         taskCreation={this.state.taskCreation}
         tasks={this.state.tasks}
         database={this.props.database}
+        personsInGroup={this.state.personsInGroup}
         activeTab={this.state.activeTab}
         handleTabPress={(t) => this.handleTabPress(t)}
         handleTaskCreation={(task) => this.handleTaskCreation(task)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}
         handleToggleAssignedPerson={(p, t) => this.handleToggleAssignedPerson(p, t)}
         handleToggleAssignedType={(p, t) => this.handleToggleAssignedType(p, t)}
+        handleDeleteTask={(t) => this.handleDeleteTask(t)}
       />
     );
 
