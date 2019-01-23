@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TaskHeader from './TaskHeader';
 import TaskDetails from './TaskDetails';
+import TaskCreationForm from '../TaskCreationForm';
 import './index.scss';
 
 import PropTypes from 'prop-types';
@@ -47,6 +48,7 @@ class TaskItem extends Component {
       super(props, context);
       this.state = {
         expanded: false,
+        editorOpen: false,
       };
     }
 
@@ -54,9 +56,28 @@ class TaskItem extends Component {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+  handleEditTask() {
+    this.setState({
+      editorOpen: true,
+    }); 
+  }
+
   render() {
     const { classes } = this.props;
     let type = this.props.task.taskType === "Chore" ? "choreClass" : "purchaseClass";
+
+    if (this.state.editorOpen) {
+      console.log(this.props.task.taskType);
+      return(
+        <TaskCreationForm
+          personsInGroup={this.props.personsInGroup}
+          type={this.props.task.taskType}
+          database={this.props.database}
+          handleTaskCreation={(task) => this.props.handleTaskCreation(task)}
+        />
+      );
+    }
+    // if not return a vanilla card:)
     return (
       <Card className={classes.card} id="tabList">
         <CardContent 
@@ -89,6 +110,8 @@ class TaskItem extends Component {
                 task={this.props.task}
                 handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
                 handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
+                handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
+                handleEditTask={() => this.handleEditTask()}
               />
           </CardContent>
         </Collapse>

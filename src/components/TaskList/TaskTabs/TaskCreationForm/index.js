@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-
+import TaskAssignedToCheckboxes from './TaskAssignedToCheckboxes';
 import './index.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -24,7 +24,7 @@ export default class TaskCreationForm extends Component {
       riWeekly: [],
       riMonthly: [],
       riTaskTime: Date.now(),
-      taskDate: Date.now(),
+      taskDate: new Date(Date.now() + 86400),
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
@@ -78,6 +78,24 @@ export default class TaskCreationForm extends Component {
     this.props.handleTaskCreation(Object.assign({}, this.state));
   }
 
+  handleToggleAssignedPerson(person, task) {
+    let assignedTo = [];
+    if (task.assignedTo == null) {
+      assignedTo.push(person);
+    } else if(task.assignedTo.includes(person)) {
+      task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
+      assignedTo = task.assignedTo;
+    } else {
+      task.assignedTo.push(person);
+      assignedTo = task.assignedTo;
+    }
+
+    this.setState({
+      assignedTo: assignedTo,
+    });
+
+  }
+
   render() {
 
     if (!this.props.type) return(null);
@@ -102,6 +120,16 @@ export default class TaskCreationForm extends Component {
             </Row>
           </CardContent>
           <CardContent>
+            <Row>
+              <Col xs={12}>
+                <TaskAssignedToCheckboxes 
+                  personsInGroup={this.props.personsInGroup}
+                  toggleAssignedPerson={(person, task) => this.handleToggleAssignedPerson(person, task)}
+                  database={this.props.database} 
+                  task={this.state}
+                />
+              </Col>
+            </Row>
             <Row>
               <Col xs={6}>
                 <ControlLabel>Due Date</ControlLabel>
