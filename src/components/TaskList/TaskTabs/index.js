@@ -17,15 +17,19 @@ export default class TaskTabs extends Component {
         case 0: // active
           ref.orderByChild("isComplete").equalTo(false).on("value", (data) => {
             data.forEach((child) => {
-              data_list.push(child.val());
+              if (!child.val().isDeleted)
+                data_list.push(child.val());
             });
           });
           break;
         case 1: // assigned to me
           ref.orderByChild("assignedTo").on("value", (data)  =>{
             data.forEach((child) => {
-              data_list.push(child.val());
-            })
+              console.log(child.val());
+              let assignedTo = child.val().assignedTo;
+              if (assignedTo != null && assignedTo.includes(currUser))
+                data_list.push(child.val());
+            });
           });
           break;
         case 2: // completed

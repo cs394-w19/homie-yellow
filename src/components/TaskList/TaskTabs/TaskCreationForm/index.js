@@ -20,10 +20,10 @@ export default class TaskCreationForm extends Component {
       taskModified: Date.now(),
       taskDescription: '',
       isComplete: false,
-      assignedTo: [],
+      assignedTo: [' '],
       repeatInterval: 'none',
-      riWeekly: [],
-      riMonthly: [],
+      riWeekly: [' '],
+      riMonthly: [' '],
       riTaskTime: Date.now(),
       taskDate: new Date(Date.now() + 86400),
     };
