@@ -150,6 +150,7 @@ export default class TaskCreationForm extends Component {
                 >
                   <option value="none">None</option>
                   <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
                   <option value="monthly">Monthly</option>
                 </FormControl>
               </Col>
