@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import {Row, Col, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import TaskAssignedToCheckboxes from './TaskAssignedToCheckboxes';
 import './index.scss';
@@ -13,24 +13,33 @@ export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      taskID: this.props.taskID,
       taskName: '',
       taskType: this.props.type,
       taskCreator: 'Jenny',
       taskModified: Date.now(),
       taskDescription: '',
       isComplete: false,
-      assignedTo: [],
+      assignedTo: [' '],
       repeatInterval: 'none',
-      riWeekly: [],
-      riMonthly: [],
+      riWeekly: [' '],
+      riMonthly: [' '],
       riTaskTime: Date.now(),
       taskDate: new Date(Date.now() + 86400),
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleRepeatChange = this.handleRepeatChange.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.task) {
+      this.setState(this.props.task);
+      this.setState({
+        taskDate: new Date(this.props.task.taskDate),
+      });
+    }
   }
 
   handleNameChange(e) {
@@ -39,10 +48,6 @@ export default class TaskCreationForm extends Component {
 
   handleDescChange(e) {
     this.setState({ taskDescription: e.target.value });
-  }
-
-  handleTypeChange(e) {
-    this.setState({ taskType: e.target.value });
   }
 
   handleDateChange(date) {
@@ -75,7 +80,7 @@ export default class TaskCreationForm extends Component {
   }
 
   handleSubmitButtonPress() {
-    this.props.handleTaskCreation(Object.assign({}, this.state));
+    this.props.handleTaskSubmission(Object.assign({}, this.state));
   }
 
   handleToggleAssignedPerson(person, task) {
@@ -97,9 +102,6 @@ export default class TaskCreationForm extends Component {
   }
 
   render() {
-
-    if (!this.props.type) return(null);
-
     return(
       <div>
         <Card id="tabList">
@@ -110,6 +112,7 @@ export default class TaskCreationForm extends Component {
               <Col xs={9}>
                 <FormControl
                   type="text"
+                  value={this.state.taskName}
                   placeholder={"Enter " + this.props.type + " name"}
                   onChange={this.handleNameChange}
                 />
@@ -122,10 +125,10 @@ export default class TaskCreationForm extends Component {
           <CardContent>
             <Row>
               <Col xs={12}>
-                <TaskAssignedToCheckboxes 
+                <TaskAssignedToCheckboxes
                   personsInGroup={this.props.personsInGroup}
                   toggleAssignedPerson={(person, task) => this.handleToggleAssignedPerson(person, task)}
-                  database={this.props.database} 
+                  database={this.props.database}
                   task={this.state}
                 />
               </Col>
@@ -133,6 +136,7 @@ export default class TaskCreationForm extends Component {
             <Row>
               <Col xs={6}>
                 <ControlLabel>Due Date</ControlLabel>
+                <div>{"\n"}</div>
                 <DatePicker className="date-picker"
                   selected={this.state.taskDate}
                   onChange={this.handleDateChange}
@@ -143,9 +147,11 @@ export default class TaskCreationForm extends Component {
                 <FormControl
                   componentClass="select"
                   onChange={this.handleRepeatChange}
+                  value={this.state.repeatInterval}
                 >
                   <option value="none">None</option>
                   <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
                   <option value="monthly">Monthly</option>
                 </FormControl>
               </Col>
@@ -156,6 +162,7 @@ export default class TaskCreationForm extends Component {
                 <FormControl
                   componentClass="textarea"
                   rows="5"
+                  value={this.state.taskDescription}
                   placeholder={"Give a description of your " + this.props.type}
                   onChange={this.handleDescChange}
                 />

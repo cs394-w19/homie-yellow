@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Checkbox, Radio, Row, Col, Glyphicon, Button} from 'react-bootstrap';
+import {Checkbox} from 'react-bootstrap';
 
 
 export default class TaskAssignedToCheckboxes extends Component {

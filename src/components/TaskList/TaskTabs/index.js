@@ -17,15 +17,19 @@ export default class TaskTabs extends Component {
         case 0: // active
           ref.orderByChild("isComplete").equalTo(false).on("value", (data) => {
             data.forEach((child) => {
-              data_list.push(child.val());
+              if (!child.val().isDeleted)
+                data_list.push(child.val());
             });
           });
           break;
         case 1: // assigned to me
           ref.orderByChild("assignedTo").on("value", (data)  =>{
             data.forEach((child) => {
-              data_list.push(child.val());
-            })
+              console.log(child.val());
+              let assignedTo = child.val().assignedTo;
+              if (assignedTo != null && assignedTo.includes(currUser))
+                data_list.push(child.val());
+            });
           });
           break;
         case 2: // completed
@@ -46,10 +50,9 @@ export default class TaskTabs extends Component {
               key={task.taskModified}
               task={task}
               handleTaskCompleted={() => this.props.handleTaskCompleted(task)}
-              handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
-              handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
               handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
               personsInGroup={this.props.personsInGroup}
+              handleTaskSubmission={(t) => this.props.handleTaskSubmission(t)}
             />
         );
       });
@@ -65,19 +68,26 @@ export default class TaskTabs extends Component {
         );
       });
 
+      let taskCreationForm = (this.props.taskCreation) ? (
+        <TaskCreationForm
+          taskID={null}
+          task={null}
+          personsInGroup={this.props.personsInGroup}
+          type={this.props.taskCreation}
+          database={this.props.database}
+          handleTaskSubmission={(task) => this.props.handleTaskSubmission(task)}
+        />
+      ) : <div></div>;
+
       return(
         <div id="tabList">
           <Tabs
+            id="Task Tabs"
             activeKey={activeTab}
             onSelect={(t) => this.props.handleTabPress(t)}
             animation={false}
           >
-              <TaskCreationForm
-                personsInGroup={this.props.personsInGroup}
-                type={this.props.taskCreation}
-                database={this.props.database}
-                handleTaskCreation={(task) => this.props.handleTaskCreation(task)}
-              />
+              {taskCreationForm}
               {tabs}
           </Tabs>
         </div>

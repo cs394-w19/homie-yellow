@@ -59,7 +59,14 @@ class TaskItem extends Component {
   handleEditTask() {
     this.setState({
       editorOpen: true,
-    }); 
+    });
+  }
+
+  handleTaskSubmission(task) {
+    this.setState({
+      editorOpen: false,
+    });
+    this.props.handleTaskSubmission(task);
   }
 
   render() {
@@ -67,21 +74,22 @@ class TaskItem extends Component {
     let type = this.props.task.taskType === "Chore" ? "choreClass" : "purchaseClass";
 
     if (this.state.editorOpen) {
-      console.log(this.props.task.taskType);
       return(
         <TaskCreationForm
+          taskID={this.props.task.taskID}
+          task={this.props.task}
           personsInGroup={this.props.personsInGroup}
           type={this.props.task.taskType}
           database={this.props.database}
-          handleTaskCreation={(task) => this.props.handleTaskCreation(task)}
+          handleTaskSubmission={(task) => this.handleTaskSubmission(task)}
         />
       );
     }
     // if not return a vanilla card:)
     return (
       <Card className={classes.card} id="tabList">
-        <CardContent 
-        className={type} 
+        <CardContent
+        className={type}
         id="cardContent"
         onClick={this.handleExpandClick}>
             <TaskHeader
@@ -89,7 +97,7 @@ class TaskItem extends Component {
                 handleTaskCompleted={() => this.props.handleTaskCompleted()}
               />
         </CardContent>
-        <CardActions 
+        <CardActions
         className={type} disableActionSpacing
         id="cardActions"
         onClick={this.handleExpandClick}>
@@ -97,7 +105,7 @@ class TaskItem extends Component {
             className={classnames(classes.expand, {
               [classes.expandOpen]: this.state.expanded,
             })}
-            
+
             aria-expanded={this.state.expanded}
             aria-label="Show more"
           >
@@ -108,8 +116,6 @@ class TaskItem extends Component {
           <CardContent>
           <TaskDetails
                 task={this.props.task}
-                handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
-                handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
                 handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
                 handleEditTask={() => this.handleEditTask()}
               />
@@ -125,38 +131,3 @@ TaskItem.propTypes = {
 };
 
 export default withStyles(styles)(TaskItem);
-
-/*export default class TaskItem extends Component {
-    constructor(props, context) {
-      super(props, context);
-      this.state = {
-        open: true,
-      };
-    }
-
-    render() {
-      let type = this.props.task.taskType === "Chore" ? "choreClass" : "purchaseClass";
-      return(
-        /*<Panel id="tabList">
-          <Panel.Heading className={type}>
-            <Panel.Title toggle>
-              <TaskHeader
-                task={this.props.task}
-                handleTaskCompleted={() => this.props.handleTaskCompleted()}
-              />
-            </Panel.Title>
-          </Panel.Heading>
-          <Panel.Collapse>
-            <Panel.Body>
-              <TaskDetails
-                task={this.props.task}
-                handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
-                handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
-              />
-            </Panel.Body>
-          </Panel.Collapse>
-        </Panel>
-
-      );
-    }
-}*/

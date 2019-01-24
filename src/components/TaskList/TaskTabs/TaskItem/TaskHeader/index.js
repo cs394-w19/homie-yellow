@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, Glyphicon, Button, Grid} from 'react-bootstrap';
+import {Row, Col, Glyphicon, Button} from 'react-bootstrap';
 import './index.scss';
 
 export default class TaskHeader extends Component {
@@ -42,7 +42,7 @@ export default class TaskHeader extends Component {
               ><Glyphicon glyph="ok"/></Button></center>
             </Col>
           </Row>
-     
+
 
       );
     }
