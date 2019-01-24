@@ -10,7 +10,7 @@ var database = fire.database();
 var taskList = [];
 
 ReactDOM.render(
-  <BaseTemplate database={database} taskList={taskList} />,
+  <BaseTemplate database={database} taskList={taskList} fire={fire}/>,
    document.getElementById('root')
  );
 
