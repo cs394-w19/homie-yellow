@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import {Row, Col, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import TaskAssignedToCheckboxes from './TaskAssignedToCheckboxes';
 import './index.scss';
@@ -13,7 +13,7 @@ export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: null,
+      taskID: this.props.taskID,
       taskName: '',
       taskType: this.props.type,
       taskCreator: 'Jenny',
@@ -27,11 +27,19 @@ export default class TaskCreationForm extends Component {
       riTaskTime: Date.now(),
       taskDate: new Date(Date.now() + 86400),
     };
-    if (this.props.task) this.setState(this.props.task);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleRepeatChange = this.handleRepeatChange.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.task) {
+      this.setState(this.props.task);
+      this.setState({
+        taskDate: new Date(this.props.task.taskDate),
+      });
+    }
   }
 
   handleNameChange(e) {
@@ -104,6 +112,7 @@ export default class TaskCreationForm extends Component {
               <Col xs={9}>
                 <FormControl
                   type="text"
+                  value={this.state.taskName}
                   placeholder={"Enter " + this.props.type + " name"}
                   onChange={this.handleNameChange}
                 />
@@ -137,6 +146,7 @@ export default class TaskCreationForm extends Component {
                 <FormControl
                   componentClass="select"
                   onChange={this.handleRepeatChange}
+                  value={this.state.repeatInterval}
                 >
                   <option value="none">None</option>
                   <option value="daily">Daily</option>
@@ -150,6 +160,7 @@ export default class TaskCreationForm extends Component {
                 <FormControl
                   componentClass="textarea"
                   rows="5"
+                  value={this.state.taskDescription}
                   placeholder={"Give a description of your " + this.props.type}
                   onChange={this.handleDescChange}
                 />

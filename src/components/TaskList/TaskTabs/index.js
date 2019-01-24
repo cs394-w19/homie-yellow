@@ -46,8 +46,6 @@ export default class TaskTabs extends Component {
               key={task.taskModified}
               task={task}
               handleTaskCompleted={() => this.props.handleTaskCompleted(task)}
-              handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
-              handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
               handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
               personsInGroup={this.props.personsInGroup}
               handleTaskSubmission={(t) => this.props.handleTaskSubmission(t)}
@@ -68,6 +66,8 @@ export default class TaskTabs extends Component {
 
       let taskCreationForm = (this.props.taskCreation) ? (
         <TaskCreationForm
+          taskID={null}
+          task={null}
           personsInGroup={this.props.personsInGroup}
           type={this.props.taskCreation}
           database={this.props.database}
@@ -78,6 +78,7 @@ export default class TaskTabs extends Component {
       return(
         <div id="tabList">
           <Tabs
+            id="Task Tabs"
             activeKey={activeTab}
             onSelect={(t) => this.props.handleTabPress(t)}
             animation={false}

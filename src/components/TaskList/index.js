@@ -16,8 +16,7 @@ export default class TaskList extends Component {
 
   componentWillMount() {
     let taskListRef = this.props.database.ref('taskList');
-    taskListRef.once('value').then(snapshot => {
-      console.log(snapshot.val());
+    taskListRef.on('value', snapshot => {
       this.setState({
         tasks: snapshot.val()
       });
@@ -49,11 +48,10 @@ export default class TaskList extends Component {
   }
 
   handleTaskSubmission(task) {
-      let tasks = Object.values(this.state.tasks);
-      let taskKey = (tasks.find(x => x.id === task.id))
-        ? task.id
+      let taskKeys = Object.keys(this.state.tasks);
+      let taskKey = (taskKeys.findIndex(x => x === task.taskID) !== -1)
+        ? task.taskID
         : this.props.database.ref().child('taskList').push().key;
-
       let submittedTask = {
         assignedTo: task.assignedTo,
         isDeleted: 0,
@@ -70,12 +68,11 @@ export default class TaskList extends Component {
         taskModified: new Date(task.taskModified).getTime(),
         taskName: task.taskName,
         taskType: task.taskType,
-      }
+      };
     let updates = {};
     updates['/taskList/' + taskKey] = submittedTask;
     this.props.database.ref().update(updates);
     this.setState({
-      tasks: this.state.tasks,
       taskCreation: false,
     });
 
@@ -105,78 +102,6 @@ export default class TaskList extends Component {
     let updates = {};
     updates['/taskList/' + index] = updatedTask;
     this.props.database.ref().update(updates);
-    this.setState({
-      tasks: this.state.tasks,
-    });
-  }
-
-  handleToggleAssignedType(type, task) {
-    let index = task.taskID;
-    task.taskType = type;
-    let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
-    let updatedTask = {
-      assignedTo: assignedTo,
-      isDeleted: 0,
-      isComplete: task.isComplete,
-      paymentTotal: task.paymentTotal,
-      repeatInterval: task.repeatInterval,
-      riDaily: task.riDaily,
-      riMonthly: task.riMonthly,
-      riWeekly: task.riWeekly,
-      taskCreator: task.taskCreator,
-      taskDate: task.taskDate,
-      taskDescription: task.taskDescription,
-      taskID: index,
-      taskModified: Date.now(),
-      taskName: task.taskName,
-      taskType: task.taskType,
-    }
-    let updates = {};
-    updates['/taskList/' + index] = updatedTask;
-    this.props.database.ref().update(updates);
-    this.setState({
-      tasks: this.state.tasks,
-    });
-  }
-
-  handleToggleAssignedPerson(person, task) {
-    let index = task.taskID;
-    let assignedTo = [];
-    if (task.assignedTo == null) {
-      assignedTo.push(person);
-    } else if(task.assignedTo.includes(person)) {
-      task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
-      assignedTo = task.assignedTo;
-    } else {
-      task.assignedTo.push(person);
-      assignedTo = task.assignedTo;
-    }
-
-
-    let updatedTask = {
-      assignedTo: assignedTo,
-      isDeleted: 0,
-      isComplete: task.isComplete,
-      paymentTotal: task.paymentTotal,
-      repeatInterval: task.repeatInterval,
-      riDaily: task.riDaily,
-      riMonthly: task.riMonthly,
-      riWeekly: task.riWeekly,
-      taskCreator: task.taskCreator,
-      taskDate: task.taskDate,
-      taskDescription: task.taskDescription,
-      taskID: index,
-      taskModified: Date.now(),
-      taskName: task.taskName,
-      taskType: task.taskType,
-    }
-    let updates = {};
-    updates['/taskList/' + index] = updatedTask;
-    this.props.database.ref().update(updates);
-    this.setState({
-      tasks: this.state.tasks,
-    });
-
   }
 
   handleDeleteTask(task) {
@@ -202,9 +127,6 @@ export default class TaskList extends Component {
     let updates = {};
     updates['/taskList/' + index] = updatedTask;
     this.props.database.ref().update(updates);
-    this.setState({
-      tasks: this.state.tasks,
-    });
   }
 
   render() {
@@ -236,8 +158,6 @@ export default class TaskList extends Component {
         handleTabPress={(t) => this.handleTabPress(t)}
         handleTaskSubmission={(task) => this.handleTaskSubmission(task)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}
-        handleToggleAssignedPerson={(p, t) => this.handleToggleAssignedPerson(p, t)}
-        handleToggleAssignedType={(p, t) => this.handleToggleAssignedType(p, t)}
         handleDeleteTask={(t) => this.handleDeleteTask(t)}
       />
     );

@@ -62,6 +62,13 @@ class TaskItem extends Component {
     });
   }
 
+  handleTaskSubmission(task) {
+    this.setState({
+      editorOpen: false,
+    });
+    this.props.handleTaskSubmission(task);
+  }
+
   render() {
     const { classes } = this.props;
     let type = this.props.task.taskType === "Chore" ? "choreClass" : "purchaseClass";
@@ -69,10 +76,12 @@ class TaskItem extends Component {
     if (this.state.editorOpen) {
       return(
         <TaskCreationForm
+          taskID={this.props.task.taskID}
+          task={this.props.task}
           personsInGroup={this.props.personsInGroup}
           type={this.props.task.taskType}
           database={this.props.database}
-          handleTaskSubmission={(task) => this.props.handleTaskSubmission(task)}
+          handleTaskSubmission={(task) => this.handleTaskSubmission(task)}
         />
       );
     }
@@ -107,8 +116,6 @@ class TaskItem extends Component {
           <CardContent>
           <TaskDetails
                 task={this.props.task}
-                handleToggleAssignedPerson={(p, t) => this.props.handleToggleAssignedPerson(p, t)}
-                handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
                 handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
                 handleEditTask={() => this.handleEditTask()}
               />
