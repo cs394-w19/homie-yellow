@@ -9,7 +9,7 @@ export default class TaskList extends Component {
     this.state = {
       tasks: [],
       activeTab: 0,
-      taskCreation: 0,
+      taskCreation: false,
       personsInGroup: [],
     };
   }
@@ -33,7 +33,7 @@ export default class TaskList extends Component {
             personsInGroup: persons,
         });
     });
-    
+
   }
 
   handleTaskCreateButtonPress(type) {
@@ -48,28 +48,31 @@ export default class TaskList extends Component {
     });
   }
 
-  handleTaskCreation(task) {
+  handleTaskSubmission(task) {
+      let tasks = Object.values(this.state.tasks);
+      let taskKey = (tasks.find(x => x.id === task.id))
+        ? task.id
+        : this.props.database.ref().child('taskList').push().key;
 
-    let newTaskKey = this.props.database.ref().child('taskList').push().key;
-    let newTask = {
-      assignedTo: task.assignedTo,
-      isDeleted: 0,
-      isComplete: task.isComplete,
-      paymentTotal: 0,
-      repeatInterval: task.repeatInterval,
-      riDaily: ' ',
-      riMonthly: ' ',
-      riWeekly: ' ',
-      taskCreator: task.taskCreator,
-      taskDate: Date.now() + 86400,
-      taskDescription: task.taskDescription,
-      taskID: newTaskKey,
-      taskModified: task.taskModified,
-      taskName: task.taskName,
-      taskType: task.taskType,
-    }
+      let submittedTask = {
+        assignedTo: task.assignedTo,
+        isDeleted: 0,
+        isComplete: task.isComplete,
+        paymentTotal: 0,
+        repeatInterval: task.repeatInterval,
+        riDaily: ' ',
+        riMonthly: ' ',
+        riWeekly: ' ',
+        taskCreator: task.taskCreator,
+        taskDate: new Date(task.taskDate).getTime(),
+        taskDescription: task.taskDescription,
+        taskID: taskKey,
+        taskModified: new Date(task.taskModified).getTime(),
+        taskName: task.taskName,
+        taskType: task.taskType,
+      }
     let updates = {};
-    updates['/taskList/' + newTaskKey] = newTask;
+    updates['/taskList/' + taskKey] = submittedTask;
     this.props.database.ref().update(updates);
     this.setState({
       tasks: this.state.tasks,
@@ -231,7 +234,7 @@ export default class TaskList extends Component {
         personsInGroup={this.state.personsInGroup}
         activeTab={this.state.activeTab}
         handleTabPress={(t) => this.handleTabPress(t)}
-        handleTaskCreation={(task) => this.handleTaskCreation(task)}
+        handleTaskSubmission={(task) => this.handleTaskSubmission(task)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}
         handleToggleAssignedPerson={(p, t) => this.handleToggleAssignedPerson(p, t)}
         handleToggleAssignedType={(p, t) => this.handleToggleAssignedType(p, t)}

@@ -50,6 +50,7 @@ export default class TaskTabs extends Component {
               handleToggleAssignedType={(p, t) => this.props.handleToggleAssignedType(p, t)}
               handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
               personsInGroup={this.props.personsInGroup}
+              handleTaskSubmission={(t) => this.props.handleTaskSubmission(t)}
             />
         );
       });
@@ -65,6 +66,15 @@ export default class TaskTabs extends Component {
         );
       });
 
+      let taskCreationForm = (this.props.taskCreation) ? (
+        <TaskCreationForm
+          personsInGroup={this.props.personsInGroup}
+          type={this.props.taskCreation}
+          database={this.props.database}
+          handleTaskSubmission={(task) => this.props.handleTaskSubmission(task)}
+        />
+      ) : <div></div>;
+
       return(
         <div id="tabList">
           <Tabs
@@ -72,12 +82,7 @@ export default class TaskTabs extends Component {
             onSelect={(t) => this.props.handleTabPress(t)}
             animation={false}
           >
-              <TaskCreationForm
-                personsInGroup={this.props.personsInGroup}
-                type={this.props.taskCreation}
-                database={this.props.database}
-                handleTaskCreation={(task) => this.props.handleTaskCreation(task)}
-              />
+              {taskCreationForm}
               {tabs}
           </Tabs>
         </div>

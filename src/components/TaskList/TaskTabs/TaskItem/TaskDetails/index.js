@@ -8,7 +8,7 @@ export default class TaskDetails extends Component {
     // temporary list of people in the group
     let t = this.props.task;
     let assignedTo = (t.assignedTo == null) ? "Nobody" : t.assignedTo.join(', ');
-    
+
     return(
       <Row>
         <Col xs={10}>

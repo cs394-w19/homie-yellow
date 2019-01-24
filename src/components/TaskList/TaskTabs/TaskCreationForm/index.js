@@ -13,6 +13,7 @@ export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: null,
       taskName: '',
       taskType: this.props.type,
       taskCreator: 'Jenny',
@@ -26,9 +27,9 @@ export default class TaskCreationForm extends Component {
       riTaskTime: Date.now(),
       taskDate: new Date(Date.now() + 86400),
     };
+    if (this.props.task) this.setState(this.props.task);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
-    this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleRepeatChange = this.handleRepeatChange.bind(this);
   }
@@ -39,10 +40,6 @@ export default class TaskCreationForm extends Component {
 
   handleDescChange(e) {
     this.setState({ taskDescription: e.target.value });
-  }
-
-  handleTypeChange(e) {
-    this.setState({ taskType: e.target.value });
   }
 
   handleDateChange(date) {
@@ -75,7 +72,7 @@ export default class TaskCreationForm extends Component {
   }
 
   handleSubmitButtonPress() {
-    this.props.handleTaskCreation(Object.assign({}, this.state));
+    this.props.handleTaskSubmission(Object.assign({}, this.state));
   }
 
   handleToggleAssignedPerson(person, task) {
@@ -97,9 +94,6 @@ export default class TaskCreationForm extends Component {
   }
 
   render() {
-
-    if (!this.props.type) return(null);
-
     return(
       <div>
         <Card id="tabList">
@@ -122,10 +116,10 @@ export default class TaskCreationForm extends Component {
           <CardContent>
             <Row>
               <Col xs={12}>
-                <TaskAssignedToCheckboxes 
+                <TaskAssignedToCheckboxes
                   personsInGroup={this.props.personsInGroup}
                   toggleAssignedPerson={(person, task) => this.handleToggleAssignedPerson(person, task)}
-                  database={this.props.database} 
+                  database={this.props.database}
                   task={this.state}
                 />
               </Col>
