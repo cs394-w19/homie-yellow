@@ -136,6 +136,7 @@ export default class TaskCreationForm extends Component {
             <Row>
               <Col xs={6}>
                 <ControlLabel>Due Date</ControlLabel>
+                <div>{"\n"}</div>
                 <DatePicker className="date-picker"
                   selected={this.state.taskDate}
                   onChange={this.handleDateChange}
