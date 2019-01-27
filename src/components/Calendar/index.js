@@ -1,120 +1,82 @@
 import React from 'react';
-import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
+// import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
+import BigCalendar from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CalendarAddEvent from './CalendarAddEvent';
+
+
 
 import './index.scss';
 
+import moment from 'moment'
 
-
-// NOTE: THIS WILL NOT WORK LOCALLY!!! ALSO, probably need the API key from Nat for this to work
-// should make this way more general and probably include some stuff from this on the task tab
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 
 export default class Calendar extends React.Component {
     constructor(props) {
       super(props);
-      this.handleItemClick = this.handleItemClick.bind(this);
-      this.handleAddEventToCalendar = this.handleAddEventToCalendar.bind(this);
-      this.signUpdate = this.signUpdate.bind(this);
-      this.handleShowCalendarEvents = this.handleShowCalendarEvents.bind(this);
-      
+ 
       this.state = {
-        "calendar" : "r3ngr47kskudbj0mfinjafhh2g@group.calendar.google.com",
-        "timesClicked": 0}; // a calendar ID
-      ApiCalendar.setCalendar("r3ngr47kskudbj0mfinjafhh2g@group.calendar.google.com");
-    }
+        "events":[
+          {
+            id: 0,
+            title: 'All Day Event very long title',
+            allDay: true,
+            start: new Date(2019, 1, 1),
+            end: new Date(2019, 1, 3),
+          },
+          {
+            id: 1,
+            title: 'Long Event',
+            start: new Date(2019, 1, 7),
+            end: new Date(2019, 1, 10),
+          }]};
 
-    signUpdate(sign){
-        this.setState({"sign": sign});
-    }
-    
-    handleItemClick(event, name) {
-      if (name === 'sign-in') {
-        ApiCalendar.handleAuthClick();
-      } else if (name === 'sign-out') {
-        ApiCalendar.handleSignoutClick();
+
       }
+
+    componentDidMount(){
+      //BigCalendar.Views('week');
+      console.log("the calendar has mounted")
     }
 
-    handleAddEventToCalendar(calEvent) {
-        console.log("tried to add event to calendar");
-        ApiCalendar.createEvent(calEvent, this.state.calendar).then((result) => {
-            console.log(result);
-              });
-        console.log("did it work??");
-
+    handleSelect(start, end ) {
+        const title = window.prompt('New Event name')
+        if (title)
+          this.setState({
+            events: [
+              ...this.state.events,
+              {
+                start,
+                end,
+                title,
+              },
+            ],
+          });
     }
-
-
-    handleShowCalendarEvents(number){
-        console.log("tried to show calendar events");
-        let events = [];
-        if (ApiCalendar.sign){
-            
-            ApiCalendar.listUpcomingEvents(number).then((result =>{
-                console.log(result);
-                events = result["result"]["items"];
-                console.log(events);
-
-                this.setState({"timesClicked" : this.state.timesClicked + 1});
-                return events;
-            }));
-             
-          } else {
-              console.log("Hey somehow ApiCalendar.sign is false");
-          }
-
-        console.log(events);
-        console.log("did this shit work?");
-
-        return events;
-    }
-
-
-    render(){
       
-      
-      return (
-          <div>
-            <div className="iframe-container">
-            <iframe 
-            src="https://calendar.google.com/calendar/embed?src=r3ngr47kskudbj0mfinjafhh2g%40group.calendar.google.com&ctz=America%2FChicago"
-            title="the shared calendar"
-            
-            frameBorder="0"
-            scrolling="no">
-            </iframe>
-            </div>
-            <div>
-            <CalendarAddEvent/>
-            
-              <button
-                  onClick={(e) => this.handleItemClick(e, 'sign-in')}
-              >
-                sign-in
-              </button>
-              <button
-                  onClick={(e) => this.handleItemClick(e, 'sign-out')}
-              >
-                sign-out
-              </button>
-              {/*
-               <button
-                  onClick={(e) => this.handleAddEventToCalendar(
-                      {"summary": "my birthday",
-                        "end": {"dateTime": "2019-01-25T21:15:00-06:00"}, 
-                        "start": {"dateTime": "2019-01-25T20:15:00-06:00"}})}
-              >
-                add event to calendar
-              </button>
-              <button
-                  onClick={(e) => this.handleShowCalendarEvents(10)}
-              >
-                print events
-              </button> */}
-            </div>
-            
-          </div>
-            
-        );
+  
+
+    render() {
+      const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
+      console.log(allViews);
+
+
+      return ( 
+      <div className="cal-container">
+        <BigCalendar
+          selectable
+          localizer={localizer}
+          events = {this.state.events}
+          views={allViews}
+          showMultiDayTimes
+          defaultDate={new Date()}
+          defaultView={"week"}
+          onSelectSlot={() => {this.handleSelect()}}
+        />
+      </div>
+    );
     }
 }
