@@ -5,7 +5,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CalendarAddEvent from './CalendarAddEvent';
 
 
-
 import './index.scss';
 
 import moment from 'moment'
@@ -25,6 +24,8 @@ export default class Calendar extends React.Component {
       };
 
       this.tasksToEvents = this.tasksToEvents.bind(this);
+      this.handleSelectEvent = this.handleSelectEvent.bind(this);
+      this.eventStyleGetter = this.eventStyleGetter.bind(this);
       }
 
     componentDidMount(){
@@ -61,6 +62,7 @@ export default class Calendar extends React.Component {
             "start": slots.start,
             "end" : slots.end,
             title,
+            "isSelected" : false
           };
           this.setState({
             events: [
@@ -77,7 +79,27 @@ export default class Calendar extends React.Component {
           // also need to add the one changed thing to the DB
 
     }
+
+    handleSelectEvent(event, e){
+      //console.log("selected event", event, e);
+
+    }
       
+    eventStyleGetter(event) {
+      console.log("style getter");
+
+      console.log("event", event);
+      //console.log("start", start);
+      //console.log("end", end);
+      //console.log("isSelected", isSelected);
+      let backgroundColor = 'green';
+      let newStyle = {
+          backgroundColor
+      };
+      return newStyle;
+  }
+  
+
   
     handleEventAdd(event) {
       console.log(event);
@@ -105,21 +127,26 @@ export default class Calendar extends React.Component {
 
   }
 
-
-
     render() {
 
       return ( 
       <div className="cal-container">
         <BigCalendar
           selectable
-          localizer={localizer}
+          localizer={localizer}          
+          eventPropGetter={(event) => {this.eventStyleGetter(event)}}
+
           events = {this.state.events}
-          views={['week']}
+          views={['week']} // make a custom view for three days to use for mobile
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
           onSelectSlot={(slots) => {this.handleSelect(slots)}}
+          popup = {true}
+          popupOffset={30}
+          longPressThreshold={100}
+          onSelectEvent= {(event, e) => this.handleSelectEvent(event, e)}
+
         />
       </div>
     );
