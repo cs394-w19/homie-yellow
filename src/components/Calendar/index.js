@@ -19,28 +19,41 @@ export default class Calendar extends React.Component {
       super(props);
  
       this.state = {
-        "events":[
-          {
-            id: 0,
-            title: 'All Day Event very long title',
-            allDay: true,
-            start: new Date(2019, 1, 1),
-            end: new Date(2019, 1, 3),
-          },
-          {
-            id: 1,
-            title: 'Long Event',
-            start: new Date(2019, 1, 7),
-            end: new Date(2019, 1, 10),
-          }]};
+        tasks : {}
+        ,
+        events : []
+      };
 
-
+      this.tasksToEvents = this.tasksToEvents.bind(this);
       }
 
     componentDidMount(){
-      //BigCalendar.Views('week');
       console.log("the calendar has mounted")
+      let taskListRef = this.props.database.ref('taskList');
+      taskListRef.on('value', snapshot => {
+        this.setState({
+          tasks: snapshot.val(), 
+       }, () => {this.tasksToEvents()});
+      });
+
     }
+
+    tasksToEvents(){
+      let calEvents = Object.keys(this.state.tasks).map((key)=> {
+        console.log(key);
+        return {
+          "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
+          "end" : new Date(parseInt(this.state.tasks[key].taskDate) + 3600),
+          "title" : this.state.tasks[key].taskName
+        };
+      });
+
+      console.log(calEvents);
+
+      this.setState({events : calEvents}, console.log("events" , this.state.events));
+
+    }
+
 
     handleSelect(start, end ) {
         const title = window.prompt('New Event name')
@@ -55,14 +68,12 @@ export default class Calendar extends React.Component {
               },
             ],
           });
+
     }
       
   
 
     render() {
-      const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
-      console.log(allViews);
-
 
       return ( 
       <div className="cal-container">
@@ -70,7 +81,7 @@ export default class Calendar extends React.Component {
           selectable
           localizer={localizer}
           events = {this.state.events}
-          views={allViews}
+          views={['week']}
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
