@@ -43,7 +43,7 @@ export default class Calendar extends React.Component {
         console.log(key);
         return {
           "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
-          "end" : new Date(parseInt(this.state.tasks[key].taskDate) + 3600),
+          "end" : new Date(parseInt(this.state.tasks[key].taskDate) + 3600*1000),
           "title" : this.state.tasks[key].taskName
         };
       });
@@ -51,27 +51,61 @@ export default class Calendar extends React.Component {
       console.log(calEvents);
 
       this.setState({events : calEvents}, console.log("events" , this.state.events));
-
     }
 
 
-    handleSelect(start, end ) {
+    handleSelect(slots) {
         const title = window.prompt('New Event name')
-        if (title)
+        if (title){
+          let newEvent = {
+            "start": slots.start,
+            "end" : slots.end,
+            title,
+          };
           this.setState({
             events: [
               ...this.state.events,
-              {
-                start,
-                end,
-                title,
-              },
+              , newEvent
             ],
           });
+
+          this.handleEventAdd(newEvent);
+
+        }
+          
+
+          // also need to add the one changed thing to the DB
 
     }
       
   
+    handleEventAdd(event) {
+      console.log(event);
+
+      let eventKey = this.props.database.ref().child('taskList').push().key;
+      let submittedTask = {
+        assignedTo: ["NOBODY"],
+        isDeleted: 0,
+        isComplete: true,
+        paymentTotal: 0,
+        repeatInterval: "None",
+        riMonthly: " ",
+        riWeekly: " ",
+        taskCreator: " ", // should be the user somehow
+        taskDate: event.start.getTime(),
+        taskDescription: event.title,
+        taskID: eventKey,
+        taskModified:  Date.now(),
+        taskName: event.title,
+        taskType: "Chore",
+      };
+    let updates = {};
+    updates['/taskList/' + eventKey] = submittedTask;
+    this.props.database.ref().update(updates);
+
+  }
+
+
 
     render() {
 
@@ -85,7 +119,7 @@ export default class Calendar extends React.Component {
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
-          onSelectSlot={() => {this.handleSelect()}}
+          onSelectSlot={(slots) => {this.handleSelect(slots)}}
         />
       </div>
     );
