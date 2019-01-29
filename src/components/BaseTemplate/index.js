@@ -51,7 +51,7 @@ const NavBarOnTop = props => {
             </NavItem>
         </Nav>
         <Nav pullRight>
-          {props.user ? 
+          {props.user ?
           <NavItem onClick={() => props.handleLogOut()} href="#">
                 <div><Glyphicon glyph="log-out" /> Log Out </div>
           </NavItem>
@@ -78,7 +78,11 @@ class Canvas extends Component {
         canvas = <h1>Welcome to Homie</h1>;
         break;
       case 1:
-        canvas = <TaskList database={this.props.database} taskList={this.props.taskList} />;
+        canvas = <TaskList
+                    user={this.props.user}
+                    database={this.props.database}
+                    taskList={this.props.taskList}
+                  />;
         break;
       case 2:
         canvas = <h1>Splitting</h1>;
@@ -87,8 +91,8 @@ class Canvas extends Component {
         canvas = <Calendar/>;
         break;
       case 4:
-        canvas = <Settings 
-                    user={this.props.user} 
+        canvas = <Settings
+                    user={this.props.user}
                     handleLogOut={() => this.props.handleLogOut()}/>;
         break;
       default:
@@ -111,8 +115,8 @@ class BaseTemplate extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user });
-      } 
+        this.setState({ user: user });
+      }
     });
   }
 
@@ -127,7 +131,7 @@ class BaseTemplate extends Component {
       .then((result) => {
         const user = result.user;
         this.setState({
-          user
+          user: user
         });
       });
   }
@@ -148,7 +152,7 @@ class BaseTemplate extends Component {
             <Row id="Login" className="align-middle">
               <h2> Welcome to Homie!</h2>
              <Image onClick={() => this.handleLogIn()}src={google} alt="Please Sign In"/>
-              
+
             </Row>
         </Grid>
       );
@@ -158,27 +162,27 @@ class BaseTemplate extends Component {
           {matches => matches ?
               (
                   <Grid >
-                      <Canvas 
-                            database={this.props.database} 
-                            taskList={this.props.taskList} 
-                            activeTab={this.state.activeTab} 
+                      <Canvas
+                            database={this.props.database}
+                            taskList={this.props.taskList}
+                            activeTab={this.state.activeTab}
                             handleLogOut={() => this.handleLogOut()}
                             user={this.state.user}/>
-                      <NavBarOnBottom 
-                            handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} 
+                      <NavBarOnBottom
+                            handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
                             handleLogOut={() => this.handleLogOut()}
                             user={this.state.user}/>
                   </Grid>
               ) : (
                   <div>
-                      <NavBarOnTop 
-                          handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} 
+                      <NavBarOnTop
+                          handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
                           handleLogOut={() => this.handleLogOut()}
                           user={this.state.user}/>
-                      <Canvas 
-                          database={this.props.database} 
-                          taskList={this.props.taskList} 
-                          activeTab={this.state.activeTab} 
+                      <Canvas
+                          database={this.props.database}
+                          taskList={this.props.taskList}
+                          activeTab={this.state.activeTab}
                           handleLogOut={() => this.handleLogOut()}
                           user={this.state.user}/>
                   </div>

@@ -9,41 +9,35 @@ export default class TaskTabs extends Component {
     render() {
       let ref = this.props.database.ref('taskList/');
       let activeTab = this.props.activeTab;
-      let tabNames = ["Active", "Assigned to Me", "Completed"];
+      let tabNames = ["Active", "My Active", "Complete"];
       let currUser = 'Jenny';
-      let data_list = [];
+      let group_tasks = [];
+      let render_tasks = [];
+
+      ref.orderByChild("groupID").equalTo(0).on("value", (data) => {
+        data.forEach((child) => {
+            group_tasks.push(child.val());
+        });
+      });
 
       switch(activeTab) {
         case 0: // active
-          ref.orderByChild("isComplete").equalTo(false).on("value", (data) => {
-            data.forEach((child) => {
-              if (!child.val().isDeleted)
-                data_list.push(child.val());
-            });
-          });
+          render_tasks = group_tasks.filter(task => !task.isComplete);
           break;
         case 1: // assigned to me
-          ref.orderByChild("assignedTo").on("value", (data)  =>{
-            data.forEach((child) => {
-              let assignedTo = child.val().assignedTo;
-              if (assignedTo != null && assignedTo.includes(currUser))
-                data_list.push(child.val());
-            });
+          render_tasks = group_tasks.filter(task => {
+            if (!task.assignedTo) return false;
+            return task.assignedTo.indexOf(currUser) > -1 && !task.isComplete;
           });
           break;
         case 2: // completed
-          ref.orderByChild("isComplete").equalTo(true).on("value", (data) => {
-            data.forEach((child) => {
-              data_list.push(child.val());
-            })
-          });
+          render_tasks = group_tasks.filter(task => task.isComplete);
           break;
         default:
-          data_list = [];
           break;
       }
 
-      let task_items = data_list.map((task) => {
+      let task_items = render_tasks.map((task) => {
         return(
             <TaskItem
               key={task.taskModified}

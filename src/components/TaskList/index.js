@@ -55,6 +55,7 @@ export default class TaskList extends Component {
       let submittedTask = {
         assignedTo: task.assignedTo,
         isDeleted: 0,
+        groupID: task.groupID,
         isComplete: task.isComplete,
         paymentTotal: 0,
         repeatInterval: task.repeatInterval,
@@ -81,14 +82,17 @@ export default class TaskList extends Component {
     let index = task.taskID;
     task.isComplete = !task.isComplete;
     let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let riWeekly = (task.assignedTo == null) ? [] : task.assignedTo;
+    let riMonthly = (task.assignedTo == null) ? [] : task.assignedTo;
     let updatedTask = {
       assignedTo: assignedTo,
       isDeleted: 0,
+      groupID: task.groupID,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
-      riMonthly: task.riMonthly,
-      riWeekly: task.riWeekly,
+      riMonthly: riMonthly,
+      riWeekly: riWeekly,
       taskCreator: task.taskCreator,
       taskDate: task.taskDate,
       taskDescription: task.taskDescription,
@@ -108,6 +112,7 @@ export default class TaskList extends Component {
     let updatedTask = {
       assignedTo: assignedTo,
       isDeleted: 1,
+      groupID: task.groupID,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
