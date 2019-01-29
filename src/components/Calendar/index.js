@@ -45,7 +45,8 @@ export default class Calendar extends React.Component {
         return {
           "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
           "end" : new Date(parseInt(this.state.tasks[key].taskDate) + 3600*1000),
-          "title" : this.state.tasks[key].taskName
+          "title" : this.state.tasks[key].taskName,
+          "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody" 
         };
       });
 
@@ -92,9 +93,12 @@ export default class Calendar extends React.Component {
       //console.log("start", start);
       //console.log("end", end);
       //console.log("isSelected", isSelected);
-      let backgroundColor = 'green';
+
+      
+
+      let backgroundColor = event.assignedTo.includes("Matt") ? "#5FB49C" : "#682D63";
       let newStyle = {
-          backgroundColor
+          style : {backgroundColor}
       };
       return newStyle;
   }
@@ -134,7 +138,7 @@ export default class Calendar extends React.Component {
         <BigCalendar
           selectable
           localizer={localizer}          
-          eventPropGetter={(event) => {this.eventStyleGetter(event)}}
+          eventPropGetter={(e) => this.eventStyleGetter(e)}
 
           events = {this.state.events}
           views={['week']} // make a custom view for three days to use for mobile
