@@ -1,25 +1,69 @@
 import React, {Component} from 'react';
 import Media from 'react-media';
-import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid, Button} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid, Button, Image} from 'react-bootstrap';
 import TaskList from '../TaskList';
 import Calendar from '../Calendar';
 import Settings from '../Settings';
 import firebase from 'firebase';
-var provider = new firebase.auth.GoogleAuthProvider();
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 const NavBarOnBottom = props => {
   return(
       <Row className="mobile-navbar">
           <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="usd" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={6} className="mobile-item">
+                    <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="tasks" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Tasks
+                      </Col>
+                    </Row>
+                    </Col>
+                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="usd" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Splitting
+                      </Col>
+                    </Row>
+                  </Col>
               </Row>
           </Col>
           <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="calendar" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Calendar
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="cog" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Settings
+                      </Col>
+                    </Row>
+                  </Col>
               </Row>
           </Col>
       </Row>
@@ -50,7 +94,7 @@ const NavBarOnTop = props => {
             </NavItem>
         </Nav>
         <Nav pullRight>
-          {props.user ? 
+          {props.user ?
           <NavItem onClick={() => props.handleLogOut()} href="#">
                 <div><Glyphicon glyph="log-out" /> Log Out </div>
           </NavItem>
@@ -77,7 +121,11 @@ class Canvas extends Component {
         canvas = <h1>Welcome to Homie</h1>;
         break;
       case 1:
-        canvas = <TaskList database={this.props.database} taskList={this.props.taskList} />;
+        canvas = <TaskList
+                    user={this.props.user}
+                    database={this.props.database}
+                    taskList={this.props.taskList}
+                  />;
         break;
       case 2:
         canvas = <h1>Splitting</h1>;
@@ -86,8 +134,8 @@ class Canvas extends Component {
         canvas = <Calendar database={this.props.database} taskList={this.props.taskList}/>;
         break;
       case 4:
-        canvas = <Settings 
-                    user={this.props.user} 
+        canvas = <Settings
+                    user={this.props.user}
                     handleLogOut={() => this.props.handleLogOut()}/>;
         break;
       default:
@@ -107,11 +155,24 @@ class BaseTemplate extends Component {
     };
   }
 
+  uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => {this.setState({activeTab: 1})}
+    }
+  }
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user });
-      } 
+        this.setState({
+          user: user,
+        });
+      }
     });
   }
 
@@ -119,16 +180,6 @@ class BaseTemplate extends Component {
     this.setState({
       activeTab: tab,
     });
-  }
-
-  handleLogIn() {
-    firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user;
-        this.setState({
-          user
-        });
-      });
   }
 
   handleLogOut() {
@@ -144,8 +195,12 @@ class BaseTemplate extends Component {
     if(this.state.user == null) {
       return(
         <Grid>
-            <Row>
-              <Button onClick={() => this.handleLogIn()}>Log In </Button>
+            <Row id="Login" className="align-middle">
+              <h2> Welcome to Homie!</h2>
+             <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
             </Row>
         </Grid>
       );
@@ -155,27 +210,27 @@ class BaseTemplate extends Component {
           {matches => matches ?
               (
                   <Grid >
-                      <Canvas 
-                            database={this.props.database} 
-                            taskList={this.props.taskList} 
-                            activeTab={this.state.activeTab} 
+                      <Canvas
+                            database={this.props.database}
+                            taskList={this.props.taskList}
+                            activeTab={this.state.activeTab}
                             handleLogOut={() => this.handleLogOut()}
                             user={this.state.user}/>
-                      <NavBarOnBottom 
-                            handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} 
+                      <NavBarOnBottom
+                            handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
                             handleLogOut={() => this.handleLogOut()}
                             user={this.state.user}/>
                   </Grid>
               ) : (
                   <div>
-                      <NavBarOnTop 
-                          handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)} 
+                      <NavBarOnTop
+                          handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
                           handleLogOut={() => this.handleLogOut()}
                           user={this.state.user}/>
-                      <Canvas 
-                          database={this.props.database} 
-                          taskList={this.props.taskList} 
-                          activeTab={this.state.activeTab} 
+                      <Canvas
+                          database={this.props.database}
+                          taskList={this.props.taskList}
+                          activeTab={this.state.activeTab}
                           handleLogOut={() => this.handleLogOut()}
                           user={this.state.user}/>
                   </div>

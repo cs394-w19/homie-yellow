@@ -22,11 +22,19 @@ export default class TaskList extends Component {
       });
     });
 
+    var currUser = this.props.user; // currUser.uid
     let users = this.props.database.ref('users');
     users.once("value").then(data => {
         var persons = [];
-        data.forEach((child) => {
-            persons.push(child.val().name);
+        var groupID = null;
+        data.forEach(child => {
+            persons.push(child.val());
+            // if (child.val().uid === currUser.uid):
+            //   groupID = child.val().groupID;
+        });
+        var personsInGroup = persons.filter(person => {
+          return true;
+          //return person.groupID === groupID;
         });
         this.setState({
             personsInGroup: persons,
@@ -55,6 +63,7 @@ export default class TaskList extends Component {
       let submittedTask = {
         assignedTo: task.assignedTo,
         isDeleted: 0,
+        groupID: task.groupID,
         isComplete: task.isComplete,
         paymentTotal: 0,
         repeatInterval: task.repeatInterval,
@@ -81,16 +90,19 @@ export default class TaskList extends Component {
     let index = task.taskID;
     task.isComplete = !task.isComplete;
     let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let riWeekly = (task.riWeekly == null) ? [] : task.riWeekly;
+    let riMonthly = (task.riMonthly == null) ? [] : task.riMonthly;
     let updatedTask = {
       assignedTo: assignedTo,
       isDeleted: 0,
+      groupID: task.groupID,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
-      riMonthly: task.riMonthly,
-      riWeekly: task.riWeekly,
+      riMonthly: riMonthly,
+      riWeekly: riWeekly,
       taskCreator: task.taskCreator,
-      taskDate: task.taskDate,
+      taskDate: new Date(task.taskDate).getTime(),
       taskDescription: task.taskDescription,
       taskID: index,
       taskModified: Date.now(),
@@ -105,16 +117,19 @@ export default class TaskList extends Component {
   handleDeleteTask(task) {
     let index = task.taskID;
     let assignedTo = (task.assignedTo == null) ? [] : task.assignedTo;
+    let riWeekly = (task.riWeekly == null) ? [] : task.riWeekly;
+    let riMonthly = (task.riMonthly == null) ? [] : task.riMonthly;
     let updatedTask = {
       assignedTo: assignedTo,
       isDeleted: 1,
+      groupID: task.groupID,
       isComplete: task.isComplete,
       paymentTotal: task.paymentTotal,
       repeatInterval: task.repeatInterval,
-      riMonthly: task.riMonthly,
-      riWeekly: task.riWeekly,
+      riMonthly: riMonthly,
+      riWeekly: riWeekly,
       taskCreator: task.taskCreator,
-      taskDate: task.taskDate,
+      taskDate: new Date(task.taskDate).getTime(),
       taskDescription: task.taskDescription,
       taskID: index,
       taskModified: Date.now(),
