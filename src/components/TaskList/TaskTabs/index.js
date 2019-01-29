@@ -61,7 +61,7 @@ export default class TaskTabs extends Component {
 
       let tabs = tabNames.map((name, i) => {
         return(
-          <Tab title={name} key={name} eventKey={i}>
+          <Tab title={name} key={name} eventKey={i} className="a-tab">
             {task_items}
           </Tab>
         );
@@ -81,7 +81,7 @@ export default class TaskTabs extends Component {
       return(
         <div id="tabList">
           <Tabs
-            id="Task Tabs"
+            id="TaskTabs"
             activeKey={activeTab}
             onSelect={(t) => this.props.handleTabPress(t)}
             animation={false}

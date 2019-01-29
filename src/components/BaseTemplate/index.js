@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import Media from 'react-media';
-import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid, Button} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, Glyphicon, Row, Col, Grid, Button, Image} from 'react-bootstrap';
 import TaskList from '../TaskList';
 import Calendar from '../Calendar';
 import Settings from '../Settings';
 import firebase from 'firebase';
+import google from "../../google_btn.png";
 var provider = new firebase.auth.GoogleAuthProvider();
 
 const NavBarOnBottom = props => {
@@ -144,8 +145,10 @@ class BaseTemplate extends Component {
     if(this.state.user == null) {
       return(
         <Grid>
-            <Row>
-              <Button onClick={() => this.handleLogIn()}>Log In </Button>
+            <Row id="Login" className="align-middle">
+              <h2> Welcome to Homie!</h2>
+             <Image onClick={() => this.handleLogIn()}src={google} alt="Please Sign In"/>
+              
             </Row>
         </Grid>
       );
