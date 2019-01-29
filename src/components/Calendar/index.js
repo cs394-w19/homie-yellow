@@ -1,9 +1,10 @@
 import React from 'react';
 // import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
 import BigCalendar from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import CalendarAddEvent from './CalendarAddEvent';
 
+import dates from 'date-arithmetic'
+import TimeGrid from 'react-big-calendar/lib/TimeGrid'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import './index.scss';
 
@@ -12,6 +13,48 @@ import moment from 'moment'
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
 const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
+
+class MyWeek extends React.Component {
+  render() {
+    let { date } = this.props
+    let range = MyWeek.range(date)
+
+    return <TimeGrid {...this.props} range={range} eventOffset={15} />
+  }
+}
+
+MyWeek.range = date => {
+  let start = date
+  let end = dates.add(start, 2, 'day')
+
+  let current = start
+  let range = []
+
+  while (dates.lte(current, end, 'day')) {
+    range.push(current)
+    current = dates.add(current, 1, 'day')
+  }
+
+  return range
+}
+
+MyWeek.navigate = (date, action) => {
+  switch (action) {
+    case BigCalendar.Navigate.PREVIOUS:
+      return dates.add(date, -3, 'day')
+
+    case BigCalendar.Navigate.NEXT:
+      return dates.add(date, 3, 'day')
+
+    default:
+      return date
+  }
+}
+
+MyWeek.title = date => {
+  return `${date.toLocaleDateString()} - ${dates.add(date, 3, 'day').toLocaleDateString()}`; 
+}
+
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -96,7 +139,7 @@ export default class Calendar extends React.Component {
 
       
 
-      let backgroundColor = event.assignedTo.includes("Matt") ? "#5FB49C" : "#682D63";
+      let backgroundColor = event.assignedTo.includes("Matt") ? "#D66853" : "#96a6cc";
       let newStyle = {
           style : {backgroundColor}
       };
@@ -132,7 +175,7 @@ export default class Calendar extends React.Component {
   }
 
     render() {
-
+      let components = { }
       return ( 
       <div className="cal-container">
         <BigCalendar
@@ -141,7 +184,7 @@ export default class Calendar extends React.Component {
           eventPropGetter={(e) => this.eventStyleGetter(e)}
 
           events = {this.state.events}
-          views={['week']} // make a custom view for three days to use for mobile
+          views={{week : true , "Three Days" : MyWeek}}// make a custom view for three days to use for mobile
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
