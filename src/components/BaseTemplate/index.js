@@ -162,14 +162,16 @@ class BaseTemplate extends Component {
       firebase.auth.FacebookAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccess: () => false
+      signInSuccess: () => {this.setState({activeTab: 1})}
     }
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ user: user });
+        this.setState({ 
+          user: user,
+        });
       }
     });
   }
@@ -180,15 +182,6 @@ class BaseTemplate extends Component {
     });
   }
 
-  handleLogIn() {
-    firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user;
-        this.setState({
-          user: user
-        });
-      });
-  }
 
   handleLogOut() {
     firebase.auth().signOut()
