@@ -5,22 +5,65 @@ import TaskList from '../TaskList';
 import Calendar from '../Calendar';
 import Settings from '../Settings';
 import firebase from 'firebase';
-import google from "../../google_btn.png";
-var provider = new firebase.auth.GoogleAuthProvider();
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 
 const NavBarOnBottom = props => {
   return(
       <Row className="mobile-navbar">
           <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="tasks" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="usd" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={6} className="mobile-item">
+                    <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="tasks" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Tasks
+                      </Col>
+                    </Row>
+                    </Col>
+                  <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="usd" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Splitting
+                      </Col>
+                    </Row>
+                  </Col>
               </Row>
           </Col>
           <Col xs={6}>
               <Row>
-                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="calendar" /></Col>
-                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item"><Glyphicon glyph="cog" /></Col>
+                  <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="calendar" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Calendar
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={6} className="mobile-item">
+                  <Row>
+                      <Col xs={12} >
+                        <Glyphicon glyph="cog" />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}className="smallText">
+                        Settings
+                      </Col>
+                    </Row>
+                  </Col>
               </Row>
           </Col>
       </Row>
@@ -112,6 +155,17 @@ class BaseTemplate extends Component {
     };
   }
 
+  uiConfig = {
+    signInFlow: "popup",
+    signInOptions: [
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  }
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -151,8 +205,10 @@ class BaseTemplate extends Component {
         <Grid>
             <Row id="Login" className="align-middle">
               <h2> Welcome to Homie!</h2>
-             <Image onClick={() => this.handleLogIn()}src={google} alt="Please Sign In"/>
-
+             <StyledFirebaseAuth
+              uiConfig={this.uiConfig}
+              firebaseAuth={firebase.auth()}
+            />
             </Row>
         </Grid>
       );

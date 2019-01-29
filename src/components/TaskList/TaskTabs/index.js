@@ -3,6 +3,12 @@ import {Tabs, Tab} from 'react-bootstrap';
 import TaskItem from './TaskItem';
 import TaskCreationForm from './TaskCreationForm';
 import './index.scss';
+/*import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';*/
 
 export default class TaskTabs extends Component {
 
