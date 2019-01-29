@@ -180,16 +180,6 @@ class BaseTemplate extends Component {
     });
   }
 
-  handleLogIn() {
-    firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-        const user = result.user;
-        this.setState({
-          user: user
-        });
-      });
-  }
-
   handleLogOut() {
     firebase.auth().signOut()
       .then(() => {
