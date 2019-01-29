@@ -28,16 +28,16 @@ export default class TaskTabs extends Component {
 
       switch(activeTab) {
         case 0: // active
-          render_tasks = group_tasks.filter(task => !task.isComplete);
+          render_tasks = group_tasks.filter(task => !task.isComplete && !task.isDeleted);
           break;
         case 1: // assigned to me
           render_tasks = group_tasks.filter(task => {
             if (!task.assignedTo) return false;
-            return task.assignedTo.indexOf(currUser) > -1 && !task.isComplete;
+            return task.assignedTo.indexOf(currUser) > -1 && !task.isComplete  && !task.isDeleted;
           });
           break;
         case 2: // completed
-          render_tasks = group_tasks.filter(task => task.isComplete);
+          render_tasks = group_tasks.filter(task => task.isComplete  && !task.isDeleted);
           break;
         default:
           break;
