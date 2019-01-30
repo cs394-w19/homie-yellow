@@ -109,6 +109,47 @@ const NavBarOnTop = props => {
 }
 
 class Canvas extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      personsInGroup: [],
+    };
+    // get user data from database
+    var currUser = this.props.user; // currUser.uid
+    let users = this.props.database.ref('users');
+    users.on('value', data => {
+        var persons = [];
+        var groupID = null;
+        data.forEach(child => {
+            persons.push(child.val());
+            if (child.val().uid === currUser.uid)
+              groupID = child.val().groupID;
+        });
+        if (groupID === null) {
+          // create new user because they are new
+          this.handleCreateNewUser(currUser);
+        }
+        var personsInGroup = persons.filter(person => {
+          return person.groupID === groupID;
+        });
+        this.setState({
+            personsInGroup: personsInGroup,
+        });
+    });
+  }
+
+  handleCreateNewUser(user) {
+    let newUser = {
+      birthday: "1/1/1971",
+      groupID: 0,
+      name: user.displayName.split(" ")[0],
+      uid: user.uid
+    };
+    let updates = {};
+    updates['/users/' + user.uid] = newUser;
+    this.props.database.ref().update(updates);
+  }
+
   render() {
     let canvas = <h1>Page Not Found.</h1>;
     console.log(this.props);
@@ -123,6 +164,7 @@ class Canvas extends Component {
       case 1:
         canvas = <TaskList
                     user={this.props.user}
+                    personsInGroup={this.state.personsInGroup}
                     database={this.props.database}
                     taskList={this.props.taskList}
                   />;

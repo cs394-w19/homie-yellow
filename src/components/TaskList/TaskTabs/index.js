@@ -11,33 +11,44 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';*/
 
 export default class TaskTabs extends Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        group_tasks: [],
+      }
 
-    render() {
       let ref = this.props.database.ref('taskList/');
-      let activeTab = this.props.activeTab;
-      let tabNames = ["Active", "My Active", "Complete"];
-      let currUser = 'Jenny';
-      let group_tasks = [];
-      let render_tasks = [];
-
       ref.orderByChild("groupID").equalTo(0).on("value", (data) => {
+        let group_tasks = [];
         data.forEach((child) => {
             group_tasks.push(child.val());
         });
+        this.setState({
+          group_tasks: group_tasks,
+        })
       });
+    }
+
+    render() {
+      let activeTab = this.props.activeTab;
+      let tabNames = ["Active", "My Active", "Complete"];
+      let render_tasks = [];
+      let currUser = this.props.personsInGroup.find(person => {
+        return person.uid === this.props.user.uid
+      })
 
       switch(activeTab) {
         case 0: // active
-          render_tasks = group_tasks.filter(task => !task.isComplete && !task.isDeleted);
+          render_tasks = this.state.group_tasks.filter(task => !task.isComplete && !task.isDeleted);
           break;
         case 1: // assigned to me
-          render_tasks = group_tasks.filter(task => {
+          render_tasks = this.state.group_tasks.filter(task => {
             if (!task.assignedTo) return false;
-            return task.assignedTo.indexOf(currUser) > -1 && !task.isComplete  && !task.isDeleted;
+            return task.assignedTo.indexOf(currUser.name) > -1 && !task.isComplete  && !task.isDeleted;
           });
           break;
         case 2: // completed
-          render_tasks = group_tasks.filter(task => task.isComplete  && !task.isDeleted);
+          render_tasks = this.state.group_tasks.filter(task => task.isComplete  && !task.isDeleted);
           break;
         default:
           break;
@@ -48,6 +59,7 @@ export default class TaskTabs extends Component {
             <TaskItem
               key={task.taskModified}
               task={task}
+              user={this.props.user}
               handleTaskCompleted={() => this.props.handleTaskCompleted(task)}
               handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
               personsInGroup={this.props.personsInGroup}
@@ -71,6 +83,7 @@ export default class TaskTabs extends Component {
         <TaskCreationForm
           taskID={null}
           task={null}
+          user={this.props.user}
           personsInGroup={this.props.personsInGroup}
           type={this.props.taskCreation}
           database={this.props.database}

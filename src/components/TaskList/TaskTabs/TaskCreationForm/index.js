@@ -16,7 +16,7 @@ export default class TaskCreationForm extends Component {
       taskID: this.props.taskID,
       taskName: '',
       taskType: this.props.type,
-      taskCreator: 'Jenny',
+      taskCreator: this.props.user.uid,
       groupID: 0,
       taskModified: Date.now(),
       taskDescription: '',
@@ -119,7 +119,7 @@ export default class TaskCreationForm extends Component {
                 />
               </Col>
               <Col xs={3}>
-                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Create</Button>
+                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Save</Button>
               </Col>
             </Row>
           </CardContent>

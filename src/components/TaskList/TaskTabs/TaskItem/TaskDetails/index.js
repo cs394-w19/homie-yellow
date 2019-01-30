@@ -8,6 +8,9 @@ export default class TaskDetails extends Component {
     // temporary list of people in the group
     let t = this.props.task;
     let assignedTo = (t.assignedTo == null) ? "nobody" : t.assignedTo.join(', ');
+    let taskCreator = this.props.personsInGroup.find(person => {
+      return person.uid === t.taskCreator
+    });
 
     return(
       <div>
@@ -20,7 +23,7 @@ export default class TaskDetails extends Component {
         <Row>
           <Col xs={12}>
             <p><small><i>
-              {t.taskType} assigned to {assignedTo}. Created by {t.taskCreator}.
+              {t.taskType} assigned to {assignedTo}. Created by {taskCreator.name}.
             </i></small></p>
           </Col>
         </Row>
