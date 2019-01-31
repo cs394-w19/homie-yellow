@@ -6,7 +6,12 @@ export default class TaskHeader extends Component {
     render() {
       let task = this.props.task;
       let style = task.isComplete ? "success" : "default";
-      let assignedTo = (task.assignedTo == null) ? "-" : task.assignedTo.join(", ");
+
+      let assignedPeople = this.props.personsInGroup.filter(person => {
+        if (!task.assignedTo) return false;
+        return task.assignedTo.includes(person.uid);
+      });
+      let assignedTo = (task.assignedTo == null) ? "-" : assignedPeople.map(p => p.name).join(", ");
 
       let taskDate = new Date(1*task.taskDate).toDateString();
       taskDate = taskDate.substring(0, taskDate.length - 5);

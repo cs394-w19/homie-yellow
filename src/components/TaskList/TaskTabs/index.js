@@ -44,7 +44,7 @@ export default class TaskTabs extends Component {
         case 1: // assigned to me
           render_tasks = this.state.group_tasks.filter(task => {
             if (!task.assignedTo) return false;
-            return task.assignedTo.indexOf(currUser.name) > -1 && !task.isComplete  && !task.isDeleted;
+            return task.assignedTo.indexOf(currUser.uid) > -1 && !task.isComplete  && !task.isDeleted;
           });
           break;
         case 2: // completed

@@ -87,19 +87,18 @@ export default class TaskCreationForm extends Component {
   handleToggleAssignedPerson(person, task) {
     let assignedTo = [];
     if (task.assignedTo == null) {
-      assignedTo.push(person);
-    } else if(task.assignedTo.includes(person)) {
-      task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
+      assignedTo.push(person.uid);
+    } else if(task.assignedTo.includes(person.uid)) {
+      task.assignedTo.splice(task.assignedTo.indexOf(person.uid), 1);
       assignedTo = task.assignedTo;
     } else {
-      task.assignedTo.push(person);
+      task.assignedTo.push(person.uid);
       assignedTo = task.assignedTo;
     }
 
     this.setState({
       assignedTo: assignedTo,
     });
-
   }
 
   render() {

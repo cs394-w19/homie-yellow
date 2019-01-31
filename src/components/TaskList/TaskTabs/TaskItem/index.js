@@ -95,6 +95,7 @@ class TaskItem extends Component {
         onClick={this.handleExpandClick}>
             <TaskHeader
                 task={this.props.task}
+                personsInGroup={this.props.personsInGroup}
                 handleTaskCompleted={() => this.props.handleTaskCompleted()}
               />
         </CardContent>
