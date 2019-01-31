@@ -8,16 +8,16 @@ export default class TaskAssignedToCheckboxes extends Component {
         let task = this.props.task;
 
         let editAssignedField = this.props.personsInGroup.map((person) => {
-            let assigned = (task.assignedTo == null) ? '' : task.assignedTo.includes(person);
+            let assigned = (task.assignedTo == null) ? '' : task.assignedTo.includes(person.uid);
             return(
-                <span key={person}>
+                <span key={person.uid}>
                     <Checkbox
-                    name={person}
+                    name={person.name}
                     inline
                     onChange={() => this.props.toggleAssignedPerson(person, task)}
                     checked={assigned}
                     >
-                    {person}
+                    {person.name}
                     </Checkbox>{' '}
                 </span>
             );

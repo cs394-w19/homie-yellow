@@ -78,6 +78,7 @@ class TaskItem extends Component {
         <TaskCreationForm
           taskID={this.props.task.taskID}
           task={this.props.task}
+          user={this.props.user}
           personsInGroup={this.props.personsInGroup}
           type={this.props.task.taskType}
           database={this.props.database}
@@ -94,6 +95,7 @@ class TaskItem extends Component {
         onClick={this.handleExpandClick}>
             <TaskHeader
                 task={this.props.task}
+                personsInGroup={this.props.personsInGroup}
                 handleTaskCompleted={() => this.props.handleTaskCompleted()}
               />
         </CardContent>
@@ -115,6 +117,7 @@ class TaskItem extends Component {
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
           <TaskDetails
+                personsInGroup={this.props.personsInGroup}
                 task={this.props.task}
                 handleDeleteTask={(t) => this.props.handleDeleteTask(t)}
                 handleEditTask={() => this.handleEditTask()}

@@ -10,37 +10,14 @@ export default class TaskList extends Component {
       tasks: [],
       activeTab: 0,
       taskCreation: false,
-      personsInGroup: [],
     };
-  }
 
-  componentWillMount() {
     let taskListRef = this.props.database.ref('taskList');
     taskListRef.on('value', snapshot => {
       this.setState({
         tasks: snapshot.val()
       });
     });
-
-    var currUser = this.props.user; // currUser.uid
-    let users = this.props.database.ref('users');
-    users.once("value").then(data => {
-        var persons = [];
-        var groupID = null;
-        data.forEach(child => {
-            persons.push(child.val());
-            // if (child.val().uid === currUser.uid):
-            //   groupID = child.val().groupID;
-        });
-        var personsInGroup = persons.filter(person => {
-          return true;
-          //return person.groupID === groupID;
-        });
-        this.setState({
-            personsInGroup: persons,
-        });
-    });
-
   }
 
   handleTaskCreateButtonPress(type) {
@@ -162,11 +139,12 @@ export default class TaskList extends Component {
 
     let task_tabs = (
       <TaskTabs
-        taskCreation={this.state.taskCreation}
+        user={this.props.user}
         tasks={this.state.tasks}
         database={this.props.database}
-        personsInGroup={this.state.personsInGroup}
+        personsInGroup={this.props.personsInGroup}
         activeTab={this.state.activeTab}
+        taskCreation={this.state.taskCreation}
         handleTabPress={(t) => this.handleTabPress(t)}
         handleTaskSubmission={(task) => this.handleTaskSubmission(task)}
         handleTaskCompleted={(task) => this.handleTaskCompleted(task)}

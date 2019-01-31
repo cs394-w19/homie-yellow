@@ -16,7 +16,7 @@ export default class TaskCreationForm extends Component {
       taskID: this.props.taskID,
       taskName: '',
       taskType: this.props.type,
-      taskCreator: 'Jenny',
+      taskCreator: this.props.user.uid,
       groupID: 0,
       taskModified: Date.now(),
       taskDescription: '',
@@ -87,19 +87,18 @@ export default class TaskCreationForm extends Component {
   handleToggleAssignedPerson(person, task) {
     let assignedTo = [];
     if (task.assignedTo == null) {
-      assignedTo.push(person);
-    } else if(task.assignedTo.includes(person)) {
-      task.assignedTo.splice(task.assignedTo.indexOf(person), 1);
+      assignedTo.push(person.uid);
+    } else if(task.assignedTo.includes(person.uid)) {
+      task.assignedTo.splice(task.assignedTo.indexOf(person.uid), 1);
       assignedTo = task.assignedTo;
     } else {
-      task.assignedTo.push(person);
+      task.assignedTo.push(person.uid);
       assignedTo = task.assignedTo;
     }
 
     this.setState({
       assignedTo: assignedTo,
     });
-
   }
 
   render() {
@@ -119,7 +118,7 @@ export default class TaskCreationForm extends Component {
                 />
               </Col>
               <Col xs={3}>
-                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Create</Button>
+                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Save</Button>
               </Col>
             </Row>
           </CardContent>
