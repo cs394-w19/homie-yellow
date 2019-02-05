@@ -11,7 +11,9 @@ export default class TaskList extends Component {
       activeTab: 0,
       taskCreation: false,
     };
+  }
 
+  componentDidMount() {
     let taskListRef = this.props.database.ref('taskList');
     taskListRef.on('value', snapshot => {
       this.setState({
