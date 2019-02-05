@@ -1,120 +1,201 @@
 import React from 'react';
-import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
-import CalendarAddEvent from './CalendarAddEvent';
+// import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
+import BigCalendar from 'react-big-calendar';
+
+import dates from 'date-arithmetic'
+import TimeGrid from 'react-big-calendar/lib/TimeGrid'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import './index.scss';
 
+import moment from 'moment'
 
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 
-// NOTE: THIS WILL NOT WORK LOCALLY!!! ALSO, probably need the API key from Nat for this to work
-// should make this way more general and probably include some stuff from this on the task tab
+class MyWeek extends React.Component {
+  render() {
+    let { date } = this.props
+    let range = MyWeek.range(date)
+
+    return <TimeGrid {...this.props} range={range} eventOffset={15} />
+  }
+}
+
+MyWeek.range = date => {
+  let start = date
+  let end = dates.add(start, 2, 'day')
+
+  let current = start
+  let range = []
+
+  while (dates.lte(current, end, 'day')) {
+    range.push(current)
+    current = dates.add(current, 1, 'day')
+  }
+
+  return range
+}
+
+MyWeek.navigate = (date, action) => {
+  switch (action) {
+    case BigCalendar.Navigate.PREVIOUS:
+      return dates.add(date, -3, 'day')
+
+    case BigCalendar.Navigate.NEXT:
+      return dates.add(date, 3, 'day')
+
+    default:
+      return date
+  }
+}
+
+MyWeek.title = date => {
+  return `${date.toLocaleDateString()} - ${dates.add(date, 3, 'day').toLocaleDateString()}`; 
+}
+
 
 export default class Calendar extends React.Component {
     constructor(props) {
       super(props);
-      this.handleItemClick = this.handleItemClick.bind(this);
-      this.handleAddEventToCalendar = this.handleAddEventToCalendar.bind(this);
-      this.signUpdate = this.signUpdate.bind(this);
-      this.handleShowCalendarEvents = this.handleShowCalendarEvents.bind(this);
-      
+ 
       this.state = {
-        "calendar" : "r3ngr47kskudbj0mfinjafhh2g@group.calendar.google.com",
-        "timesClicked": 0}; // a calendar ID
-      ApiCalendar.setCalendar("r3ngr47kskudbj0mfinjafhh2g@group.calendar.google.com");
-    }
+        tasks : {}
+        ,
+        events : []
+      };
 
-    signUpdate(sign){
-        this.setState({"sign": sign});
-    }
-    
-    handleItemClick(event, name) {
-      if (name === 'sign-in') {
-        ApiCalendar.handleAuthClick();
-      } else if (name === 'sign-out') {
-        ApiCalendar.handleSignoutClick();
+      this.tasksToEvents = this.tasksToEvents.bind(this);
+      this.handleSelectEvent = this.handleSelectEvent.bind(this);
+      this.eventStyleGetter = this.eventStyleGetter.bind(this);
       }
+
+    componentDidMount(){
+      console.log("the calendar has mounted")
+      let taskListRef = this.props.database.ref('taskList');
+      taskListRef.on('value', snapshot => {
+        this.setState({
+          tasks: snapshot.val(), 
+       }, () => {this.tasksToEvents()});
+      });
+
     }
 
-    handleAddEventToCalendar(calEvent) {
-        console.log("tried to add event to calendar");
-        ApiCalendar.createEvent(calEvent, this.state.calendar).then((result) => {
-            console.log(result);
-              });
-        console.log("did it work??");
+    tasksToEvents(){
+      let calEvents = Object.keys(this.state.tasks).map((key)=> {
+        console.log(key);
+        return {
+          "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
+          "end" : new Date(parseInt(this.state.tasks[key].taskDate) + 3600*1000),
+          "title" : this.state.tasks[key].taskName,
+          "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody" 
+        };
+      });
 
-    }
+      console.log(calEvents);
 
-
-    handleShowCalendarEvents(number){
-        console.log("tried to show calendar events");
-        let events = [];
-        if (ApiCalendar.sign){
-            
-            ApiCalendar.listUpcomingEvents(number).then((result =>{
-                console.log(result);
-                events = result["result"]["items"];
-                console.log(events);
-
-                this.setState({"timesClicked" : this.state.timesClicked + 1});
-                return events;
-            }));
-             
-          } else {
-              console.log("Hey somehow ApiCalendar.sign is false");
-          }
-
-        console.log(events);
-        console.log("did this shit work?");
-
-        return events;
+      this.setState({events : calEvents}, console.log("events" , this.state.events));
     }
 
 
-    render(){
+    handleSelect(slots) {
+        const title = window.prompt('New Event name')
+        if (title){
+          let newEvent = {
+            "start": slots.start,
+            "end" : slots.end,
+            title,
+            "isSelected" : false
+          };
+          this.setState({
+            events: [
+              ...this.state.events,
+              , newEvent
+            ],
+          });
+
+          this.handleEventAdd(newEvent);
+
+        }
+          
+
+          // also need to add the one changed thing to the DB
+
+    }
+
+    handleSelectEvent(event, e){
+      //console.log("selected event", event, e);
+
+    }
       
+    eventStyleGetter(event) {
+      console.log("style getter");
+
+      console.log("event", event);
+      //console.log("start", start);
+      //console.log("end", end);
+      //console.log("isSelected", isSelected);
+
       
-      return (
-          <div>
-            <div className="iframe-container">
-            <iframe 
-            src="https://calendar.google.com/calendar/embed?src=r3ngr47kskudbj0mfinjafhh2g%40group.calendar.google.com&ctz=America%2FChicago"
-            title="the shared calendar"
-            
-            frameBorder="0"
-            scrolling="no">
-            </iframe>
-            </div>
-            <div>
-            <CalendarAddEvent/>
-            
-              <button
-                  onClick={(e) => this.handleItemClick(e, 'sign-in')}
-              >
-                sign-in
-              </button>
-              <button
-                  onClick={(e) => this.handleItemClick(e, 'sign-out')}
-              >
-                sign-out
-              </button>
-              {/*
-               <button
-                  onClick={(e) => this.handleAddEventToCalendar(
-                      {"summary": "my birthday",
-                        "end": {"dateTime": "2019-01-25T21:15:00-06:00"}, 
-                        "start": {"dateTime": "2019-01-25T20:15:00-06:00"}})}
-              >
-                add event to calendar
-              </button>
-              <button
-                  onClick={(e) => this.handleShowCalendarEvents(10)}
-              >
-                print events
-              </button> */}
-            </div>
-            
-          </div>
-            
-        );
+
+      let backgroundColor = event.assignedTo.includes("Matt") ? "#D66853" : "#96a6cc";
+      let newStyle = {
+          style : {backgroundColor}
+      };
+      return newStyle;
+  }
+  
+
+  
+    handleEventAdd(event) {
+      console.log(event);
+
+      let eventKey = this.props.database.ref().child('taskList').push().key;
+      let submittedTask = {
+        assignedTo: ["NOBODY"],
+        isDeleted: 0,
+        isComplete: true,
+        paymentTotal: 0,
+        repeatInterval: "None",
+        riMonthly: " ",
+        riWeekly: " ",
+        taskCreator: " ", // should be the user somehow
+        taskDate: event.start.getTime(),
+        taskDescription: event.title,
+        taskID: eventKey,
+        taskModified:  Date.now(),
+        taskName: event.title,
+        taskType: "Chore",
+      };
+    let updates = {};
+    updates['/taskList/' + eventKey] = submittedTask;
+    this.props.database.ref().update(updates);
+
+  }
+
+    render() {
+      let components = { }
+      return ( 
+      <div className="cal-container">
+        <BigCalendar
+          selectable
+          localizer={localizer}          
+          eventPropGetter={(e) => this.eventStyleGetter(e)}
+
+          events = {this.state.events}
+          views={{week : true , "Three Days" : MyWeek}}// make a custom view for three days to use for mobile
+          showMultiDayTimes
+          defaultDate={new Date()}
+          defaultView={"week"}
+          onSelectSlot={(slots) => {this.handleSelect(slots)}}
+          popup = {true}
+          popupOffset={30}
+          longPressThreshold={100}
+          onSelectEvent= {(event, e) => this.handleSelectEvent(event, e)}
+
+        />
+      </div>
+    );
     }
 }
