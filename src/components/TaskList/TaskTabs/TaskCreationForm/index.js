@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import {Row, Col, FormControl, ControlLabel, Button} from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
-import TaskAssignedToCheckboxes from './TaskAssignedToCheckboxes';
-import './index.scss';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { Component } from "react";
+import { Row, Col, FormControl, ControlLabel, Button } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import TaskAssignedToCheckboxes from "./TaskAssignedToCheckboxes";
+import "./index.scss";
+import "react-datepicker/dist/react-datepicker.css";
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
 
 export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      task: this.props.task,
       taskID: this.props.taskID,
-      taskName: '',
+      taskName: "",
       taskType: this.props.type,
       taskCreator: this.props.user.uid,
       groupID: 0,
       taskModified: Date.now(),
-      taskDescription: '',
+      taskDescription: "",
       isComplete: false,
       assignedTo: [],
-      repeatInterval: 'none',
+      repeatInterval: "none",
       riWeekly: [],
       riMonthly: [],
       riTaskTime: Date.now(),
-      taskDate: new Date(Date.now() + 86400),
+      taskDate: new Date(Date.now() + 86400)
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescChange = this.handleDescChange.bind(this);
@@ -38,7 +38,7 @@ export default class TaskCreationForm extends Component {
     if (this.props.task) {
       this.setState(this.props.task);
       this.setState({
-        taskDate: new Date(this.props.task.taskDate),
+        taskDate: new Date(this.props.task.taskDate)
       });
     }
   }
@@ -60,7 +60,7 @@ export default class TaskCreationForm extends Component {
     let riWeekly = [];
     let riMonthly = [];
 
-    switch(e.target.value) {
+    switch (e.target.value) {
       case "none":
         break;
       case "weekly":
@@ -76,7 +76,7 @@ export default class TaskCreationForm extends Component {
     this.setState({
       repeatInterval: e.target.value,
       riWeekly: riWeekly,
-      riMonthly: riMonthly,
+      riMonthly: riMonthly
     });
   }
 
@@ -88,7 +88,7 @@ export default class TaskCreationForm extends Component {
     let assignedTo = [];
     if (task.assignedTo == null) {
       assignedTo.push(person.uid);
-    } else if(task.assignedTo.includes(person.uid)) {
+    } else if (task.assignedTo.includes(person.uid)) {
       task.assignedTo.splice(task.assignedTo.indexOf(person.uid), 1);
       assignedTo = task.assignedTo;
     } else {
@@ -97,17 +97,22 @@ export default class TaskCreationForm extends Component {
     }
 
     this.setState({
-      assignedTo: assignedTo,
+      assignedTo: assignedTo
     });
   }
 
   render() {
-    return(
+    return (
       <div>
         <Card id="tabList">
-          <CardContent
-            className={this.props.type}
-          >
+          <CardContent className={this.props.type}>
+            <Row>
+              <Col xs={2}>
+                <Button onClick={() => this.props.handleTaskCreationClose()}>
+                  X
+                </Button>
+              </Col>
+            </Row>
             <Row>
               <Col xs={9}>
                 <FormControl
@@ -118,7 +123,12 @@ export default class TaskCreationForm extends Component {
                 />
               </Col>
               <Col xs={3}>
-                <Button bsStyle="success" onClick={() => this.handleSubmitButtonPress()}>Save</Button>
+                <Button
+                  bsStyle="success"
+                  onClick={() => this.handleSubmitButtonPress()}
+                >
+                  Save
+                </Button>
               </Col>
             </Row>
           </CardContent>
@@ -127,7 +137,9 @@ export default class TaskCreationForm extends Component {
               <Col xs={12}>
                 <TaskAssignedToCheckboxes
                   personsInGroup={this.props.personsInGroup}
-                  toggleAssignedPerson={(person, task) => this.handleToggleAssignedPerson(person, task)}
+                  toggleAssignedPerson={(person, task) =>
+                    this.handleToggleAssignedPerson(person, task)
+                  }
                   database={this.props.database}
                   task={this.state}
                 />
@@ -137,7 +149,8 @@ export default class TaskCreationForm extends Component {
               <Col xs={6}>
                 <ControlLabel>Due Date</ControlLabel>
                 <div>{"\n"}</div>
-                <DatePicker className="date-picker"
+                <DatePicker
+                  className="date-picker"
                   selected={this.state.taskDate}
                   onChange={this.handleDateChange}
                 />
