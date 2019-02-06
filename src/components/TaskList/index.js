@@ -13,15 +13,6 @@ export default class TaskList extends Component {
     };
   }
 
-  componentDidMount() {
-    let taskListRef = this.props.database.ref('taskList');
-    taskListRef.on('value', snapshot => {
-      this.setState({
-        tasks: snapshot.val()
-      });
-    });
-  }
-
   handleTaskCreateButtonPress(type) {
     this.setState({
       taskCreation: type,
@@ -35,10 +26,9 @@ export default class TaskList extends Component {
   }
 
   handleTaskSubmission(task) {
-      let taskKeys = Object.keys(this.state.tasks);
-      let taskKey = (taskKeys.findIndex(x => x === task.taskID) !== -1)
-        ? task.taskID
-        : this.props.database.ref().child('taskList').push().key;
+      let taskListRef = this.props.database.ref().child('taskList');
+      let taskKey = task.taskID ? task.taskID
+        : taskListRef.push().key;
       let submittedTask = {
         assignedTo: task.assignedTo,
         isDeleted: 0,
@@ -52,13 +42,13 @@ export default class TaskList extends Component {
         taskDate: new Date(task.taskDate).getTime(),
         taskDescription: task.taskDescription,
         taskID: taskKey,
-        taskModified: new Date(task.taskModified).getTime(),
+        taskModified: task.taskModified,
         taskName: task.taskName,
         taskType: task.taskType,
       };
     let updates = {};
-    updates['/taskList/' + taskKey] = submittedTask;
-    this.props.database.ref().update(updates);
+    updates[taskKey] = submittedTask;
+    taskListRef.update(updates);
     this.setState({
       taskCreation: false,
     });

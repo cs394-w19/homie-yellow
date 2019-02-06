@@ -59,7 +59,7 @@ export default class TaskTabs extends Component {
       let task_items = render_tasks.map((task) => {
         return(
             <TaskItem
-              key={task.taskModified}
+              key={task.taskID}
               task={task}
               user={this.props.user}
               handleTaskCompleted={() => this.props.handleTaskCompleted(task)}
