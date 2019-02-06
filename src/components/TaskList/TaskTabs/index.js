@@ -15,31 +15,29 @@ export default class TaskTabs extends Component {
       super(props)
       this.state = {
         group_tasks: [],
-      }
-
-      
+      };
     }
-    
-    componentDidMount() {
-      let ref = this.props.database.ref('taskList/');
-      ref.orderByChild("groupID").equalTo(0).on("value", (data) => {
-        let group_tasks = [];
-        data.forEach((child) => {
-            group_tasks.push(child.val());
-        });
-        this.setState({
-          group_tasks: group_tasks,
-        })
-      });
+
+    componentDidUpdate(prevProps) {
+      if (prevProps.groupID !== this.props.groupID) {
+          let ref = this.props.database.ref('taskList/');
+          ref.orderByChild("groupID").equalTo(this.props.groupID).on("value", (data) => {
+              let group_tasks = [];
+              data.forEach((child) => {
+                  group_tasks.push(child.val());
+              });
+              this.setState({
+                  group_tasks: group_tasks,
+              })
+          });
+      }
     }
 
     render() {
       let activeTab = this.props.activeTab;
       let tabNames = ["Active", "My Active", "Complete"];
       let render_tasks = [];
-      let currUser = this.props.personsInGroup.find(person => {
-        return person.uid === this.props.user.uid
-      })
+      let currUser = this.props.user;
 
       switch(activeTab) {
         case 0: // active
@@ -88,6 +86,7 @@ export default class TaskTabs extends Component {
           taskID={null}
           task={null}
           user={this.props.user}
+          groupID={this.props.groupID}
           personsInGroup={this.props.personsInGroup}
           type={this.props.taskCreation}
           database={this.props.database}

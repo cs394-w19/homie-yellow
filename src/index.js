@@ -7,10 +7,9 @@ import * as serviceWorker from './serviceWorker';
 //import database from './data/fake_data.json';
 
 var database = fire.database();
-var taskList = [];
 
 ReactDOM.render(
-  <BaseTemplate database={database} taskList={taskList} fire={fire}/>,
+  <BaseTemplate database={database} fire={fire}/>,
    document.getElementById('root')
  );
 

@@ -17,7 +17,7 @@ export default class TaskCreationForm extends Component {
       taskName: '',
       taskType: this.props.type,
       taskCreator: this.props.user.uid,
-      groupID: 0,
+      groupID: this.props.groupID,
       taskModified: Date.now(),
       taskDescription: '',
       isComplete: false,

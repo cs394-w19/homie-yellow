@@ -144,6 +144,7 @@ export default class TaskList extends Component {
         user={this.props.user}
         tasks={this.state.tasks}
         database={this.props.database}
+        groupID={this.props.groupID}
         personsInGroup={this.props.personsInGroup}
         activeTab={this.state.activeTab}
         taskCreation={this.state.taskCreation}
