@@ -55,6 +55,55 @@ MyWeek.title = date => {
   return `${date.toLocaleDateString()} - ${dates.add(date, 3, 'day').toLocaleDateString()}`; 
 }
 
+// messing around with the toolbar
+// const CustomToolbar = (toolbar) => {
+//   let date = toolbar.date;
+
+//   let currentView = "week" ; // figure out how to get this view
+//   let jumps = currentView == "week" ? 3 : 7; 
+
+//   // const goToBack = () => {
+//   //   let newFirstDay = dates.add(date, -1*jumps, 'day')
+
+//   //   toolbar.date.setMonth(moment(newFirstDay).month);
+//   //   toolbar.onNavigate('prev');
+//   // };
+
+//   // const goToNext = () => {
+//   //   toolbar.date.setMonth(dates.add(date, jumps, 'day'));
+//   //   toolbar.onNavigate('next');
+//   // };
+
+//   // const goToCurrent = () => {
+//   //   const now = new Date();
+//   //   toolbar.date.setMonth(now.getMonth());
+//   //   toolbar.date.setYear(now.getFullYear());
+//   //   toolbar.onNavigate('current');
+//   // };
+
+//   const label = () => {
+//     const date = moment(toolbar.date);
+
+//     let end = dates.add(date, jumps, 'day');
+
+//     return (
+//       <span><b>{date.format('MM/DD/YY')}</b>-<b>{moment(end).format('MM/DD/YY')}</b></span>
+//     );
+//   };
+
+//   return (
+//     <div>
+//       <label>{label()}</label>
+
+//       <div >
+//         <button  onClick={BigCalendar.}>&#8249;</button>
+//         <button  onClick={goToCurrent}>today</button>
+//         <button  onClick={goToNext}>&#8250;</button>
+//       </div>
+//     </div >
+//   );
+// };
+
 
 export default class Calendar extends React.Component {
     constructor(props) {
@@ -67,7 +116,7 @@ export default class Calendar extends React.Component {
         currUser : null
       };
 
-      console.log(this.props.user);
+      //console.log(this.props.user);
 
       this.tasksToEvents = this.tasksToEvents.bind(this);
       this.handleSelectEvent = this.handleSelectEvent.bind(this);
@@ -81,7 +130,7 @@ export default class Calendar extends React.Component {
         return person.uid === this.props.user.uid
       })
 
-      console.log("current user", currUser);
+      //console.log("current user", currUser);
       this.setState({currUser}, () => {console.log("done setting current user")});
 
       // get the current task list and turn them into calendar events
@@ -96,7 +145,7 @@ export default class Calendar extends React.Component {
 
     tasksToEvents(){
       let calEvents = Object.keys(this.state.tasks).map((key)=> {
-        console.log(key);
+        //console.log(key);
 
         let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
         // console.log("logging the end of this task", end);
@@ -157,13 +206,13 @@ export default class Calendar extends React.Component {
     }
       
     eventStyleGetter(event) {
-      console.log("style getter");
+      // console.log("style getter");
 
       // console.log("event", event);
       //console.log("start", start);
       //console.log("end", end);
       //console.log("isSelected", isSelected);
-      console.log("event assigned to ", event.assignedTo);
+      //console.log("event assigned to ", event.assignedTo);
       
       // make the string Matt be user name.
       let backgroundColor = (this.state.currUser && event.assignedTo.includes(this.state.currUser.uid)) ? "#D66853" : "#96a6cc";
@@ -211,7 +260,10 @@ export default class Calendar extends React.Component {
           selectable
           localizer={localizer}          
           eventPropGetter={(e) => this.eventStyleGetter(e)}
-
+          //toolbar={false}
+          // components={{
+          //   toolbar: CustomToolbar
+          // }}
           events = {this.state.events}
           views={{week : true , "Three Days" : MyWeek}}// make a custom view for three days to use for mobile
           showMultiDayTimes
