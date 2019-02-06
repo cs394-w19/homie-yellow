@@ -18,19 +18,27 @@ export default class TaskTabs extends Component {
       };
     }
 
+    componentDidMount(prevProps) {
+      this.getGroupTasks();
+    }
+
     componentDidUpdate(prevProps) {
       if (prevProps.groupID !== this.props.groupID) {
-          let ref = this.props.database.ref('taskList/');
-          ref.orderByChild("groupID").equalTo(this.props.groupID).on("value", (data) => {
-              let group_tasks = [];
-              data.forEach((child) => {
-                  group_tasks.push(child.val());
-              });
-              this.setState({
-                  group_tasks: group_tasks,
-              })
-          });
+        this.getGroupTasks();
       }
+    }
+
+    getGroupTasks() {
+      let ref = this.props.database.ref('taskList/');
+      ref.orderByChild("groupID").equalTo(this.props.groupID).on("value", (data) => {
+          let group_tasks = [];
+          data.forEach((child) => {
+              group_tasks.push(child.val());
+          });
+          this.setState({
+              group_tasks: group_tasks,
+          })
+      });
     }
 
     render() {
