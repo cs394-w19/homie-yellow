@@ -108,6 +108,9 @@ export default class JoinScreen extends Component {
               <h4> or </h4>
               <Button onClick={() => this.handleScreenState(2)}>Join an existing Group</Button>
             </Row>
+            <Row id="Login">
+              <Button onClick={() => this.props.handleLogOut()}>Log Out</Button>
+            </Row>
           </Row>
         );
         break;

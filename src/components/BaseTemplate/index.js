@@ -55,7 +55,7 @@ class BaseTemplate extends Component {
             if (child.val().uid === currUser.uid)
               groupID = child.val().groupID;
         });
-        if (groupID === null) {
+        if (groupID === null || groupID === undefined) {
           // create new user because they are new
           this.setState({userIsNew: 1});
         }
@@ -110,6 +110,7 @@ class BaseTemplate extends Component {
     if (this.state.userIsNew) {
       return (
         <JoinScreen
+          handleLogOut={() => this.handleLogOut()}
           user={this.state.user}
           database={this.props.database}
           handleJoinedGroup={() => this.handleJoinedGroup()}

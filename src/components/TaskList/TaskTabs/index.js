@@ -103,6 +103,7 @@ export default class TaskTabs extends Component {
       let taskCreationForm = this.props.taskCreation ? (
         <TaskCreationForm
           taskID={null}
+          groupID={this.props.groupID}
           task={null}
           user={this.props.user}
           personsInGroup={this.props.personsInGroup}
