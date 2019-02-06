@@ -17,6 +17,9 @@ export default class TaskDetails extends Component {
     let taskCreator = this.props.personsInGroup.find(person => {
       return person.uid === t.taskCreator
     });
+    if (taskCreator === undefined) {
+      taskCreator = { name: '[deleted]' };
+    }
 
     return(
       <div>

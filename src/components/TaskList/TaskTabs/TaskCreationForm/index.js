@@ -12,12 +12,12 @@ export default class TaskCreationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      task: this.props.task,
-      taskID: this.props.taskID,
       taskName: "",
+      isDeleted: 0,
+      paymentTotal: 0,
       taskType: this.props.type,
       taskCreator: this.props.user.uid,
-      groupID: 0,
+      groupID: this.props.groupID,
       taskModified: Date.now(),
       taskDescription: "",
       isComplete: false,
@@ -34,7 +34,7 @@ export default class TaskCreationForm extends Component {
     this.handleRepeatChange = this.handleRepeatChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.task) {
       this.setState(this.props.task);
       this.setState({
