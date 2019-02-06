@@ -16,20 +16,20 @@ export default class TaskTabs extends Component {
     this.state = {
       group_tasks: []
     };
+      
+  }
 
-    let ref = this.props.database.ref("taskList/");
-    ref
-      .orderByChild("groupID")
-      .equalTo(0)
-      .on("value", data => {
-        let group_tasks = [];
-        data.forEach(child => {
-          group_tasks.push(child.val());
-        });
-        this.setState({
-          group_tasks: group_tasks
-        });
+  componentDidMount() {
+    let ref = this.props.database.ref('taskList/');
+    ref.orderByChild("groupID").equalTo(0).on("value", (data) => {
+      let group_tasks = [];
+      data.forEach(child => {
+        group_tasks.push(child.val());
       });
+      this.setState({
+        group_tasks: group_tasks
+      });
+    });
   }
 
   render() {

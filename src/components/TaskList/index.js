@@ -12,9 +12,11 @@ export default class TaskList extends Component {
       taskCreation: false,
       editorOpen: false
     };
+  }
 
-    let taskListRef = this.props.database.ref("taskList");
-    taskListRef.on("value", snapshot => {
+  componentDidMount() {
+    let taskListRef = this.props.database.ref('taskList');
+    taskListRef.on('value', snapshot => {
       this.setState({
         tasks: snapshot.val()
       });
