@@ -216,12 +216,12 @@ class Canvas extends Component {
         canvas = <h1>Splitting</h1>;
         break;
       case 3:
-        canvas = (
-          <Calendar
-            database={this.props.database}
-            taskList={this.props.taskList}
-          />
-        );
+        canvas = <Calendar 
+                    user={this.props.user}
+                    personsInGroup={this.state.personsInGroup}
+                    database={this.props.database} 
+                    taskList={this.props.taskList}
+                    />;
         break;
       case 4:
         canvas = (
