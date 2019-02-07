@@ -113,9 +113,15 @@ export default class Calendar extends React.Component {
         tasks : {}
         ,
         events : [],
-        currUser : null
+        currUser : this.props.personsInGroup.find(person => {
+          return person.uid === this.props.user.uid
+        })
       };
 
+
+
+      //console.log("current user", currUser);
+      // this.setState({currUser}, () => {console.log("done setting current user")});
       //console.log(this.props.user);
 
       this.tasksToEvents = this.tasksToEvents.bind(this);
@@ -126,12 +132,7 @@ export default class Calendar extends React.Component {
     componentDidMount(){
       console.log("the calendar has mounted")
       // add the user to the state
-      let currUser = this.props.personsInGroup.find(person => {
-        return person.uid === this.props.user.uid
-      })
-
-      //console.log("current user", currUser);
-      this.setState({currUser}, () => {console.log("done setting current user")});
+      
 
       // get the current task list and turn them into calendar events
       let taskListRef = this.props.database.ref('taskList');
@@ -144,8 +145,11 @@ export default class Calendar extends React.Component {
     }
 
     tasksToEvents(){
+
+      //console.log(this.state.tasks);
+
       let calEvents = Object.keys(this.state.tasks).map((key)=> {
-        //console.log(key);
+        //console.log("logging key", key);
 
         let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
         // console.log("logging the end of this task", end);
@@ -157,7 +161,11 @@ export default class Calendar extends React.Component {
         }
         //console.log("log", end); 
         
-      
+        //console.log("group ID of task", this.state.tasks[key].groupID) 
+        //console.log("group ID of user", this.state.currUser.groupID) 
+        if(this.state.tasks[key].groupID !== this.state.currUser.groupID){
+          return {};
+        }
 
 
         return {
@@ -186,7 +194,7 @@ export default class Calendar extends React.Component {
           };
           this.setState({
             events: [
-              ...this.state.events,
+              this.state.events,
               , newEvent
             ],
           });
