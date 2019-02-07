@@ -194,7 +194,7 @@ export default class Calendar extends React.Component {
           };
           this.setState({
             events: [
-              this.state.events,
+              ...this.state.events,
               , newEvent
             ],
           });
@@ -245,7 +245,7 @@ export default class Calendar extends React.Component {
         repeatInterval: "None",
         riMonthly: " ",
         riWeekly: " ",
-        taskCreator: " ", // should be the user somehow
+        taskCreator: this.state.currUser.uid, // should be the user somehow
         taskDate: event.start.getTime(),
         endTime : event.end.getTime(), // add the end time for an event
         taskDescription: event.title,
