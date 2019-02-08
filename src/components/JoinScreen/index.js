@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Row, Button, FormControl} from 'react-bootstrap';
+import {Grid, Row, Col, Button, FormControl} from 'react-bootstrap';
 
 
 
@@ -116,48 +116,68 @@ export default class JoinScreen extends Component {
         break;
       case 1: // creation
         body = (
-          <Row>
-            <p>Give your group a name!</p>
-            <FormControl
-              autoFocus
-              type="text"
-              placeholder={"Enter your group's name"}
-              onChange={this.handleGroupNameChange}
-            />
-            <Button onClick={() => this.handleGroupCreation()}>Create Group</Button>
-            <Button onClick={() => this.handleScreenState(0)}>Go Back</Button>
-          </Row>
+          <Grid>
+            <Row>
+              <p>Give your group a name!</p>
+              <FormControl
+                autoFocus
+                type="text"
+                placeholder={"Enter your group's name"}
+                onChange={this.handleGroupNameChange}
+              />
+            </Row>
+            <Row style={{marginTop: 10}}>
+              <Col xs={6}>
+                <Button onClick={() => this.handleGroupCreation()}>Create Group</Button>
+              </Col>
+              <Col xs={6}>
+                <Button onClick={() => this.handleScreenState(0)}>Go Back</Button>
+              </Col>
+            </Row>
+          </Grid>
         );
         break;
       case 2: // creation
         body = (
-          <Row>
-          <p>Enter your <b>6-digit group code</b>:</p>
-          <p style={{color: 'red'}}>{this.state.displayError}</p>
-          <FormControl
-            autoFocus
-            type="text"
-            placeholder={"Enter group code here"}
-            onChange={this.handleGroupCodeChange}
-          />
-          <Button onClick={() => this.handleGroupJoining()}>Join Group</Button>
-          <Button onClick={() => this.handleScreenState(0)}>Go Back</Button>
-          </Row>
+          <Grid>
+            <Row>
+              <p>Enter your <b>6-digit group code</b>:</p>
+              <p style={{color: 'red'}}>{this.state.displayError}</p>
+              <FormControl
+                autoFocus
+                type="text"
+                placeholder={"Enter group code here"}
+                onChange={this.handleGroupCodeChange}
+              />
+            </Row>
+            <Row style={{marginTop: 10}}>
+              <Col xs={6}>
+                <Button onClick={() => this.handleGroupJoining()}>Join Group</Button>
+              </Col>
+              <Col xs={6}>
+                <Button onClick={() => this.handleScreenState(0)}>Go Back</Button>
+              </Col>
+            </Row>
+          </Grid>
         );
         break;
       case 3: // displayname
         body = (
-          <Row>
-            <p>Give yourself a name and you're all set!</p>
-            <FormControl
-              autoFocus
-              type="text"
-              value={this.state.userName}
-              placeholder={"Enter your display name"}
-              onChange={this.handleUserNameChange}
-            />
-            <Button onClick={() => this.handleCreateNewUser()}>Submit</Button>
-          </Row>
+          <Grid>
+            <Row>
+              <p>Give yourself a name and you're all set!</p>
+              <FormControl
+                autoFocus
+                type="text"
+                value={this.state.userName}
+                placeholder={"Enter your display name"}
+                onChange={this.handleUserNameChange}
+              />
+            </Row>
+            <Row style={{marginTop: 10}}>
+              <Button onClick={() => this.handleCreateNewUser()}>Submit</Button>
+            </Row>
+          </Grid>
         );
         break;
       default:
@@ -168,9 +188,14 @@ export default class JoinScreen extends Component {
     return(
       <Grid id="Login">
           <Row className="align-middle">
-            <h2>Welcome to Homie!</h2>
+              <h2>Welcome to Homie!</h2>
           </Row>
-          {body}
+          <Row>
+            <Col xs={1}/>
+            <Col xs={10}>
+              {body}
+            </Col>
+          </Row>
       </Grid>
     );
 

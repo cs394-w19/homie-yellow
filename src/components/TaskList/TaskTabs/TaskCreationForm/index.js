@@ -122,6 +122,7 @@ export default class TaskCreationForm extends Component {
             <Row>
               <Col xs={9}>
                 <FormControl
+                  autoFocus
                   type="text"
                   value={this.state.taskName}
                   placeholder={"Enter " + this.props.type + " name"}
