@@ -54,8 +54,8 @@ export default class TaskList extends Component {
         task.taskDate = new Date(task.taskDate).getTime();
         let updates = {};
         updates['/taskList/' + taskKey] = task;
-        this.props.database.ref().update(updates);  
-      } 
+        this.props.database.ref().update(updates);
+      }
   }
 
   handleDeleteTask(task) {
