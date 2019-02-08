@@ -2,9 +2,8 @@
   padding : 4%;
 }
 
-.rbc-btn-group button {
-
-  color: #FFF;
+.rbc-btn-group {
+  padding: 0px !important;
 }
 
 .rbc-allday-cell {
@@ -22,4 +21,13 @@
 .rbc-today {
 
   background-color: #D5C7BC;
+}
+
+.rbc-toolbar-label{
+
+  padding: 0px !important;
+}
+
+.button {
+  padding: 0px;
 }
