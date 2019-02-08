@@ -11,10 +11,10 @@
   color: black;
   border: dashed 5px black;
   text-align: center;
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 600;
-  padding: 5px;
-  margin: 0px 20px;
+  padding: 2px;
+  margin: 0px 25px;
 }
 
 #faded {
