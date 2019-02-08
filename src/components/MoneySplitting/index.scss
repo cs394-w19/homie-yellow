@@ -1,0 +1,32 @@
+#addPaymentButton {
+    background-color:  #d1e0e0;
+    margin: 5px;
+}
+
+/*.Payments {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+    width:100%;
+}*/
+
+#payment-header {
+    text-align:center;
+}
+
+.overview-header {
+    color: white;
+    font-size: 25px;
+    border-top: 1px solid gray;
+    padding: 40px 0px;
+}
+
+#overview {
+    margin-top: 10px;
+}
+
+.pull-left {
+    text-align:left;
+    font-size: 40px;
+}
