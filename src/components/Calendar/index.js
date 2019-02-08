@@ -18,8 +18,7 @@ export default class Calendar extends React.Component {
       super(props);
 
       this.state = {
-        tasks : {}
-        ,
+        tasks : {},
         events : [],
         currUser : this.props.personsInGroup.find(person => {
           return person.uid === this.props.user.uid
@@ -40,7 +39,7 @@ export default class Calendar extends React.Component {
 
       // get the current task list and turn them into calendar events
       let taskListRef = this.props.database.ref('taskList');
-      taskListRef.on('value', snapshot => {
+      taskListRef.orderByChild("groupID").equalTo(this.props.groupID).on('value', snapshot => {
         this.setState({
           tasks: snapshot.val(),
        }, () => {this.tasksToEvents()});
@@ -49,36 +48,23 @@ export default class Calendar extends React.Component {
     }
 
     tasksToEvents(){
-      //console.log(this.state.tasks);
+      let calEvents = [];
+      if (this.state.tasks) {
+        calEvents = Object.keys(this.state.tasks).map((key)=> {
+          let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
 
-      let calEvents = Object.keys(this.state.tasks).map((key)=> {
-        //console.log("logging key", key);
+          if(this.state.tasks[key].endTime !== undefined){
+            end = this.state.tasks[key].endTime ;
+          }
 
-        let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
-        // console.log("logging the end of this task", end);
-
-        // console.log("what is endTime", this.state.tasks[key].endTime);
-
-        if(this.state.tasks[key].endTime !== undefined){
-          end = this.state.tasks[key].endTime ;
-        }
-        //console.log("log", end);
-
-        //console.log("group ID of task", this.state.tasks[key].groupID)
-        //console.log("group ID of user", this.state.currUser.groupID)
-        if(this.state.tasks[key].groupID !== this.state.currUser.groupID){
-          return {};
-        }
-
-        return {
-          "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
-          "end" : new Date(parseInt(end)),
-          "title" : this.state.tasks[key].taskName,
-          "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody"
-        };
-      });
-
-      // console.log(calEvents);
+          return {
+            "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
+            "end" : new Date(parseInt(end)),
+            "title" : this.state.tasks[key].taskName,
+            "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody"
+          };
+        });
+      }
 
       this.setState({events : calEvents}, console.log("events" , this.state.events));
     }
@@ -137,19 +123,16 @@ export default class Calendar extends React.Component {
       let eventKey = this.props.database.ref().child('taskList').push().key;
       let submittedTask = {
         groupID: this.state.currUser.groupID, // need group ID
-        assignedTo: ["nobody"],
         isDeleted: 0,
         isComplete: true,
         paymentTotal: 0,
-        repeatInterval: "None",
-        riMonthly: " ",
-        riWeekly: " ",
+        repeatInterval: "none",
         taskCreator: this.state.currUser.uid, // should be the user somehow
         taskDate: event.start.getTime(),
         endTime : event.end.getTime(), // add the end time for an event
         taskDescription: event.title,
         taskID: eventKey,
-        taskModified:  Date.now(),
+        taskModified: Date.now(),
         taskName: event.title,
         taskType: "Chore",
       };
