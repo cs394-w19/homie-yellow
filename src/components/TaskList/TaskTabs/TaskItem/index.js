@@ -56,9 +56,11 @@ class TaskItem extends Component {
   };
 
   handleEditTask() {
-    this.setState({
-      editorOpen: true
-    });
+    if (this.props.user.uid === this.props.task.taskCreator) {
+      this.setState({
+        editorOpen: true
+      });
+    }
   }
 
   handleTaskSubmission(task) {

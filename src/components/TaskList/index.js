@@ -47,21 +47,27 @@ export default class TaskList extends Component {
   }
 
   handleTaskCompleted(task) {
-    let taskKey = task.taskID;
-    task.isComplete = !task.isComplete;
-    task.taskDate = new Date(task.taskDate).getTime();
-    let updates = {};
-    updates['/taskList/' + taskKey] = task;
-    this.props.database.ref().update(updates);
+      let taskOwner = task.taskCreator
+      if (this.props.user.uid === taskOwner) {
+        let taskKey = task.taskID;
+        task.isComplete = !task.isComplete;
+        task.taskDate = new Date(task.taskDate).getTime();
+        let updates = {};
+        updates['/taskList/' + taskKey] = task;
+        this.props.database.ref().update(updates);  
+      } 
   }
 
   handleDeleteTask(task) {
-    let taskKey = task.taskID;
-    task.isDeleted = 1;
-    task.taskDate = new Date(task.taskDate).getTime();
-    let updates = {};
-    updates['/taskList/' + taskKey] = task;
-    this.props.database.ref().update(updates);
+      let taskOwner = task.taskCreator
+      if (this.props.user.uid === taskOwner) {
+        let taskKey = task.taskID;
+        task.isDeleted = 1;
+        task.taskDate = new Date(task.taskDate).getTime();
+        let updates = {};
+        updates['/taskList/' + taskKey] = task;
+        this.props.database.ref().update(updates);
+      }
   }
 
   render() {
@@ -84,6 +90,8 @@ export default class TaskList extends Component {
 
     let task_tabs = (
       <TaskTabs
+        task = {this.props.task}
+        //taskCreator = {this.props.task.taskCreator}
         user={this.props.user}
         tasks={this.state.tasks}
         database={this.props.database}
