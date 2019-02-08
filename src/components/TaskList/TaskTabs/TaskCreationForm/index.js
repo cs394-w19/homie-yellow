@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import PropTypes from "prop-types";
 
 export default class TaskCreationForm extends Component {
   constructor(props) {
@@ -106,9 +107,14 @@ export default class TaskCreationForm extends Component {
       <div>
         <Card id="tabList">
           <CardContent className={this.props.type}>
-            <Row>
-              <Col xs={2}>
-                <Button onClick={() => this.props.handleTaskCreationClose()}>
+            <Row justify="end">
+              <Col xs={10} sm={9} />
+              <Col xs={2} sm={3} debug>
+                <Button
+                  bsSize="small"
+                  bsStyle="danger"
+                  onClick={() => this.props.handleTaskCreationClose()}
+                >
                   X
                 </Button>
               </Col>
@@ -187,3 +193,6 @@ export default class TaskCreationForm extends Component {
     );
   }
 }
+TaskCreationForm.propTypes = {
+  classes: PropTypes.object.isRequired
+};
