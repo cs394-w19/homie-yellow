@@ -35,6 +35,7 @@ export default class TaskTabs extends Component {
           data.forEach((child) => {
               group_tasks.push(child.val());
           });
+          group_tasks.sort((a,b) => { return a.taskDate - b.taskDate; });
           this.setState({
               group_tasks: group_tasks,
           })
