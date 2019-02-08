@@ -1,3 +1,31 @@
-#Logout {
-    margin: 40px 20px;
+#Settings {
+    margin: 20px 20px;
+}
+
+#horz-padding {
+  padding: 20px 0px;
+}
+
+#group-join-code {
+  background-color: white;
+  color: black;
+  border: dashed 5px black;
+  text-align: center;
+  font-size: 42px;
+  font-weight: 600;
+  padding: 5px;
+  margin: 0px 20px;
+}
+
+#faded {
+  color: #d3d3d3;
+  margin: 0px;
+  padding: 0px;
+  font-size: 12px;
+  font-style: italic;
+
+}
+
+#admin-buttons {
+  text-align: center;
 }
