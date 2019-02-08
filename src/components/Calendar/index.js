@@ -52,9 +52,9 @@ MyWeek.navigate = (date, action) => {
 }
 
 MyWeek.title = date => {
-  return `${date.toLocaleDateString()} - ${dates.add(date, 3, 'day').toLocaleDateString()}`; 
+  return `${moment(date).format("MMM D")} - ${moment(dates.add(date, 3, 'day')).format("D")}`; 
 }
-
+ 
 // messing around with the toolbar
 // const CustomToolbar = (toolbar) => {
 //   let date = toolbar.date;
@@ -262,18 +262,31 @@ export default class Calendar extends React.Component {
 
     render() {
       let components = { }
+
+      let formats = {
+        dateFormat: 'dd D',
+      
+        dayFormat: (date, x, localizer) =>
+    localizer.format(date, 'dd D'),
+      
+
+      timeGutterFormat: (date, x, localizer) =>
+      localizer.format(date, "h A")
+      }
+
       return ( 
       <div className="cal-container">
         <BigCalendar
           selectable
-          localizer={localizer}          
+          localizer={localizer}
+          formats={formats}          
           eventPropGetter={(e) => this.eventStyleGetter(e)}
           //toolbar={false}
           // components={{
           //   toolbar: CustomToolbar
           // }}
           events = {this.state.events}
-          views={{week : true , "Three Days" : MyWeek}}// make a custom view for three days to use for mobile
+          views={{week : true , MyWeek : MyWeek}}// make a custom view for three days to use for mobile
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
