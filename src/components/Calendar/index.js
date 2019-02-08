@@ -16,7 +16,7 @@ const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 export default class Calendar extends React.Component {
     constructor(props) {
       super(props);
- 
+
       this.state = {
         tasks : {}
         ,
@@ -42,7 +42,7 @@ export default class Calendar extends React.Component {
       let taskListRef = this.props.database.ref('taskList');
       taskListRef.on('value', snapshot => {
         this.setState({
-          tasks: snapshot.val(), 
+          tasks: snapshot.val(),
        }, () => {this.tasksToEvents()});
       });
 
@@ -62,10 +62,10 @@ export default class Calendar extends React.Component {
         if(this.state.tasks[key].endTime !== undefined){
           end = this.state.tasks[key].endTime ;
         }
-        //console.log("log", end); 
-        
-        //console.log("group ID of task", this.state.tasks[key].groupID) 
-        //console.log("group ID of user", this.state.currUser.groupID) 
+        //console.log("log", end);
+
+        //console.log("group ID of task", this.state.tasks[key].groupID)
+        //console.log("group ID of user", this.state.currUser.groupID)
         if(this.state.tasks[key].groupID !== this.state.currUser.groupID){
           return {};
         }
@@ -74,7 +74,7 @@ export default class Calendar extends React.Component {
           "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
           "end" : new Date(parseInt(end)),
           "title" : this.state.tasks[key].taskName,
-          "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody" 
+          "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody"
         };
       });
 
@@ -113,7 +113,7 @@ export default class Calendar extends React.Component {
       //console.log("selected event", event, e);
 
     }
-      
+
     eventStyleGetter(event) {
       // console.log("style getter");
 
@@ -129,7 +129,7 @@ export default class Calendar extends React.Component {
       };
       return newStyle;
   }
-  
+
 
     handleEventAdd(event) {
       // console.log(event);
@@ -166,32 +166,32 @@ export default class Calendar extends React.Component {
 
       let formats = {
         dateFormat: 'dd D',
-      
+
         dayFormat: (date, x, localizer) =>
         localizer.format(date, 'dd D'),
-      
+
         timeGutterFormat: (date, x, localizer) =>
         localizer.format(date, "h A"),
-      
+
         dayRangeHeaderFormat: ({ start, end }, x, localizer) =>
-        `${localizer.format(start, "MMM D")} - ${localizer.format(end, "D")}` 
+        `${localizer.format(start, "MMM D")} - ${localizer.format(end, "D")}`
       };
 
 
-      return ( 
+      return (
       <div className="cal-container">
         <BigCalendar
           selectable
           localizer={localizer}
-          formats={formats}          
+          formats={formats}
           eventPropGetter={(e) => this.eventStyleGetter(e)}
           //toolbar={false}
           components={components}
           events = {this.state.events}
-          views={{week : true , MyWeek : MyWeek}}// make a custom view for three days to use for mobile
+          views={{day: true , week : true , MyWeek : MyWeek}}// make a custom view for three days to use for mobile
           showMultiDayTimes
           defaultDate={new Date()}
-          defaultView={"week"}
+          defaultView={"day"}
           onSelectSlot={(slots) => {this.handleSelect(slots)}}
           popup = {true}
           //popupOffset={30}
