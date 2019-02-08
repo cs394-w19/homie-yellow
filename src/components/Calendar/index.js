@@ -1,10 +1,9 @@
 import React from 'react';
 // import ApiCalendar from 'react-google-calendar-api'; //https://www.npmjs.com/package/react-google-calendar-api
 import BigCalendar from 'react-big-calendar';
-
-import dates from 'date-arithmetic'
-import TimeGrid from 'react-big-calendar/lib/TimeGrid'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import MyWeek from "./ThreeDayView";
+import CalendarToolbar from "./Toolbar"
 
 import './index.scss';
 
@@ -14,97 +13,6 @@ import moment from 'moment'
 // to the correct localizer.
 const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 
-class MyWeek extends React.Component {
-  render() {
-    let { date } = this.props
-    let range = MyWeek.range(date)
-
-    return <TimeGrid {...this.props} range={range} eventOffset={15} />
-  }
-}
-
-MyWeek.range = date => {
-  let start = date
-  let end = dates.add(start, 2, 'day')
-
-  let current = start
-  let range = []
-
-  while (dates.lte(current, end, 'day')) {
-    range.push(current)
-    current = dates.add(current, 1, 'day')
-  }
-
-  return range
-}
-
-MyWeek.navigate = (date, action) => {
-  switch (action) {
-    case BigCalendar.Navigate.PREVIOUS:
-      return dates.add(date, -3, 'day')
-
-    case BigCalendar.Navigate.NEXT:
-      return dates.add(date, 3, 'day')
-
-    default:
-      return date
-  }
-}
-
-MyWeek.title = date => {
-  return `${date.toLocaleDateString()} - ${dates.add(date, 3, 'day').toLocaleDateString()}`; 
-}
-
-// messing around with the toolbar
-// const CustomToolbar = (toolbar) => {
-//   let date = toolbar.date;
-
-//   let currentView = "week" ; // figure out how to get this view
-//   let jumps = currentView == "week" ? 3 : 7; 
-
-//   // const goToBack = () => {
-//   //   let newFirstDay = dates.add(date, -1*jumps, 'day')
-
-//   //   toolbar.date.setMonth(moment(newFirstDay).month);
-//   //   toolbar.onNavigate('prev');
-//   // };
-
-//   // const goToNext = () => {
-//   //   toolbar.date.setMonth(dates.add(date, jumps, 'day'));
-//   //   toolbar.onNavigate('next');
-//   // };
-
-//   // const goToCurrent = () => {
-//   //   const now = new Date();
-//   //   toolbar.date.setMonth(now.getMonth());
-//   //   toolbar.date.setYear(now.getFullYear());
-//   //   toolbar.onNavigate('current');
-//   // };
-
-//   const label = () => {
-//     const date = moment(toolbar.date);
-
-//     let end = dates.add(date, jumps, 'day');
-
-//     return (
-//       <span><b>{date.format('MM/DD/YY')}</b>-<b>{moment(end).format('MM/DD/YY')}</b></span>
-//     );
-//   };
-
-//   return (
-//     <div>
-//       <label>{label()}</label>
-
-//       <div >
-//         <button  onClick={BigCalendar.}>&#8249;</button>
-//         <button  onClick={goToCurrent}>today</button>
-//         <button  onClick={goToNext}>&#8250;</button>
-//       </div>
-//     </div >
-//   );
-// };
-
-
 export default class Calendar extends React.Component {
     constructor(props) {
       super(props);
@@ -113,9 +21,13 @@ export default class Calendar extends React.Component {
         tasks : {}
         ,
         events : [],
-        currUser : null
+        currUser : this.props.personsInGroup.find(person => {
+          return person.uid === this.props.user.uid
+        })
       };
 
+      //console.log("current user", currUser);
+      // this.setState({currUser}, () => {console.log("done setting current user")});
       //console.log(this.props.user);
 
       this.tasksToEvents = this.tasksToEvents.bind(this);
@@ -125,13 +37,6 @@ export default class Calendar extends React.Component {
 
     componentDidMount(){
       console.log("the calendar has mounted")
-      // add the user to the state
-      let currUser = this.props.personsInGroup.find(person => {
-        return person.uid === this.props.user.uid
-      })
-
-      //console.log("current user", currUser);
-      this.setState({currUser}, () => {console.log("done setting current user")});
 
       // get the current task list and turn them into calendar events
       let taskListRef = this.props.database.ref('taskList');
@@ -144,8 +49,10 @@ export default class Calendar extends React.Component {
     }
 
     tasksToEvents(){
+      //console.log(this.state.tasks);
+
       let calEvents = Object.keys(this.state.tasks).map((key)=> {
-        //console.log(key);
+        //console.log("logging key", key);
 
         let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
         // console.log("logging the end of this task", end);
@@ -157,8 +64,11 @@ export default class Calendar extends React.Component {
         }
         //console.log("log", end); 
         
-      
-
+        //console.log("group ID of task", this.state.tasks[key].groupID) 
+        //console.log("group ID of user", this.state.currUser.groupID) 
+        if(this.state.tasks[key].groupID !== this.state.currUser.groupID){
+          return {};
+        }
 
         return {
           "start" : new Date(parseInt(this.state.tasks[key].taskDate)),
@@ -194,7 +104,6 @@ export default class Calendar extends React.Component {
           this.handleEventAdd(newEvent);
 
         }
-          
 
           // also need to add the one changed thing to the DB
 
@@ -213,8 +122,7 @@ export default class Calendar extends React.Component {
       //console.log("end", end);
       //console.log("isSelected", isSelected);
       //console.log("event assigned to ", event.assignedTo);
-      
-      // make the string Matt be user name.
+
       let backgroundColor = (this.state.currUser && event.assignedTo.includes(this.state.currUser.uid)) ? "#D66853" : "#96a6cc";
       let newStyle = {
           style : {backgroundColor}
@@ -223,9 +131,8 @@ export default class Calendar extends React.Component {
   }
   
 
-  
     handleEventAdd(event) {
-      console.log(event);
+      // console.log(event);
 
       let eventKey = this.props.database.ref().child('taskList').push().key;
       let submittedTask = {
@@ -237,7 +144,7 @@ export default class Calendar extends React.Component {
         repeatInterval: "None",
         riMonthly: " ",
         riWeekly: " ",
-        taskCreator: " ", // should be the user somehow
+        taskCreator: this.state.currUser.uid, // should be the user somehow
         taskDate: event.start.getTime(),
         endTime : event.end.getTime(), // add the end time for an event
         taskDescription: event.title,
@@ -253,25 +160,41 @@ export default class Calendar extends React.Component {
   }
 
     render() {
-      let components = { }
+      let components = {
+        toolbar: CalendarToolbar
+      };
+
+      let formats = {
+        dateFormat: 'dd D',
+      
+        dayFormat: (date, x, localizer) =>
+        localizer.format(date, 'dd D'),
+      
+        timeGutterFormat: (date, x, localizer) =>
+        localizer.format(date, "h A"),
+      
+        dayRangeHeaderFormat: ({ start, end }, x, localizer) =>
+        `${localizer.format(start, "MMM D")} - ${localizer.format(end, "D")}` 
+      };
+
+
       return ( 
       <div className="cal-container">
         <BigCalendar
           selectable
-          localizer={localizer}          
+          localizer={localizer}
+          formats={formats}          
           eventPropGetter={(e) => this.eventStyleGetter(e)}
           //toolbar={false}
-          // components={{
-          //   toolbar: CustomToolbar
-          // }}
+          components={components}
           events = {this.state.events}
-          views={{week : true , "Three Days" : MyWeek}}// make a custom view for three days to use for mobile
+          views={{week : true , MyWeek : MyWeek}}// make a custom view for three days to use for mobile
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"week"}
           onSelectSlot={(slots) => {this.handleSelect(slots)}}
           popup = {true}
-          popupOffset={30}
+          //popupOffset={30}
           longPressThreshold={100}
           onSelectEvent= {(event, e) => this.handleSelectEvent(event, e)}
 
