@@ -107,11 +107,10 @@ export default class TaskCreationForm extends Component {
       <div>
         <Card id="tabList">
           <CardContent className={this.props.type}>
-            <Row justify="end">
-              <Col xs={10} sm={9} />
-              <Col xs={2} sm={3} debug>
+            <Row>
+              <Col xs={9} />
+              <Col xs={3}>
                 <Button
-                  bsSize="small"
                   bsStyle="danger"
                   onClick={() => this.props.handleTaskCreationClose()}
                 >
@@ -119,7 +118,7 @@ export default class TaskCreationForm extends Component {
                 </Button>
               </Col>
             </Row>
-            <Row>
+            <Row className="close_button">
               <Col xs={9}>
                 <FormControl
                   autoFocus
