@@ -37,6 +37,7 @@ export default class Canvas extends Component {
         canvas = <Settings
                     user={this.props.user}
                     groupID={this.props.groupID}
+                    personsInGroup={this.props.personsInGroup}
                     database={this.props.database}
                     handleLogOut={() => this.props.handleLogOut()}/>;
         break;
