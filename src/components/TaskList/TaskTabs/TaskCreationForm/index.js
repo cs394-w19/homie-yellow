@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col, FormControl, ControlLabel, Button } from "react-bootstrap";
-import DatePicker from "react-datepicker";
+import Datetime from "react-datetime";
 import TaskAssignedToCheckboxes from "./TaskAssignedToCheckboxes";
 import "./index.scss";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-datetime/css/react-datetime.css";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -156,7 +156,7 @@ export default class TaskCreationForm extends Component {
               <Col xs={6}>
                 <ControlLabel>Due Date</ControlLabel>
                 <div>{"\n"}</div>
-                <DatePicker
+                <Datetime
                   className="date-picker"
                   selected={this.state.taskDate}
                   onChange={this.handleDateChange}
