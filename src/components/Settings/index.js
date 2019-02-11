@@ -16,7 +16,7 @@ export default class Settings extends Component {
 
     componentDidMount() {
     	let groupID = this.props.groupID;
-      let personsInGroup = this.props.personsInGroup;
+    	let personsInGroup = this.props.personsInGroup;
     	let groups = this.props.database.ref().child("groups");
 	    groups.on('value', data => {
 	      let groupAdmin = 0;
@@ -24,7 +24,6 @@ export default class Settings extends Component {
 	      data.forEach(elem => {
 	      	console.log(elem.val());
 	        if (elem.val().groupID === groupID) {
-            //console.log("Found matching groups");
 	          groupAdmin = elem.val().groupAdmin;
 	          groupName = elem.val().groupName;
 	        }
@@ -64,21 +63,21 @@ export default class Settings extends Component {
     }
 
     render() {
-      let groupID = this.props.groupID;
-      let personsInGroup = this.props.personsInGroup;
+    	let groupID = this.props.groupID;
+    	let personsInGroup = this.props.personsInGroup;
 
-	    let groupAdmin = this.state.groupAdmin;
-    	let groupName = this.state.groupName;
-    	let role = this.checkIfAdmin();
+		let groupAdmin = this.state.groupAdmin;
+		let groupName = this.state.groupName;
+	    let role = this.checkIfAdmin();
 
-	    let groupMembers = "";
-      personsInGroup.forEach(elem => {
-      		groupMembers = groupMembers + elem.name + ", ";
-      });
+		let groupMembers = "";
+    	personsInGroup.forEach(elem => {
+    		groupMembers = groupMembers + elem.name + ", ";
+    	});
 
-      if (!groupID) groupID = '000000';
+    	if (!groupID) groupID = '000000';
 
-      let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
+    	let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
 
         return(
           <div>
