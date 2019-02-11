@@ -7,8 +7,32 @@ export default class Settings extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        copied: false
+        copied: false,
+        groupAdmin: 0,
+        groupName: "None",
+        role: "None"
       }
+    }
+
+    componentDidMount() {
+    	let groupID = this.props.groupID;
+    	let personsInGroup = this.props.personsInGroup;
+    	let groups = this.props.database.ref().child("groups");
+	    groups.on('value', data => {
+	      let groupAdmin = 0;
+	      let groupName = "None";
+	      data.forEach(elem => {
+	      	console.log(elem.val());
+	        if (elem.val().groupID === groupID) {
+	          groupAdmin = elem.val().groupAdmin;
+	          groupName = elem.val().groupName;
+	        }
+	      });
+	      this.setState({
+	        groupAdmin: groupAdmin,
+	        groupName: groupName,
+	      })
+	    });
     }
 
     handleLeaveGroup() {
@@ -29,11 +53,31 @@ export default class Settings extends Component {
       return;
     }
 
-    render() {
-        let groupID = this.props.groupID;
-        if (!groupID) groupID = '000000';
+    checkIfAdmin() {
+    	let groupAdmin = this.state.groupAdmin;
+    	if(this.props.user.uid === groupAdmin){
+    		return "Admin";
+    	} else {
+    		return "Member";
+    	}
+    }
 
-        let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
+    render() {
+    	let groupID = this.props.groupID;
+    	let personsInGroup = this.props.personsInGroup;
+
+		let groupAdmin = this.state.groupAdmin;
+		let groupName = this.state.groupName;
+	    let role = this.checkIfAdmin();
+
+		let groupMembers = "";
+    	personsInGroup.forEach(elem => {
+    		groupMembers = groupMembers + elem.name + ", ";
+    	});
+
+    	if (!groupID) groupID = '000000';
+
+    	let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
 
         return(
           <div>
@@ -52,18 +96,11 @@ export default class Settings extends Component {
                   </Row>
                 </Col>
                 <Col xs={12} m={8}>
-                  <Row>
-                    <h2>Your Household</h2>
-                  </Row>
-                  <Row>
-                    <p>Member</p>
-                  </Row>
-                  <Row>
-                    <p>Member</p>
-                  </Row>
-                  <Row>
-                    <p>Member</p>
-                  </Row>
+                  <p>Your name: {this.props.user.displayName}</p>
+                  <p>Group Role: {role}</p>
+                  <p>Group Name: {groupName}</p>
+                  <p>Group ID: {groupID}</p>
+                  <p>Group Members: {groupMembers}</p>
                 </Col>
               </Grid>
               <Grid>

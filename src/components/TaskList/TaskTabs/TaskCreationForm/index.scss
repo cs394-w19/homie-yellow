@@ -7,6 +7,8 @@
 }
 
 .date-picker {
+  position: relative;
+  z-index: 999999 !important;
   display: block;
   width: 100%;
   height: 34px;
@@ -19,5 +21,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 
-  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.close_button {
+  padding: 10px;
 }
