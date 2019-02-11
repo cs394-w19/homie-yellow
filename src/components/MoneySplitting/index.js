@@ -15,13 +15,6 @@ export default class MoneySplitting extends Component {
           activeTab: 2
         };
     }
-    componentDidMount(prevProps) {
-
-    }
-
-    componentDidUpdate(prevProps) {
-       
-    }
 
     handlePaymentCreateButtonPress() {
         this.paymentCreation = true;
@@ -58,6 +51,24 @@ export default class MoneySplitting extends Component {
         });
     }
 
+    handlePaymentCompleted(payment) {
+        console.log(payment);
+        let paymentKey = payment.paymentID;
+        payment.isComplete = 1;
+        let updates = {};
+        updates['/payments/' + paymentKey] = payment;
+        this.props.database.ref().update(updates);
+        this.handleViewPayments(this.state.payments, false);
+    }
+  
+    handleDeletePayment(payment) {
+        let paymentKey = payment.paymentID;
+        payment.isDeleted = 1;
+        let updates = {};
+        updates['/payments/' + paymentKey] = payment;
+        this.props.database.ref().update(updates);
+        this.handleViewPayments(this.state.payments, false);
+    }
     
     render() {
         let createPaymentButton = (
@@ -123,6 +134,8 @@ export default class MoneySplitting extends Component {
                 database={this.props.database}
                 groupID={this.props.groupID}
                 handleViewPayments={(p,v) => this.handleViewPayments(p,v)}
+                handlePaymentCompleted={payment => this.handlePaymentCompleted(payment)}
+                handleDeletePayment={p => this.handleDeletePayment(p)}
                 /> 
             </div>
         );
