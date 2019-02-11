@@ -33,8 +33,8 @@ export default class MoneySplitting extends Component {
                     handleTaskCreationClose={() => this.props.handleTaskCreationClose()}
                 />
         );
-        if(payments.length > 1) {
-
+        console.log(payments);
+        if(Array.isArray(payments)) {
             payment_items = payments.map(payment=> {
                 return (
                 <PaymentItem
@@ -50,7 +50,7 @@ export default class MoneySplitting extends Component {
                 />
                 );
             });
-        } 
+         } 
         return (
             <div className="payment_items">{payment_items}</div>
         )
