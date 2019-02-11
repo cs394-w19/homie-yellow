@@ -18,9 +18,11 @@ export default class TaskDetails extends Component {
     let taskCreator = this.props.personsInGroup.find(person => {
       return person.uid === t.taskCreator;
     });
+
     if (taskCreator === undefined) {
       taskCreator = { name: "[deleted]" };
     }
+    console.log(taskCreator.uid);
 
     return (
       <div>
@@ -57,8 +59,7 @@ export default class TaskDetails extends Component {
             </Button>
             <Button
               bsSize="small"
-              onClick={() => this.props.handleDeleteTask(t)}
-            >
+              onClick={() => this.props.handleDeleteTask(t)}>
               <span>
                 <Glyphicon glyph="trash" />
               </span>

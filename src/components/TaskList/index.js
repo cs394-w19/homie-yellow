@@ -47,18 +47,32 @@ export default class TaskList extends Component {
   }
 
   handleTaskCompleted(task) {
-      let taskOwner = task.taskCreator
-      if (this.props.user.uid === taskOwner) {
+      let taskAssignee = task.assignedTo
+      if (taskAssignee === undefined) {
         let taskKey = task.taskID;
         task.isComplete = !task.isComplete;
         task.taskDate = new Date(task.taskDate).getTime();
         let updates = {};
         updates['/taskList/' + taskKey] = task;
-        this.props.database.ref().update(updates);  
-      } 
+        this.props.database.ref().update(updates);
+      }
+      else {
+        for (let i = 0; i <= (taskAssignee.length); i++) {
+          if (this.props.user.uid === taskAssignee[i]) {
+            console.log(taskAssignee[i]);
+            let taskKey = task.taskID;
+            task.isComplete = !task.isComplete;
+            task.taskDate = new Date(task.taskDate).getTime();
+            let updates = {};
+            updates['/taskList/' + taskKey] = task;
+            this.props.database.ref().update(updates);
+        }
+      }    
   }
 
   handleDeleteTask(task) {
+      let taskAssignee = task.assignedTo
+      let userid = this.props.user.uid
       let taskOwner = task.taskCreator
       if (this.props.user.uid === taskOwner) {
         let taskKey = task.taskID;
