@@ -19,7 +19,7 @@ class BaseTemplate extends Component {
       activeTab: 1,
       user: null,
       groupID: null,
-      userIsNew: 0,
+      userIsNew: true,
       personsInGroup: [],
     };
   }
@@ -55,14 +55,12 @@ class BaseTemplate extends Component {
             if (child.val().uid === currUser.uid)
               groupID = child.val().groupID;
         });
-        if (groupID === null || groupID === undefined) {
-          // create new user because they are new
-          this.setState({userIsNew: 1});
-        }
         var personsInGroup = persons.filter(person => {
           return person.groupID === groupID;
         });
+        var userIsNew = (groupID == null || personsInGroup.length === 0);
         this.setState({
+            userIsNew: userIsNew,
             groupID: groupID,
             personsInGroup: personsInGroup,
         });
@@ -70,7 +68,7 @@ class BaseTemplate extends Component {
   }
 
   handleJoinedGroup() {
-    this.setState({ userIsNew: 0 });
+    this.setState({ userIsNew: false });
   }
 
   handleNavButtonClick(tab) {
