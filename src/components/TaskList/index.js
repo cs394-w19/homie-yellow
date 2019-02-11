@@ -66,6 +66,7 @@ export default class TaskList extends Component {
             let updates = {};
             updates['/taskList/' + taskKey] = task;
             this.props.database.ref().update(updates);
+          }
         }
       }    
   }
