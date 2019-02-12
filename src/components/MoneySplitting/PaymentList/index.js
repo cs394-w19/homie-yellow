@@ -50,9 +50,10 @@ export default class MoneySplitting extends Component {
                 />
                 );
             });
-         } 
+
+        }
         return (
             <div className="payment_items">{payment_items}</div>
-        )
+        );
     };
 }
