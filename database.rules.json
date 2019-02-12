@@ -1,6 +1,13 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null"
+    ".write": "auth != null", 
+    "taskList": {
+      ".indexOn": ["groupID"]
+    }, 
+    "payments": {
+      ".indexOn": ["groupID"]
+    }
   }
+
 }
