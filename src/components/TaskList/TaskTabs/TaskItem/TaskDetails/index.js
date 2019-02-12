@@ -5,6 +5,8 @@ export default class TaskDetails extends Component {
   render() {
     // temporary list of people in the group
     let t = this.props.task;
+    let showEditButton;
+    let showDeleteButton;
 
     let assignedPeople = this.props.personsInGroup.filter(person => {
       if (!t.assignedTo) return false;
@@ -22,7 +24,21 @@ export default class TaskDetails extends Component {
     if (taskCreator === undefined) {
       taskCreator = { name: "[deleted]" };
     }
-    console.log(taskCreator.uid);
+
+    if (this.props.user.uid === t.taskCreator) {
+        showEditButton = (<Button bsSize="small" onClick={() => this.props.handleEditTask()}>
+              <span>
+                <Glyphicon glyph="pencil" />
+              </span>
+            </Button>);
+        showDeleteButton = (<Button
+              bsSize="small"
+              onClick={() => this.props.handleDeleteTask(t)}>
+              <span>
+                <Glyphicon glyph="trash" />
+              </span>
+            </Button>);
+    }
 
     return (
       <div>
@@ -52,18 +68,8 @@ export default class TaskDetails extends Component {
         <Row>
           <Col xs={7} sm={9} md={10} lg={11} />
           <Col xs={5} sm={3} md={2} lg={1}>
-            <Button bsSize="small" onClick={() => this.props.handleEditTask()}>
-              <span>
-                <Glyphicon glyph="pencil" />
-              </span>
-            </Button>
-            <Button
-              bsSize="small"
-              onClick={() => this.props.handleDeleteTask(t)}>
-              <span>
-                <Glyphicon glyph="trash" />
-              </span>
-            </Button>
+            {showEditButton}
+            {showDeleteButton}
           </Col>
         </Row>
       </div>

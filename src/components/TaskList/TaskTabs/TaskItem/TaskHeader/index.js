@@ -5,6 +5,7 @@ import './index.scss';
 export default class TaskHeader extends Component {
     render() {
       let task = this.props.task;
+      let user = this.props.user;
       let style = task.isComplete ? "success" : "default";
 
       let assignedPeople = this.props.personsInGroup.filter(person => {
@@ -15,6 +16,17 @@ export default class TaskHeader extends Component {
 
       let taskDate = new Date(1*task.taskDate).toDateString();
       taskDate = taskDate.substring(0, taskDate.length - 5);
+
+      let showCompleteButton;
+
+      if (user.uid === task.taskCreator) {
+
+          showCompleteButton = (<Button
+                block
+                bsStyle={style}
+                onClick={() => this.props.handleTaskCompleted()}
+              ><Glyphicon glyph="ok"/></Button>);
+      };
 
       return(
           <Row>
@@ -40,11 +52,7 @@ export default class TaskHeader extends Component {
               </Row>
             </Col>
             <Col xs={3}>
-              <center><Button
-                block
-                bsStyle={style}
-                onClick={() => this.props.handleTaskCompleted()}
-              ><Glyphicon glyph="ok"/></Button></center>
+              <center>{showCompleteButton}</center>
             </Col>
           </Row>
 
