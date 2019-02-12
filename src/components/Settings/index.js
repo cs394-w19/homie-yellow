@@ -56,9 +56,9 @@ export default class Settings extends Component {
     checkIfAdmin() {
     	let groupAdmin = this.state.groupAdmin;
     	if(this.props.user.uid === groupAdmin){
-    		return "Admin";
+    		return "(Admin)";
     	} else {
-    		return "Member";
+    		return "(Member)";
     	}
     }
 
@@ -100,8 +100,7 @@ export default class Settings extends Component {
                   <Row>
                   	<h2>Group Information</h2>
                   </Row>
-                  <p>Your name: {this.props.user.displayName.split(" ")[0]}</p>
-                  <p>Group Role: {role}</p>
+                  <p>Your name: {this.props.user.displayName.split(" ")[0]} {role}</p>
                   <p>Group Name: {groupName}</p>
                   <p>Group ID: {groupID.substr(groupID.length - 6).toUpperCase()}</p>
                   <p>Group Members: {groupMembersList}</p>
