@@ -53,7 +53,7 @@ export default class TaskTabs extends Component {
       switch (activeTab) {
         case 0: // active
           render_tasks = this.state.group_tasks.filter(
-            task => !task.isComplete && !task.isDeleted
+            task => !task.isComplete && !task.isDeleted && task.taskType !== 'Event'
           );
           break;
         case 1: // assigned to me
@@ -62,13 +62,14 @@ export default class TaskTabs extends Component {
             return (
               task.assignedTo.indexOf(currUser.uid) > -1 &&
               !task.isComplete &&
-              !task.isDeleted
+              !task.isDeleted &&
+              task.taskType !== 'Event'
             );
           });
           break;
         case 2: // completed
           render_tasks = this.state.group_tasks.filter(
-            task => task.isComplete && !task.isDeleted
+            task => task.isComplete && !task.isDeleted && task.taskType !== 'Event'
           );
           break;
         default:

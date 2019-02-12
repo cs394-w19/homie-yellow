@@ -104,7 +104,7 @@ export default class Calendar extends React.Component {
     let submittedTask = {
       groupID: this.state.currUser.groupID, // need group ID
       isDeleted: 0,
-      isComplete: true,
+      isComplete: false,
       paymentTotal: 0,
       repeatInterval: "none",
       taskCreator: this.state.currUser.uid, // should be the user somehow
@@ -114,7 +114,7 @@ export default class Calendar extends React.Component {
       taskID: eventKey,
       taskModified: Date.now(),
       taskName: event.title,
-      taskType: "Chore",
+      taskType: "Event",
     };
     let updates = {};
     updates['/taskList/' + eventKey] = submittedTask;

@@ -19,7 +19,7 @@ export default class UserSelectList extends Component {
 
     render() {
       let editAssignedField = this.props.personsInGroup.map(person => {
-        if (person.uid !== this.props.user.uid) return('');
+        if (person.uid === this.props.user.uid) return('');
         return (
           <option key={person.uid} value={person.uid}>
               {person.name}
