@@ -19,22 +19,26 @@ export default class TaskHeader extends Component {
 
       let showCompleteButton;
 
-
-      if (user.uid === task.assignedTo) {
-
-          showCompleteButton = (<Button
-                block
-                bsStyle={style}
-                onClick={() => this.props.handleTaskCompleted()}
-              ><Glyphicon glyph="ok"/></Button>);
-      };
       if (task.assignedTo === undefined) {
           showCompleteButton = (<Button
                 block
                 bsStyle={style}
                 onClick={() => this.props.handleTaskCompleted()}
               ><Glyphicon glyph="ok"/></Button>);
+      }
+      else {
+        for (let i=0; i<=(task.assignedTo).length;i++) {
+          if (user.uid === task.assignedTo[i]) {
+
+            showCompleteButton = (<Button
+                  block
+                  bsStyle={style}
+                  onClick={() => this.props.handleTaskCompleted()}
+                ><Glyphicon glyph="ok"/></Button>);
+          }
+        }
       };
+      
 
       return(
         <Grid id="TaskHeader">
