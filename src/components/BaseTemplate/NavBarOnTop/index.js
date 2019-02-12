@@ -5,8 +5,8 @@ const NavBarOnTop = props => {
   return(
     <Navbar inverse fixed="top">
     <Navbar.Header>
-        <Navbar.Brand onClick={() => props.handleNavButtonClick(0)}>
-          Homie
+        <Navbar.Brand>
+          Homie by Yellow
         </Navbar.Brand>
         <Navbar.Toggle />
     </Navbar.Header>
@@ -26,13 +26,13 @@ const NavBarOnTop = props => {
         </Nav>
         <Nav pullRight>
           {props.user ?
-          <NavItem onClick={() => props.handleLogOut()} href="#">
-                <div><Glyphicon glyph="log-out" /> Log Out </div>
-          </NavItem>
+            <NavItem onClick={() => props.handleLogOut()} href="#">
+                  <div><Glyphicon glyph="log-out" /> Log Out </div>
+            </NavItem>
           :
-          <NavItem onClick={() => props.handleLogIn()} href="#">
-                <div><Glyphicon glyph="log-in" /> Log In </div>
-          </NavItem>
+            <NavItem onClick={() => props.handleLogIn()} href="#">
+                  <div><Glyphicon glyph="log-in" /> Log In </div>
+            </NavItem>
           }
         </Nav>
     </Navbar>

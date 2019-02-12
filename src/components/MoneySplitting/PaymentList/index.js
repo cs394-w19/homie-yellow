@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Glyphicon} from 'react-bootstrap';
 import "./index.scss";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import PaymentItem from './PaymentItem';
 
 export default class MoneySplitting extends Component {
@@ -33,7 +27,6 @@ export default class MoneySplitting extends Component {
                     handleTaskCreationClose={() => this.props.handleTaskCreationClose()}
                 />
         );
-        console.log(payments);
         if(Array.isArray(payments)) {
             payment_items = payments.map(payment=> {
                 return (
@@ -50,9 +43,10 @@ export default class MoneySplitting extends Component {
                 />
                 );
             });
-         } 
+
+        }
         return (
             <div className="payment_items">{payment_items}</div>
-        )
+        );
     };
 }

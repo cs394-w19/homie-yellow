@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Button, ButtonToolbar} from 'react-bootstrap';
+import {Grid, Row, Col, Button} from 'react-bootstrap';
 import './index.css';
 
 
@@ -16,13 +16,11 @@ export default class Settings extends Component {
 
     componentDidMount() {
     	let groupID = this.props.groupID;
-    	let personsInGroup = this.props.personsInGroup;
     	let groups = this.props.database.ref().child("groups");
 	    groups.on('value', data => {
 	      let groupAdmin = 0;
 	      let groupName = "None";
 	      data.forEach(elem => {
-	      	console.log(elem.val());
 	        if (elem.val().groupID === groupID) {
 	          groupAdmin = elem.val().groupAdmin;
 	          groupName = elem.val().groupName;
@@ -53,22 +51,10 @@ export default class Settings extends Component {
       return;
     }
 
-    checkIfAdmin() {
-    	let groupAdmin = this.state.groupAdmin;
-    	if(this.props.user.uid === groupAdmin){
-    		return "Admin";
-    	} else {
-    		return "Member";
-    	}
-    }
-
     render() {
     	let groupID = this.props.groupID;
     	let personsInGroup = this.props.personsInGroup;
-
-		let groupAdmin = this.state.groupAdmin;
-		let groupName = this.state.groupName;
-	    let role = this.checkIfAdmin();
+		  let groupName = this.state.groupName;
 
 	    let groupMembers = []
     	personsInGroup.forEach(elem => {
@@ -83,7 +69,6 @@ export default class Settings extends Component {
         return(
           <div id="Settings">
               <Grid>
-                <Col xs={12} m={8}>
                   <Row>
                     <h1>Hello, {this.props.user.displayName.split(" ")[0]}!</h1>
                   </Row>
@@ -95,25 +80,29 @@ export default class Settings extends Component {
                     </Col>
                     <center id="faded">{copiedText}</center>
                   </Row>
-                </Col>
-                <Col xs={12} m={8}>
                   <Row>
-                  	<h2>Group Information</h2>
+                  	<h2>Your Group</h2>
+                    <h4>"{groupName}""</h4>
+                    <p>Group Members: {groupMembersList}</p>
                   </Row>
-                  <p>Your name: {this.props.user.displayName.split(" ")[0]}</p>
-                  <p>Group Role: {role}</p>
-                  <p>Group Name: {groupName}</p>
-                  <p>Group ID: {groupID.substr(groupID.length - 6).toUpperCase()}</p>
-                  <p>Group Members: {groupMembersList}</p>
-                </Col>
-              </Grid>
-              <Grid>
-                <Row id="admin-buttons">
-                  <Col xs={6} m={6}>
-                      <Button onClick={() => this.handleLeaveGroup()}>Leave Group</Button>
+                <Row>
+                  <h2>Admin Buttons</h2>
+                  <Col xs={6}>
+                    <Button
+                      size="xs"
+                      onClick={() => this.handleLeaveGroup()}
+                    >
+                      Leave Group
+                    </Button>
                   </Col>
-                  <Col xs={6} m={6}>
-                      <Button onClick={() => this.props.handleLogOut()}>Log Out </Button>
+                  <Col xs={6}>
+                    <Button
+                      size="xs"
+                      className="pull-right"
+                      onClick={() => this.props.handleLogOut()}
+                    >
+                      Log Out
+                    </Button>
                   </Col>
                 </Row>
               </Grid>

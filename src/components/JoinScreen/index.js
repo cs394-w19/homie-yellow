@@ -45,7 +45,6 @@ export default class JoinScreen extends Component {
     };
     let updates = {};
     updates['/users/' + newUser.uid] = newUser;
-    console.log(this.props.database);
     this.props.database.ref().update(updates);
     this.props.handleJoinedGroup();
   }
@@ -70,22 +69,21 @@ export default class JoinScreen extends Component {
   handleGroupJoining() {
     let ref = this.props.database.ref().child('groups/');
     ref.on("value", (data) => {
-        let groupID = null;
-        data.forEach((child) => {
-            let id = child.val().groupID;
-            if (id.substr(id.length - 6).toLowerCase() === this.state.groupCode.toLowerCase())
-              groupID = child.val().groupID;
+      let groupID = null;
+      data.forEach((child) => {
+        let id = child.val().groupID;
+        if (id.substr(id.length - 6).toLowerCase() === this.state.groupCode.toLowerCase())
+          groupID = child.val().groupID;
+      });
+      if (groupID) {
+        this.setState({
+          groupID: groupID,
+          groupScreen: 3,
         });
-        if (groupID) {
-          this.setState({
-            groupID: groupID,
-            groupScreen: 3,
-          });
-        }
-        else {
-          // error: could not find group
-          this.setState({ displayError: 'Group code not found!' });
-        }
+      }
+      else { // error: could not find group
+        this.setState({ displayError: 'Group code not found!' });
+      }
     });
   }
 
@@ -191,7 +189,7 @@ export default class JoinScreen extends Component {
               <h2>Welcome to Homie!</h2>
           </Row>
           <Row>
-            <Col xs={1}/>
+            <Col xs={1} />
             <Col xs={10}>
               {body}
             </Col>

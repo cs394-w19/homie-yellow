@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, Glyphicon, Button} from 'react-bootstrap';
+import {Row, Col, Grid, Glyphicon, Button} from 'react-bootstrap';
 import './index.scss';
 
 export default class TaskHeader extends Component {
@@ -19,6 +19,7 @@ export default class TaskHeader extends Component {
 
       let showCompleteButton;
 
+
       if (user.uid === task.assignedTo) {
 
           showCompleteButton = (<Button
@@ -36,34 +37,32 @@ export default class TaskHeader extends Component {
       };
 
       return(
-          <Row>
-            <Col xs={9}>
-              <Row>
-                <h4 className="taskName">{this.props.task.taskName}</h4>
-              </Row>
-              <Row>
-                <Col xs={6}>
-                  <p className="taskPreview">
-                    <em>
-                    <Glyphicon glyph="user"/> {assignedTo}
-                    </em>
-                  </p>
-                </Col>
-                <Col xs={6}>
-                  <p className="taskPreview">
-                    <em>
-                    <Glyphicon glyph="time"/> {taskDate}
-                    </em>
-                  </p>
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={3}>
-              <center>{showCompleteButton}</center>
-            </Col>
-          </Row>
-
-
+        <Grid id="TaskHeader">
+          <Col xs={9} md={10}>
+            <Row>
+              <h4 className="taskName">
+                {this.props.task.taskName}
+              </h4>
+            </Row>
+            <Row>
+              <p className="taskPreview">
+                <em>
+                  <Glyphicon glyph="user"/> {assignedTo}
+                </em>
+              </p>
+            </Row>
+            <Row>
+              <p className="taskPreview">
+                <em>
+                  <Glyphicon glyph="time"/> {taskDate}
+                </em>
+              </p>
+            </Row>
+          </Col>
+          <Col xs={3} md={2} className="pull-right">
+            {showCompleteButton}
+          </Col>
+        </Grid>
       );
     }
 }

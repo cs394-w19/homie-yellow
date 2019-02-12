@@ -16,12 +16,8 @@ import red from "@material-ui/core/colors/red";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const styles = theme => ({
-  /*card: {
-    maxWidth: 400,
-  },*/
   media: {
     height: 0
-    //paddingTop: '56.25%', // 16:9
   },
   actions: {
     display: "flex"
@@ -56,11 +52,9 @@ class TaskItem extends Component {
   };
 
   handleEditTask() {
-    if (this.props.user.uid === this.props.task.taskCreator) {
-      this.setState({
-        editorOpen: true
-      });
-    }
+    this.setState({
+      editorOpen: true
+    });
   }
 
   handleTaskSubmission(task) {

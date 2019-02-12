@@ -1,35 +1,32 @@
 .cal-container {
-    padding : 4%;
-  }
-  
-  .rbc-btn-group {
-    padding: 0px !important;
-  }
-  
+  padding : 4%;
+}
 
-  
-  .rbc-allday-cell {
-    height: 0px !important;
-  }
-  
-  // .rbc-time-view .rbc-row div:nth-child(1) {
-  //   height: 0px !important;
-  // }
-  .rbc-row .rbc-time-header-cell {
-    word-wrap: break-word;
-    height : 100%;
-  }
-  
-  .rbc-today {
-  
-    background-color: #D5C7BC;
-  }
-  
-  .rbc-toolbar-label{
-  
-    padding: 0px !important;
-  }
-  
-  .button {
-    padding: 0px;
-  }
+.rbc-btn-group {
+  padding: 0px !important;
+}
+
+
+.rbc-allday-cell {
+  height: 0px !important;
+}
+
+
+.rbc-row .rbc-time-header-cell {
+  word-wrap: break-word;
+  height : 100%;
+}
+
+.rbc-today {
+
+  background-color: #D5C7BC;
+}
+
+.rbc-toolbar-label{
+
+  padding: 0px !important;
+}
+
+.button {
+  padding: 0px;
+}

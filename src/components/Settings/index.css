@@ -1,9 +1,5 @@
 #Settings {
-    margin: 20px 0px 0px 20px;
-}
-
-#horz-padding {
-  padding: 20px 0px;
+    margin: 0px 10px;
 }
 
 #group-join-code {
@@ -24,8 +20,4 @@
   font-size: 12px;
   font-style: italic;
 
-}
-
-#admin-buttons {
-  text-align: center;
 }
