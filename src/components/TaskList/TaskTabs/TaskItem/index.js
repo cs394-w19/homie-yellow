@@ -106,6 +106,7 @@ class TaskItem extends Component {
           <TaskHeader
             task={this.props.task}
             personsInGroup={this.props.personsInGroup}
+            user={this.props.user}
             handleTaskCompleted={() => this.props.handleTaskCompleted()}
           />
         </CardContent>
@@ -130,6 +131,7 @@ class TaskItem extends Component {
           <CardContent>
             <TaskDetails
               personsInGroup={this.props.personsInGroup}
+              user={this.props.user}
               task={this.props.task}
               handleDeleteTask={t => this.props.handleDeleteTask(t)}
               handleEditTask={() => this.handleEditTask()}

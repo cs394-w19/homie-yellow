@@ -72,8 +72,6 @@ export default class TaskList extends Component {
   }
 
   handleDeleteTask(task) {
-      let taskAssignee = task.assignedTo
-      let userid = this.props.user.uid
       let taskOwner = task.taskCreator
       if (this.props.user.uid === taskOwner) {
         let taskKey = task.taskID;
