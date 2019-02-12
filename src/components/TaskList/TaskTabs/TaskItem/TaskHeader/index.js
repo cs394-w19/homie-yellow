@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, Glyphicon, Button} from 'react-bootstrap';
+import {Row, Col, Grid, Glyphicon, Button} from 'react-bootstrap';
 import './index.scss';
 
 export default class TaskHeader extends Component {
@@ -22,41 +22,37 @@ export default class TaskHeader extends Component {
       if (user.uid === task.taskCreator) {
 
           showCompleteButton = (<Button
-                block
+                className="pull-right"
                 bsStyle={style}
                 onClick={() => this.props.handleTaskCompleted()}
               ><Glyphicon glyph="ok"/></Button>);
       };
 
       return(
-          <Row>
-            <Col xs={9}>
+          <Grid id="TaskHeader">
+            <Col xs={9} md={10}>
               <Row>
                 <h4 className="taskName">{this.props.task.taskName}</h4>
               </Row>
               <Row>
-                <Col xs={6}>
-                  <p className="taskPreview">
-                    <em>
-                    <Glyphicon glyph="user"/> {assignedTo}
-                    </em>
-                  </p>
-                </Col>
-                <Col xs={6}>
-                  <p className="taskPreview">
-                    <em>
-                    <Glyphicon glyph="time"/> {taskDate}
-                    </em>
-                  </p>
-                </Col>
+                <p className="taskPreview">
+                  <em>
+                  <Glyphicon glyph="user"/> {assignedTo}
+                  </em>
+                </p>
+              </Row>
+              <Row>
+                <p className="taskPreview">
+                  <em>
+                  <Glyphicon glyph="time"/> {taskDate}
+                  </em>
+                </p>
               </Row>
             </Col>
-            <Col xs={3}>
-              <center>{showCompleteButton}</center>
+            <Col xs={3} md={2} className="pull-right">
+              {showCompleteButton}
             </Col>
-          </Row>
-
-
+          </Grid>
       );
     }
 }

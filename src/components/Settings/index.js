@@ -98,12 +98,10 @@ export default class Settings extends Component {
                 </Col>
                 <Col xs={12} m={8}>
                   <Row>
-                  	<h2>Group Information</h2>
+                  	<h2>Your Group</h2>
+                    <h4>{groupName}</h4>
+                    <p>Group Members: {groupMembersList}</p>
                   </Row>
-                  <p>Your name: {this.props.user.displayName.split(" ")[0]} {role}</p>
-                  <p>Group Name: {groupName}</p>
-                  <p>Group ID: {groupID.substr(groupID.length - 6).toUpperCase()}</p>
-                  <p>Group Members: {groupMembersList}</p>
                 </Col>
               </Grid>
               <Grid>
