@@ -25,27 +25,32 @@ export default class Calendar extends React.Component {
     this.tasksToEvents = this.tasksToEvents.bind(this);
     this.handleSelectEvent = this.handleSelectEvent.bind(this);
     this.eventStyleGetter = this.eventStyleGetter.bind(this);
-    }
+  }
 
-  componentDidMount(){
+  componentDidMount() {
     // get the current task list and turn them into calendar events
     let taskListRef = this.props.database.ref('taskList');
     taskListRef.orderByChild("groupID").equalTo(this.props.groupID).on('value', snapshot => {
-      this.setState({
-        tasks: snapshot.val(),
-     }, () => {this.tasksToEvents()});
+      let group_tasks = [];
+      snapshot.forEach((child) => {
+          group_tasks.push(child.val());
+      });
+      let tasks = group_tasks.filter((t) => !t.isComplete && !t.isDeleted);
+      this.setState(
+        { tasks: tasks },
+        () => {this.tasksToEvents()}
+      );
     });
-
   }
 
-  tasksToEvents(){
+  tasksToEvents() {
     let calEvents = [];
     if (this.state.tasks) {
       calEvents = Object.keys(this.state.tasks).map((key)=> {
-        let end = parseInt(this.state.tasks[key].taskDate) + 0.25*3600*1000;
+        let end = parseInt(this.state.tasks[key].taskDate) + 3600*1000;
 
         if(this.state.tasks[key].endTime !== undefined) {
-          end = this.state.tasks[key].endTime ;
+          end = this.state.tasks[key].endTime;
         }
 
         return {
@@ -55,9 +60,8 @@ export default class Calendar extends React.Component {
           "assignedTo" : this.state.tasks[key].assignedTo != null ? this.state.tasks[key].assignedTo : "nobody"
         };
       });
-    }
-
-    this.setState({events : calEvents}, console.log("events" , this.state.events));
+    };
+    this.setState({ events : calEvents });
   }
 
 
@@ -124,15 +128,12 @@ export default class Calendar extends React.Component {
 
     let formats = {
       dateFormat: 'dd D',
-
       dayFormat: (date, x, localizer) =>
-      localizer.format(date, 'dd D'),
-
+        localizer.format(date, 'dd D'),
       timeGutterFormat: (date, x, localizer) =>
-      localizer.format(date, "h A"),
-
+        localizer.format(date, "h A"),
       dayRangeHeaderFormat: ({ start, end }, x, localizer) =>
-      `${localizer.format(start, "MMM D")} - ${localizer.format(end, "D")}`
+        `${localizer.format(start, "MMM D")} - ${localizer.format(end, "D")}`
     };
 
 
@@ -145,7 +146,7 @@ export default class Calendar extends React.Component {
           eventPropGetter={(e) => this.eventStyleGetter(e)}
           components={components}
           events = {this.state.events}
-          views={{day: true , week : true , MyWeek : MyWeek}}// custom view for three days to use for mobile
+          views={{day: true , week : true , MyWeek : MyWeek}}
           showMultiDayTimes
           defaultDate={new Date()}
           defaultView={"day"}
@@ -153,7 +154,6 @@ export default class Calendar extends React.Component {
           popup = {true}
           longPressThreshold={100}
           onSelectEvent= {(event, e) => this.handleSelectEvent(event, e)}
-
         />
       </div>
     );

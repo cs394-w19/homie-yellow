@@ -21,7 +21,6 @@ export default class Settings extends Component {
 	      let groupAdmin = 0;
 	      let groupName = "None";
 	      data.forEach(elem => {
-	      	console.log(elem.val());
 	        if (elem.val().groupID === groupID) {
 	          groupAdmin = elem.val().groupAdmin;
 	          groupName = elem.val().groupName;

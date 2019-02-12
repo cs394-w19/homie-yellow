@@ -78,23 +78,24 @@ class BaseTemplate extends Component {
   }
 
   handleLogOut() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.setState({
-          user: null
-        });
+    firebase.auth().signOut().then(() => {
+      this.setState({
+        user: null
       });
+    });
   }
 
   render() {
     // not logged in
     if(this.state.user == null) {
       return(
-        <Grid>
-          <Row id="Login" className="align-middle">
-            <h2> Welcome to Homie!</h2>
+        <Grid id="Login" className="align-middle">
+          <Row>
+            <img src="homie.png" width="100" alt="homie logo" />
+            <h2>Welcome to Homie!</h2>
+            <p><i>All your household information in one place</i></p>
+          </Row>
+          <Row style={{ paddingTop: 100 }}>
             <StyledFirebaseAuth
               uiConfig={this.uiConfig}
               firebaseAuth={firebase.auth()}
@@ -118,37 +119,39 @@ class BaseTemplate extends Component {
 
     return (
       <Media query="(max-width: 770px)">
-          {matches => matches ?
-              (
-                  <Grid >
-                      <Canvas
-                            personsInGroup={this.state.personsInGroup}
-                            groupID={this.state.groupID}
-                            database={this.props.database}
-                            activeTab={this.state.activeTab}
-                            handleLogOut={() => this.handleLogOut()}
-                            user={this.state.user}/>
-                      <NavBarOnBottom
-                            handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
-                            handleLogOut={() => this.handleLogOut()}
-                            user={this.state.user}/>
-                  </Grid>
-              ) : (
-                  <div>
-                      <NavBarOnTop
-                          handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
-                          handleLogOut={() => this.handleLogOut()}
-                          user={this.state.user}/>
-                      <Canvas
-                          personsInGroup={this.state.personsInGroup}
-                          groupID={this.state.groupID}
-                          database={this.props.database}
-                          activeTab={this.state.activeTab}
-                          handleLogOut={() => this.handleLogOut()}
-                          user={this.state.user}/>
-                  </div>
-              )
-          }
+        {matches => matches ? (
+          <Grid >
+            <Canvas
+              personsInGroup={this.state.personsInGroup}
+              groupID={this.state.groupID}
+              database={this.props.database}
+              activeTab={this.state.activeTab}
+              handleLogOut={() => this.handleLogOut()}
+              user={this.state.user}
+            />
+            <NavBarOnBottom
+              handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
+              handleLogOut={() => this.handleLogOut()}
+              user={this.state.user}
+            />
+          </Grid>
+        ) : (
+          <div>
+            <NavBarOnTop
+              handleNavButtonClick={(tab) => this.handleNavButtonClick(tab)}
+              handleLogOut={() => this.handleLogOut()}
+              user={this.state.user}
+            />
+            <Canvas
+              personsInGroup={this.state.personsInGroup}
+              groupID={this.state.groupID}
+              database={this.props.database}
+              activeTab={this.state.activeTab}
+              handleLogOut={() => this.handleLogOut()}
+              user={this.state.user}
+            />
+          </div>
+        )}
       </Media>
     );
   }

@@ -20,39 +20,44 @@ export default class TaskHeader extends Component {
       let showCompleteButton;
 
       if (user.uid === task.taskCreator) {
-
-          showCompleteButton = (<Button
-                className="pull-right"
-                bsStyle={style}
-                onClick={() => this.props.handleTaskCompleted()}
-              ><Glyphicon glyph="ok"/></Button>);
+          showCompleteButton = (
+            <Button
+              className="pull-right"
+              bsStyle={style}
+              onClick={() => this.props.handleTaskCompleted()}
+            >
+              <Glyphicon glyph="ok"/>
+            </Button>
+          );
       };
 
       return(
-          <Grid id="TaskHeader">
-            <Col xs={9} md={10}>
-              <Row>
-                <h4 className="taskName">{this.props.task.taskName}</h4>
-              </Row>
-              <Row>
-                <p className="taskPreview">
-                  <em>
+        <Grid id="TaskHeader">
+          <Col xs={9} md={10}>
+            <Row>
+              <h4 className="taskName">
+                {this.props.task.taskName}
+              </h4>
+            </Row>
+            <Row>
+              <p className="taskPreview">
+                <em>
                   <Glyphicon glyph="user"/> {assignedTo}
-                  </em>
-                </p>
-              </Row>
-              <Row>
-                <p className="taskPreview">
-                  <em>
+                </em>
+              </p>
+            </Row>
+            <Row>
+              <p className="taskPreview">
+                <em>
                   <Glyphicon glyph="time"/> {taskDate}
-                  </em>
-                </p>
-              </Row>
-            </Col>
-            <Col xs={3} md={2} className="pull-right">
-              {showCompleteButton}
-            </Col>
-          </Grid>
+                </em>
+              </p>
+            </Row>
+          </Col>
+          <Col xs={3} md={2} className="pull-right">
+            {showCompleteButton}
+          </Col>
+        </Grid>
       );
     }
 }

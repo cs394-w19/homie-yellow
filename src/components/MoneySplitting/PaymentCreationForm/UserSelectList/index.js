@@ -11,10 +11,9 @@ export default class UserSelectList extends Component {
     }
 
     handleChange(e) {
-        console.log(e.target.value);
         this.setState({
             payerUID: e.target.value,
-        })
+        });
         this.props.handlePayerSelection(e.target.value);
     }
 
@@ -22,7 +21,7 @@ export default class UserSelectList extends Component {
       let editAssignedField = this.props.personsInGroup.map(person => {
         if (person.uid !== this.props.user.uid) return('');
         return (
-          <option value={person.uid}>
+          <option key={person.uid} value={person.uid}>
               {person.name}
           </option>
         );

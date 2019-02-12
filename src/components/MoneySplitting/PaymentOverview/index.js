@@ -52,14 +52,20 @@ export default class PaymentOverview extends Component {
         });
 
         let totalUserOwes = 0;
-        whatCurrUserOwes.forEach(item => totalUserOwes += item.amount);
+        whatCurrUserOwes.forEach(item => totalUserOwes += parseInt(item.amount));
 
         let owedComponents = whatCurrUserIsOwed.map((payment) => {
             let name = this.props.personsInGroup.find(person => person.uid === payment.payerUID).name;
             return(
-            <div className="overview-header" onClick={() => this.props.handleViewPayments(payment, true)} >
-                {name} owes you <b>${payment.amount}</b> <Glyphicon className="pull-right" glyph="menu-right" />
-            </div>);
+              <div
+                key={payment.paymentID}
+                className="overview-header"
+                onClick={() => this.props.handleViewPayments(payment, true)}
+              >
+                  {name} owes you <b>${payment.amount}</b>
+                  <Glyphicon className="pull-right" glyph="menu-right" />
+              </div>
+            );
         });
 
         if (!whatCurrUserIsOwed.length & totalUserOwes <= 0)
@@ -67,8 +73,12 @@ export default class PaymentOverview extends Component {
 
         let overview = (
             <div id="overview">
-                <div className="overview-header" onClick={() => this.props.handleViewPayments(whatCurrUserOwes, true)} >
-                    You owe <b>${totalUserOwes}</b> total <Glyphicon className="pull-right" glyph="menu-right" />
+                <div
+                  className="overview-header"
+                  onClick={() => this.props.handleViewPayments(whatCurrUserOwes, true)}
+                >
+                    You owe <b>${totalUserOwes}</b> total
+                    <Glyphicon className="pull-right" glyph="menu-right" />
                 </div>
             </div>
 

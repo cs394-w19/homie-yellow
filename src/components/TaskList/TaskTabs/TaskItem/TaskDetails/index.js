@@ -12,8 +12,7 @@ export default class TaskDetails extends Component {
       if (!t.assignedTo) return false;
       return t.assignedTo.includes(person.uid);
     });
-    let assignedTo =
-      t.assignedTo == null
+    let assignedTo = t.assignedTo == null
         ? "nobody"
         : assignedPeople.map(p => p.name).join(", ");
 
@@ -26,48 +25,53 @@ export default class TaskDetails extends Component {
     }
 
     if (this.props.user.uid === t.taskCreator) {
-        showEditButton = (<Button bsSize="small" onClick={() => this.props.handleEditTask()}>
-              <span>
-                <Glyphicon glyph="pencil" />
-              </span>
-            </Button>);
-        showDeleteButton = (<Button
-              bsSize="small"
-              onClick={() => this.props.handleDeleteTask(t)}>
-              <span>
-                <Glyphicon glyph="trash" />
-              </span>
-            </Button>);
+        showEditButton = (
+          <Button
+            className="pull-right"
+            bsSize="small"
+            onClick={() => this.props.handleEditTask()}
+          >
+            <span>
+              <Glyphicon glyph="pencil" />
+            </span>
+          </Button>
+        );
+        showDeleteButton = (
+          <Button
+            bsSize="small"
+            className="pull-right"
+            onClick={() => this.props.handleDeleteTask(t)}
+          >
+            <span>
+              <Glyphicon glyph="trash" />
+            </span>
+          </Button>
+        );
     }
 
     return (
       <div>
         <Row>
           <Col xs={12}>
-            <p>
-              <small>
-                <b>Due {new Date(1 * t.taskDate).toDateString()}.</b> Repeat{" "}
-                {t.repeatInterval}.
-              </small>
-            </p>
+            <small>
+              <b>Due {new Date(1 * t.taskDate).toDateString()}.</b> Repeat{" "}
+              {t.repeatInterval}.
+            </small>
             <p>{t.taskDescription}</p>
           </Col>
         </Row>
         <Row>
           <Col xs={12}>
-            <p>
-              <small>
+            <small>
                 <i>
                   {t.taskType} assigned to {assignedTo}. Created by{" "}
                   {taskCreator.name}.
                 </i>
-              </small>
-            </p>
+            </small>
           </Col>
         </Row>
         <Row>
-          <Col xs={7} sm={9} md={10} lg={11} />
-          <Col xs={5} sm={3} md={2} lg={1}>
+          <Col className="pull-right" xs={5} sm={3} md={2} lg={1}>
             {showEditButton}
             {showDeleteButton}
           </Col>

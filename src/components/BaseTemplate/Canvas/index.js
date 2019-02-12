@@ -8,10 +8,7 @@ import './index.css';
 
 export default class Canvas extends Component {
   render() {
-    let canvas = <h1>Page Not Found.</h1>;
-    if(this.props.user == null) {
-      return(<h1>Please log in</h1>);
-    }
+    let canvas = "";
 
     switch (this.props.activeTab) {
       case 0:
@@ -47,7 +44,8 @@ export default class Canvas extends Component {
                     groupID={this.props.groupID}
                     personsInGroup={this.props.personsInGroup}
                     database={this.props.database}
-                    handleLogOut={() => this.props.handleLogOut()}/>;
+                    handleLogOut={() => this.props.handleLogOut()}
+                  />;
         break;
       default:
         canvas = <h1>Page Not Found.</h1>;

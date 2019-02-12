@@ -7,7 +7,6 @@ import "react-datetime/css/react-datetime.css";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import PropTypes from "prop-types";
 
 export default class TaskCreationForm extends Component {
   constructor(props) {
@@ -190,6 +189,3 @@ export default class TaskCreationForm extends Component {
     );
   }
 }
-TaskCreationForm.propTypes = {
-  classes: PropTypes.object.isRequired
-};

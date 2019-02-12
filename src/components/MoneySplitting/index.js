@@ -22,7 +22,7 @@ export default class MoneySplitting extends Component {
             paymentCreation: true
         })
     }
-    
+
     handleViewPayments(payments, listView) {
         this.setState({
             payments: payments,
@@ -31,7 +31,6 @@ export default class MoneySplitting extends Component {
     }
 
     handlePaymentSubmission(payment) {
-        console.log(payment);
         let paymentsRef = this.props.database.ref().child('payments');
         let paymentKey = payment.paymentID ? payment.paymentID : paymentsRef.push().key;
         payment.paymentID = paymentKey;
@@ -52,7 +51,6 @@ export default class MoneySplitting extends Component {
     }
 
     handlePaymentCompleted(payment) {
-        console.log(payment);
         let paymentKey = payment.paymentID;
         payment.isComplete = 1;
         let updates = {};
@@ -60,7 +58,7 @@ export default class MoneySplitting extends Component {
         this.props.database.ref().update(updates);
         this.handleViewPayments(this.state.payments, false);
     }
-  
+
     handleDeletePayment(payment) {
         let paymentKey = payment.paymentID;
         payment.isDeleted = 1;
@@ -69,7 +67,7 @@ export default class MoneySplitting extends Component {
         this.props.database.ref().update(updates);
         this.handleViewPayments(this.state.payments, false);
     }
-    
+
     render() {
         let createPaymentButton = (
             <Button
@@ -91,15 +89,15 @@ export default class MoneySplitting extends Component {
                 database={this.props.database}
                 handlePaymentSubmission={payment=> this.handlePaymentSubmission(payment)}
                 handlePaymentCreationClose={() => this.handlePaymentCreationClose()}
-                /> 
+                />
         );
 
         let overview = (
             <div>
-                {this.state.paymentCreation ? payment_creation : 
+                {this.state.paymentCreation ? payment_creation :
                     <Row>
                         <Col xs={3}>
-                            
+
                         </Col>
                         <Col xs={6}>
                             {createPaymentButton}
@@ -112,13 +110,13 @@ export default class MoneySplitting extends Component {
                     database={this.props.database}
                     groupID={this.props.groupID}
                     handleViewPayments={(p,v) => this.handleViewPayments(p,v)}
-                    /> 
-            </div>              
+                    />
+            </div>
         );
 
         let list = (
             <div>
-                {this.state.paymentCreation ? payment_creation : 
+                {this.state.paymentCreation ? payment_creation :
                     <Row>
                         <Col xs={3}>
                             <Glyphicon glyph="arrow-left" className="pull-left" onClick={() => this.handleViewPayments([], false)}/>
@@ -136,11 +134,11 @@ export default class MoneySplitting extends Component {
                 handleViewPayments={(p,v) => this.handleViewPayments(p,v)}
                 handlePaymentCompleted={payment => this.handlePaymentCompleted(payment)}
                 handleDeletePayment={p => this.handleDeletePayment(p)}
-                /> 
+                />
             </div>
         );
 
-        
+
         return (
             <div className="Payments">
                 <h1 id="payment-header">Payments</h1>
@@ -149,4 +147,3 @@ export default class MoneySplitting extends Component {
         )
     }
 }
-
