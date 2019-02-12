@@ -31,7 +31,7 @@ export default class UserSelectList extends React.Component {
           <label>
             Who needs to pay:
             <select value={this.state.payerUID} onChange={this.handleChange}>
-                <option value=""> Click to select </option>
+                <option value=""> Select... </option>
               {editAssignedField}
             </select>
           </label>
@@ -39,22 +39,3 @@ export default class UserSelectList extends React.Component {
       );
     }
   }
-/*export default class UserSelectList extends Component {      
-    render() {
-
-        let editAssignedField = this.props.personsInGroup.map(person => {
-            return (
-              <span key={person.uid}>
-                {person.name}
-              </span>
-            );
-          });
-        
-        return (
-            <div> {editAssignedField} </div>
-                
-        );
-    }
-}*/
-
-

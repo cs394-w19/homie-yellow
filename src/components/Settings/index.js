@@ -81,8 +81,8 @@ export default class Settings extends Component {
     	let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
 
         return(
-          <div>
-              <Grid id="Settings">
+          <div id="Settings">
+              <Grid>
                 <Col xs={12} m={8}>
                   <Row>
                     <h1>Hello, {this.props.user.displayName.split(" ")[0]}!</h1>

@@ -28,14 +28,14 @@ export default class PaymentCreationForm extends Component {
     }
   }
   handleAmountChange(e){
-    
+
     this.setState({
         amount: e.target.value
     });
   }
 
   handleSubmitButtonPress() {
-    
+
     this.props.handlePaymentSubmission(Object.assign({}, this.state));
   }
 
@@ -59,7 +59,10 @@ export default class PaymentCreationForm extends Component {
                         />
                     </Col>
                     <Col xs={4}>
-                        <Button onClick={() => this.props.handlePaymentCreationClose()}>
+                        <Button bsStyle="danger"
+                                className="pull-right"
+                                onClick={() => this.props.handlePaymentCreationClose()}
+                        >
                             <Glyphicon glyph="remove" />
                         </Button>
                     </Col>
@@ -75,6 +78,7 @@ export default class PaymentCreationForm extends Component {
                     />
                     </Col>
                     <Col xs={4}>
+                        <br />
                         <Button
                         bsStyle="success"
                         onClick={() => this.handleSubmitButtonPress()}

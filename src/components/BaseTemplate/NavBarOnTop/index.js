@@ -15,7 +15,7 @@ const NavBarOnTop = props => {
                 <div><Glyphicon glyph="tasks" /> Tasks </div>
             </NavItem>
             <NavItem onClick={() => props.handleNavButtonClick(2)} href="#">
-                <div><Glyphicon glyph="usd" /> Splitting </div>
+                <div><Glyphicon glyph="usd" /> Payments </div>
             </NavItem>
             <NavItem onClick={() => props.handleNavButtonClick(3)} href="#">
                 <div><Glyphicon glyph="calendar" /> Calendar </div>
