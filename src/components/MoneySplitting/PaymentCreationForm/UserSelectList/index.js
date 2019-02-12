@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./index.scss";
-export default class UserSelectList extends React.Component {
+
+export default class UserSelectList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,16 +17,17 @@ export default class UserSelectList extends React.Component {
         })
         this.props.handlePayerSelection(e.target.value);
     }
+
     render() {
-        let editAssignedField = this.props.personsInGroup.map(person => {
-            if(person.uid !== this.props.user.uid) {
-                return (
-                <option value={person.uid}>
-                    {person.name}
-                </option>
-                );
-            }
-          });
+      let editAssignedField = this.props.personsInGroup.map(person => {
+        if (person.uid !== this.props.user.uid) return('');
+        return (
+          <option value={person.uid}>
+              {person.name}
+          </option>
+        );
+      });
+
       return (
         <div>
           <label>
@@ -38,4 +40,5 @@ export default class UserSelectList extends React.Component {
         </div>
       );
     }
+
   }

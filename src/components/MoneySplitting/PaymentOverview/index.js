@@ -39,6 +39,7 @@ export default class PaymentOverview extends Component {
         let whatCurrUserOwes = this.state.payments.filter((item) => {
             if(!item.isComplete && !item.isDeleted)
                 return item.payerUID === this.props.user.uid;
+            return false;
         });
 
         let whatCurrUserIsOwed = this.state.payments.filter((item) => {
@@ -47,6 +48,7 @@ export default class PaymentOverview extends Component {
                     return (person.uid === item.payerUID) && (person.uid !== this.props.user.uid)
                 });
             }
+            return false;
         });
 
         let totalUserOwes = 0;

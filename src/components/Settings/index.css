@@ -1,5 +1,5 @@
 #Settings {
-    margin: 0px 0px;
+    margin: 0px 10px;
 }
 
 #horz-padding {
@@ -24,8 +24,4 @@
   font-size: 12px;
   font-style: italic;
 
-}
-
-#admin-buttons {
-  text-align: center;
 }

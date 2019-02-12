@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Grid, FormControl, ControlLabel, Button } from "react-bootstrap";
+import { Row, Col, FormControl, Button } from "react-bootstrap";
 import Datetime from "react-datetime";
 import TaskAssignedToCheckboxes from "./TaskAssignedToCheckboxes";
 import "./index.scss";

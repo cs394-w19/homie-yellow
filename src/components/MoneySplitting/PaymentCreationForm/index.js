@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, FormControl, ControlLabel, Button, Glyphicon} from "react-bootstrap";
+import { Row, Col, FormControl, Button, Glyphicon} from "react-bootstrap";
 import "./index.scss";
 import "react-datepicker/dist/react-datepicker.css";
 

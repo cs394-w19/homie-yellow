@@ -1,6 +1,6 @@
 import React from 'react';
 import Toolbar from 'react-big-calendar/lib/Toolbar';
-import {Button, Glyphicon, Grid, Row, Col} from 'react-bootstrap';
+import {Button, Glyphicon, Row, Col} from 'react-bootstrap';
 
 import './index.scss';
 
