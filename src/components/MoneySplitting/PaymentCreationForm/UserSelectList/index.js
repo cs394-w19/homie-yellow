@@ -1,38 +1,41 @@
 import React, { Component } from "react";
-import {Form, FormControl} from 'react-bootstrap';
-import Select from 'react-select';
 import "./index.scss";
-
-export default class UserSelectList extends Component {
+export default class UserSelectList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',
+            payerUID: ""
         }
+        this.handleChange = this.handleChange.bind(this);
     }
 
-        handleChange = (selectedOption) => {
-          this.setState({value: selectedOption});
-          console.log(`Option selected:`, selectedOption);
-        }
-        render() {
-          let options = [];
-          this.props.personsInGroup.forEach((person) => {
-              if(person.uid != this.props.user.uid) {
-                  options.push({value: person.uid, label: person.name});
-              }
-          })
-          console.log(options);
-      
-          return (
-            <Select
-              value={this.state.value}
-              onChange={this.handleChange}
-              options={options}
-              isOpen
-            />
-          );
-        }
-      }
-
-
+    handleChange(e) {
+        console.log(e.target.value);
+        this.setState({
+            payerUID: e.target.value,
+        })
+        this.props.handlePayerSelection(e.target.value);
+    }
+    render() {
+        let editAssignedField = this.props.personsInGroup.map(person => {
+            if(person.uid !== this.props.user.uid) {
+                return (
+                <option value={person.uid}>
+                    {person.name}
+                </option>
+                );
+            }
+          });
+      return (
+        <div>
+          <label>
+            Who needs to pay:
+            <select value={this.state.payerUID} onChange={this.handleChange}>
+                <option value=""> Select... </option>
+              {editAssignedField}
+            </select>
+          </label>
+        </div>
+      );
+    }
+  }

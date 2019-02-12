@@ -70,18 +70,19 @@ export default class Settings extends Component {
 		let groupName = this.state.groupName;
 	    let role = this.checkIfAdmin();
 
-		let groupMembers = "";
+	    let groupMembers = []
     	personsInGroup.forEach(elem => {
-    		groupMembers = groupMembers + elem.name + ", ";
+    		groupMembers.push(elem.name);
     	});
+    	let groupMembersList = groupMembers.join(", ");
 
     	if (!groupID) groupID = '000000';
 
     	let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
 
         return(
-          <div>
-              <Grid id="Settings">
+          <div id="Settings">
+              <Grid>
                 <Col xs={12} m={8}>
                   <Row>
                     <h1>Hello, {this.props.user.displayName.split(" ")[0]}!</h1>
@@ -96,11 +97,14 @@ export default class Settings extends Component {
                   </Row>
                 </Col>
                 <Col xs={12} m={8}>
-                  <p>Your name: {this.props.user.displayName}</p>
+                  <Row>
+                  	<h2>Group Information</h2>
+                  </Row>
+                  <p>Your name: {this.props.user.displayName.split(" ")[0]}</p>
                   <p>Group Role: {role}</p>
                   <p>Group Name: {groupName}</p>
-                  <p>Group ID: {groupID}</p>
-                  <p>Group Members: {groupMembers}</p>
+                  <p>Group ID: {groupID.substr(groupID.length - 6).toUpperCase()}</p>
+                  <p>Group Members: {groupMembersList}</p>
                 </Col>
               </Grid>
               <Grid>

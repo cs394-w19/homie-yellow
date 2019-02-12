@@ -22,6 +22,6 @@ export default class TaskAssignedToCheckboxes extends Component {
       );
     });
 
-    return <div>{editAssignedField}</div>;
+    return (<div> {editAssignedField} </div>);
   }
 }

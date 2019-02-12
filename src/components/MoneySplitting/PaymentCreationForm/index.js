@@ -19,6 +19,7 @@ export default class PaymentCreationForm extends Component {
       isComplete: false,
       payerUID: "",
     };
+    this.handleAmountChange = this.handleAmountChange.bind(this);
   }
 
   componentDidMount() {
@@ -26,21 +27,25 @@ export default class PaymentCreationForm extends Component {
       this.setState(this.props.payment);
     }
   }
+  handleAmountChange(e){
 
+    this.setState({
+        amount: e.target.value
+    });
+  }
 
   handleSubmitButtonPress() {
+
     this.props.handlePaymentSubmission(Object.assign({}, this.state));
   }
 
-  render() {
+  handlePayerSelection(uid) {
+      this.setState({
+        payerUID: uid
+      });
+  }
 
-   /* let user_options = this.props.personsInGroup.map((person) => {
-        if(person.uid !== this.props.user.uid) {
-            return (
-                <option id='{person.uid}'>person.name </option>
-            );
-        }
-    });*/
+  render() {
     return (
       <div id="payment-creation">
         <Card>
@@ -48,27 +53,32 @@ export default class PaymentCreationForm extends Component {
                 <Row>
                     <Col xs={8}>
                         <FormControl
-                        type="text"
-                        /*value={this.state.taskName}*/
+                        type="number"
                         placeholder="0.00"
-                        onChange={this.handleNameChange}
+                        onChange={this.handleAmountChange}
                         />
                     </Col>
                     <Col xs={4}>
-                        <Button onClick={() => this.props.handlePaymentCreationClose()}>
+                        <Button bsStyle="danger"
+                                className="pull-right"
+                                onClick={() => this.props.handlePaymentCreationClose()}
+                        >
                             <Glyphicon glyph="remove" />
                         </Button>
                     </Col>
                 </Row>
                 <br/>
                 <Row>
-                    <Col xs={8}>
+                    <Col xs={8} id="userList">
                     <UserSelectList
                         personsInGroup={this.props.personsInGroup}
                         user={this.props.user}
+                        handlePayerSelection={(uid) => this.handlePayerSelection(uid)}
+                        payerUID={this.state.payerUID}
                     />
                     </Col>
                     <Col xs={4}>
+                        <br />
                         <Button
                         bsStyle="success"
                         onClick={() => this.handleSubmitButtonPress()}

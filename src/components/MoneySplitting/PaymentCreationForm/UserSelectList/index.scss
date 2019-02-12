@@ -1,20 +1,10 @@
-.Select {
-    width: 444px !important;
-    margin-right: 5px;
-    z-index: 0 !important;
-}
-
-.Select.is-open {
-	z-index: 1 !important;
-}
-
-.Select-menu {
-    position: fixed !important;
-    width: 440px !important;
-    margin: 1px;
-}
-
-.Select-menu-outer {
-    z-index: 1000 !important;
-    position:relative !important
+select {
+    width: 100%;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 12px;
+    background-color: white;
+    font-weight: normal;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 }

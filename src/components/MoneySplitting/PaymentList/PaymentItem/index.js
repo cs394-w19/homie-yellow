@@ -69,22 +69,6 @@ class PaymentItem extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-
-    /*if (this.state.editorOpen) {
-      return (
-        <PaymentCreationForm
-          paymentID={this.props.payment.paymentID}
-          payment={this.props.payment}
-          user={this.props.user}
-          personsInGroup={this.props.personsInGroup}
-          database={this.props.database}
-          handlePaymentSubmission={payment => this.handlePaymentSubmission(payment)}
-          handlePaymentCreationClose={() => this.handlePaymentCreationClose()}
-        />
-      );
-    }*/
-    // if not return a vanilla card:)
     return (
       <Card className="cardStyle">
         <CardContent
@@ -95,7 +79,7 @@ class PaymentItem extends Component {
             payment={this.props.payment}
             personsInGroup={this.props.personsInGroup}
             handlePaymentCompleted={() => this.props.handlePaymentCompleted()}
-            handleDeleteTask={t => this.props.handleDeleteTask(t)}
+            handleDeletePayment={p => this.props.handleDeletePayment(p)}
             user={this.props.user}
           />
         </CardContent>

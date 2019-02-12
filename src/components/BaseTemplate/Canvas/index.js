@@ -4,6 +4,8 @@ import Calendar from '../../Calendar';
 import Settings from '../../Settings';
 import MoneySplitting from '../../MoneySplitting';
 
+import './index.css';
+
 export default class Canvas extends Component {
   render() {
     let canvas = <h1>Page Not Found.</h1>;
@@ -24,7 +26,7 @@ export default class Canvas extends Component {
                   />;
         break;
       case 2:
-        canvas = <MoneySplitting 
+        canvas = <MoneySplitting
                     user={this.props.user}
                     personsInGroup={this.props.personsInGroup}
                     database={this.props.database}
@@ -51,6 +53,6 @@ export default class Canvas extends Component {
         canvas = <h1>Page Not Found.</h1>;
     }
 
-    return(canvas);
+    return(<div id="canvas"> {canvas} </div>);
   }
 }

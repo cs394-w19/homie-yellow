@@ -26,7 +26,7 @@ const NavBarOnBottom = props => {
                     </Row>
                     <Row>
                       <Col xs={12}className="smallText">
-                        Splitting
+                        Payments
                       </Col>
                     </Row>
                   </Col>
