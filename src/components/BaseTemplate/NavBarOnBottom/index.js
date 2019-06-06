@@ -6,29 +6,13 @@ const NavBarOnBottom = props => {
       <Row className="mobile-navbar">
         <Col onClick={() => props.handleNavButtonClick(1)} href="#" xs={3} className="mobile-item">
           <Row>
-              <Glyphicon glyph="tasks" />
+              <Glyphicon glyph="list" />
           </Row>
           <Row className="smallText">
-            Tasks
+            Studies
           </Row>
         </Col>
-        <Col onClick={() => props.handleNavButtonClick(2)} href="#" xs={3} className="mobile-item">
-          <Row>
-            <Glyphicon glyph="usd" />
-          </Row>
-          <Row className="smallText">
-            Payments
-          </Row>
-        </Col>
-        <Col onClick={() => props.handleNavButtonClick(3)} href="#" xs={3} className="mobile-item">
-          <Row>
-            <Glyphicon glyph="calendar" />
-          </Row>
-          <Row className="smallText">
-            Calendar
-          </Row>
-        </Col>
-        <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={3} className="mobile-item">
+         <Col onClick={() => props.handleNavButtonClick(4)} href="#" xs={3} className="mobile-item">
           <Row>
             <Glyphicon glyph="cog" />
           </Row>

@@ -6,7 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #212D40;
+  background-color: #ededed;
   color:white;
 }
 
@@ -16,7 +16,7 @@ code {
 }
 
 .mobile-navbar {
-  background-color: #151A23;
+  background-color: #232323;
   text-align: center;
   position:fixed;
   bottom: 0%;

@@ -14,10 +14,14 @@
 }
 
 #faded {
-  color: #d3d3d3;
+  color: #444444;
   margin: 0px;
   padding: 0px;
   font-size: 12px;
   font-style: italic;
 
+}
+
+h2 {
+  color: black;
 }

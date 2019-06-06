@@ -6,23 +6,19 @@ const NavBarOnTop = props => {
     <Navbar inverse fixed="top">
     <Navbar.Header>
         <Navbar.Brand>
-          Homie by Yellow
+          NU Lab Cats
         </Navbar.Brand>
         <Navbar.Toggle />
     </Navbar.Header>
         <Nav>
             <NavItem onClick={() => props.handleNavButtonClick(1)} href="#">
-                <div><Glyphicon glyph="tasks" /> Tasks </div>
+                <div><Glyphicon glyph="list" /> Studies </div>
             </NavItem>
-            <NavItem onClick={() => props.handleNavButtonClick(2)} href="#">
-                <div><Glyphicon glyph="usd" /> Payments </div>
-            </NavItem>
-            <NavItem onClick={() => props.handleNavButtonClick(3)} href="#">
-                <div><Glyphicon glyph="calendar" /> Calendar </div>
-            </NavItem>
+            
             <NavItem onClick={() => props.handleNavButtonClick(4)} href="#">
                 <div><Glyphicon glyph="cog" /> Settings </div>
             </NavItem>
+
         </Nav>
         <Nav pullRight>
           {props.user ?

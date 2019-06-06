@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Glyphicon } from "react-bootstrap";
+import { Button, Glyphicon, ToggleButtonGroup, ToggleButton, ButtonToolbar } from "react-bootstrap";
 import TaskTabs from "./TaskTabs";
 import "./index.scss";
 
@@ -7,11 +7,79 @@ export default class TaskList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 0,
+      pgender: "",
+      pethnicity: "",
+      prelationship: "",
       tasks: [],
       activeTab: 0,
       taskCreation: false,
-      editorOpen: false
+      editorOpen: false,
+      groupAdmin: 0,
+      groupName: "None",
+      userName: "None",
+      uid: this.props.user.uid,
     };
+  }
+
+  componentDidMount() {
+    let groupID = this.props.groupID;
+    let groups = this.props.database.ref().child("groups");
+    groups.on('value', data => {
+      let groupAdmin = 0;
+      let groupName = "None";
+      data.forEach(elem => {
+        if (elem.val().groupID === groupID) {
+          groupAdmin = elem.val().groupAdmin;
+          groupName = elem.val().groupName;
+        }
+      });
+      this.setState({
+        groupAdmin: groupAdmin,
+        groupName: groupName,
+      })
+    });
+    let users = this.props.database.ref().child("users");
+    users.on('value', data => {
+      let name = "None";
+      let uid = 0;
+      data.forEach(elem => {
+        if ((elem.val().groupID === groupID) && (elem.val().uid === this.state.uid)) {
+          name = elem.val().name;
+          uid = elem.val().uid;
+        }
+      });
+      this.setState({
+        userName: name,
+        uid: uid,
+      })
+    });
+    let participants = this.props.database.ref().child("participants");
+    participants.on('value', data => {
+      let dob = '';
+      
+      let tm = Date.now() + 1970*365*24*60*60*1000;
+      let ethnicity = '';
+      let gender = '';
+      let relationship = '';
+      data.forEach(elem => {
+        if (elem.val().uid === this.state.uid) {
+          dob = elem.val().age;
+          ethnicity = elem.val().ethnicity;
+          relationship = elem.val().relationship;
+          gender = elem.val().gender;
+        }
+      });
+      let d = Number(dob.substring(0,4))*365*24*60*60*1000 + Number(dob.substring(5,7))*30*24*60*60*1000 + Number(dob.substring(8,10))*24*60*60*1000;
+      let age = (tm-d)/(1000*60*60*24*365);
+      age = age - (age % 1);
+      this.setState({
+        page: age,
+        pgender: gender,
+        pethnicity: ethnicity,
+        prelationship: relationship,
+      })
+    });
   }
 
   handleTaskCreateButtonPress(type) {
@@ -79,23 +147,37 @@ export default class TaskList extends Component {
     this.props.database.ref().update(updates);
   }
 
+  handleSignUpTask(task) {
+    if ((task.participants > 0) && (task.assignedTo !== this.props.user.uid)){
+      task.assignedTo = this.props.user.uid;
+      task.participants = task.participants - 1;
+      this.forceUpdate();
+    }
+      
+  }
+
+
+
+
   render() {
-    let createTaskButtons = (
+
+
+    let createTaskButtons;
+
+    if (this.props.user.uid === this.state.groupAdmin) {
+      createTaskButtons = (
       <div>
         <Button
           id="addChoreButton"
-          onClick={() => this.handleTaskCreateButtonPress("Chore")}
+          onClick={() => this.handleTaskCreateButtonPress("Study")}
         >
-          <Glyphicon glyph="plus" /> Chore
+          <Glyphicon glyph="plus" /> Create New Study
+        
         </Button>
-        <Button
-          id="addPurchaseButton"
-          onClick={() => this.handleTaskCreateButtonPress("Purchase")}
-        >
-          <Glyphicon glyph="plus" /> Purchase
-        </Button>
+
       </div>
-    );
+      );
+    }
 
     let task_tabs = (
       <TaskTabs
@@ -111,14 +193,19 @@ export default class TaskList extends Component {
         handleTaskSubmission={task => this.handleTaskSubmission(task)}
         handleTaskCompleted={task => this.handleTaskCompleted(task)}
         handleDeleteTask={t => this.handleDeleteTask(t)}
+        handleSignUpTask={t => this.handleSignUpTask(t)}
         handleTaskCreationClose={() => this.handleTaskCreationClose()}
+        page = {this.state.page}
+        pgender = {this.state.pgender}
+        pethnicity = {this.state.pethnicity}
+        prelationship = {this.state.prelationship}
       />
     );
 
     const tasklist = (
       <div>
         <div className="TaskList">
-          <h1>Task List</h1>
+          <h1>{this.state.groupName} Studies</h1>
           {createTaskButtons}
           {task_tabs}
         </div>

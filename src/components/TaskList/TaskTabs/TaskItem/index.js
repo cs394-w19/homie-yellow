@@ -72,8 +72,44 @@ class TaskItem extends Component {
 
   render() {
     const { classes } = this.props;
+
+    if (this.props.user.uid !== this.props.task.taskCreator) {
+      //if (((this.props.task.gender === "") || (this.props.task.gender === this.props.pgender)) && ((this.props.task.ethnicity === "") || (this.props.task.ethnicity === this.props.pethnicity)) && ((this.props.task.relationship === "") || (this.props.task.relationship === this.props.prelationship))) {
+     if ((((this.props.task.ageFrom === 0) && (this.props.task.ageTo === 0)) || ((this.props.task.ageFrom <= this.props.page) && (this.props.task.ageTo >= this.props.page))) && ((this.props.task.gender === "") || (this.props.task.gender === this.props.pgender)) && ((this.props.task.ethnicity === "") || (this.props.task.ethnicity === this.props.pethnicity)) && ((this.props.task.relationship === "") || (this.props.task.relationship === this.props.prelationship))) {
+      this.props.task.taskType = "Study"
+    } else {
+      this.props.task.taskType = "(not eligible)"
+    }
+    }
+
+
+    
+    if (this.props.task.participants === 0) {
+      this.props.task.taskType = "(full)"
+    }
+
+    if (this.props.task.taskDate < Date.now()) {
+      this.props.task.taskType = "(expired)";
+    }
+
+    if (this.props.user.uid !== this.props.task.taskCreator) {
+      if (this.props.task.assignedTo === this.props.user.uid) {
+        this.props.task.taskType = "(signed up)"
+      }
+    }
+
     let type =
-      this.props.task.taskType === "Chore" ? "choreClass" : "purchaseClass";
+      this.props.task.taskType === "Study" ? "choreClass" : "purchaseClass";
+
+    if (this.props.task.taskType === "Study") {
+      type = "studyClass"
+    }
+    if (this.props.task.taskType === "(signed up)") {
+      type = "signClass"
+    }
+    if ((this.props.task.taskType !== "Study") && (this.props.task.taskType !== "(signed up)")) {
+      type = "unavailClass"
+    }
 
     if (this.state.editorOpen) {
       return (
@@ -102,6 +138,11 @@ class TaskItem extends Component {
             personsInGroup={this.props.personsInGroup}
             user={this.props.user}
             handleTaskCompleted={() => this.props.handleTaskCompleted()}
+            page = {this.props.page}
+            pgender = {this.props.pgender}
+            pethnicity = {this.props.pethnicity}
+            prelationship = {this.props.prelationship}
+            displayVal = {this.props.displayVal}
           />
         </CardContent>
         <CardActions
@@ -129,6 +170,11 @@ class TaskItem extends Component {
               task={this.props.task}
               handleDeleteTask={t => this.props.handleDeleteTask(t)}
               handleEditTask={() => this.handleEditTask()}
+              handleSignUpTask={t => this.props.handleSignUpTask(t)}
+              page = {this.props.page}
+              pgender = {this.props.pgender}
+              pethnicity = {this.props.pethnicity}
+              prelationship = {this.props.prelationship}
             />
           </CardContent>
         </Collapse>

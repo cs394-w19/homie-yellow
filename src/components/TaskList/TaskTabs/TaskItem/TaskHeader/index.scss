@@ -6,9 +6,19 @@
 
 .taskName {
   margin: 0px;
+  color: #3f3f3f;
+  font-size: 15px;
 }
 
 #TaskHeader {
   margin-right: 0px;
   padding-right: 0px;
+}
+
+.headRight {
+	float: right;
+}
+
+.headLeft {
+	float: left;
 }

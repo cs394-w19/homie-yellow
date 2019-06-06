@@ -4,17 +4,39 @@
 }
 
 #TaskTabs > ul > li >a {
-    color:white;
+    color:black;
 }
 
 .a-tab > p {
-    color:white;
+    color:black;
 }
 
+.sort {
+	width: 30%;
+	float: left;
+	text-align: center;
+}
+
+.display  {
+	width: 30%;
+	float: right;
+	text-align: center;
+}
+
+
 #TaskTabs > ul > li.active > a {
-    background-color: #485772;
+    background-color: #c18edb;
 }
 
 #TaskTabs > ul > li > a {
   padding: 10px;
+}
+
+#card {
+  background-color: #c6c6c6;
+  text-align: center;
+}
+
+#tab {
+    width: 100%;
 }

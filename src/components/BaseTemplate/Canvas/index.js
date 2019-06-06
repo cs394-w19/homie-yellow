@@ -22,14 +22,6 @@ export default class Canvas extends Component {
                     groupID={this.props.groupID}
                   />;
         break;
-      case 2:
-        canvas = <MoneySplitting
-                    user={this.props.user}
-                    personsInGroup={this.props.personsInGroup}
-                    database={this.props.database}
-                    groupID={this.props.groupID}
-                  />;
-        break;
       case 3:
         canvas = <Calendar
                     user={this.props.user}

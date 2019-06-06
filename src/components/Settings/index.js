@@ -10,27 +10,44 @@ export default class Settings extends Component {
         copied: false,
         groupAdmin: 0,
         groupName: "None",
-        role: "None"
+        role: "None",
+        userName: "",
+        uid: this.props.user.uid,
       }
     }
 
     componentDidMount() {
-    	let groupID = this.props.groupID;
-    	let groups = this.props.database.ref().child("groups");
-	    groups.on('value', data => {
-	      let groupAdmin = 0;
-	      let groupName = "None";
-	      data.forEach(elem => {
-	        if (elem.val().groupID === groupID) {
-	          groupAdmin = elem.val().groupAdmin;
-	          groupName = elem.val().groupName;
-	        }
-	      });
-	      this.setState({
-	        groupAdmin: groupAdmin,
-	        groupName: groupName,
-	      })
-	    });
+      let groupID = this.props.groupID;
+      let groups = this.props.database.ref().child("groups");
+      groups.on('value', data => {
+        let groupAdmin = 0;
+        let groupName = "None";
+        data.forEach(elem => {
+          if (elem.val().groupID === groupID) {
+            groupAdmin = elem.val().groupAdmin;
+            groupName = elem.val().groupName;
+          }
+        });
+        this.setState({
+          groupAdmin: groupAdmin,
+          groupName: groupName,
+        })
+      });
+      let users = this.props.database.ref().child("users");
+      users.on('value', data => {
+        let name = "None";
+        let uid = 0;
+        data.forEach(elem => {
+          if ((elem.val().groupID === groupID) && (elem.val().uid === this.state.uid)) {
+            name = elem.val().name;
+            uid = elem.val().uid;
+          }
+        });
+        this.setState({
+          userName: name,
+          uid: uid,
+        })
+      });
     }
 
     handleLeaveGroup() {
@@ -42,7 +59,7 @@ export default class Settings extends Component {
 
     handleShareCodeButtonClicked() {
       const el = document.createElement('textarea');
-      el.value = this.props.groupID;
+      el.value = (this.props.groupID).substr((this.props.groupID).length - 6).toUpperCase();
       document.body.appendChild(el);
       el.select();
       document.execCommand('copy');
@@ -62,7 +79,7 @@ export default class Settings extends Component {
     	});
     	let groupMembersList = groupMembers.join(", ");
 
-    	if (!groupID) groupID = '000000';
+    	if (!groupID) groupID = '123000';
 
     	let copiedText = this.state.copied ? 'copied!' : 'tap to copy';
 
@@ -70,29 +87,24 @@ export default class Settings extends Component {
           <div id="Settings">
               <Grid>
                   <Row>
-                    <h1>Hello, {this.props.user.displayName.split(" ")[0]}!</h1>
+                  <h1>Hello, {this.state.userName}!</h1>
+                    <h1>Settings</h1>
+                  }
                   </Row>
                   <Row>
-                    <h2>Invitation code</h2>
-                    <p>Share this code with anyone you want to join your household.</p>
+                    <h2>Authentication code</h2>
                     <Col onClick={() => this.handleShareCodeButtonClicked()} id="group-join-code">
                       {groupID.substr(groupID.length - 6).toUpperCase()}
                     </Col>
                     <center id="faded">{copiedText}</center>
                   </Row>
-                  <Row>
-                  	<h2>Your Group</h2>
-                    <h4>"{groupName}""</h4>
-                    <p>Group Members: {groupMembersList}</p>
-                  </Row>
                 <Row>
-                  <h2>Admin Buttons</h2>
                   <Col xs={6}>
                     <Button
                       size="xs"
                       onClick={() => this.handleLeaveGroup()}
                     >
-                      Leave Group
+                      New Code
                     </Button>
                   </Col>
                   <Col xs={6}>

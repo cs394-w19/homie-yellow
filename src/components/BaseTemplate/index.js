@@ -86,14 +86,15 @@ class BaseTemplate extends Component {
   }
 
   render() {
-    // not logged in
+    // not logged in 
+   // <img src="homie.png" width="100" alt="homie logo" />
     if(this.state.user == null) {
       return(
         <Grid id="Login" className="align-middle">
           <Row>
-            <img src="homie.png" width="100" alt="homie logo" />
-            <h2>Welcome to Homie!</h2>
-            <p><i>All your household information in one place</i></p>
+           
+            <h2>Welcome to NU Lab Cats!</h2>
+            <p><i style= {{ color: "black"}}>Sign up for studies offered on campus and get paid!</i></p>
           </Row>
           <Row style={{ paddingTop: 100 }}>
             <StyledFirebaseAuth
